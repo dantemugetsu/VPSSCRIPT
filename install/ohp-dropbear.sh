@@ -11,7 +11,7 @@ MYIP=$(curl -s ipinfo.io/ip )
 MYIP=$(curl -sS ipv4.icanhazip.com)
 MYIP=$(curl -sS ifconfig.me )
 MYIP2="s/xxxxxxxxx/$MYIP/g";
-domain=$(cat /etc/v2ray/domain)
+domain=$(cat /root/domain)
 #Update Repository VPS
 clear
 apt update 

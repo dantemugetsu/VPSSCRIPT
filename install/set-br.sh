@@ -25,7 +25,8 @@ sleep 5
 #cd wondershaper
 #make install
 
-# wonder v2
+# wonder v2 (ensure git is present)
+command -v git >/dev/null 2>&1 || apt install -y git
 git clone https://github.com/MrMan21/wondershaper.git
 cd wondershaper
 chmod +x wondershaper
@@ -60,7 +61,9 @@ scope = drive
 EOF
 fi
 
-# install nginx
+# install nginx (ensure present before writing config)
+command -v nginx >/dev/null 2>&1 || apt install -y nginx
+mkdir -p /etc/nginx/conf.d
 tee /etc/nginx/nginx.conf >/dev/null <<'EOF'
 user www-data;
 
@@ -235,6 +238,5 @@ systemctl daemon-reload
 systemctl enable --now clear-log.timer
 
 #done
-rm -r set-br.sh
-rm -r rclone.zip
+rm -rf /root/set-br.sh /root/rclone.zip
 sleep 1
