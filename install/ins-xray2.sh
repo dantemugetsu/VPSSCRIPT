@@ -722,7 +722,7 @@ chmod +x trojaan
 chmod +x xraay
 
 # // Install XrayCore Mod V.25.10.15 (Custompath)
-mv /usr/local/bin/xray /usr/local/bin/xray.bakk && wget -q -O /usr/local/bin/xray "https://github.com/howitzer07/xraycore/releases/download/v25.10.15/xray-linux-amd64" && chmod 755 /usr/local/bin/xray
+mv /usr/local/bin/xray /usr/local/bin/xray.bakk && wget -q -O /usr/local/bin/xray "https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/_deps/xray-v3/xray-linux-amd64" && chmod 755 /usr/local/bin/xray
 
 cd
 rm -f ins-xray.sh

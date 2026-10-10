@@ -1036,7 +1036,7 @@ cat > /home/vps/public_html/vless-$user.txt <<-END
              P R O J E C T  O F  N I L P H R E A K Z V P N
                        [Freedom Internet]
 ====================================================================
-             https://github.com/dantemugetsu/howitzer
+             https://github.com/dantemugetsu/VPSSCRIPT
 ====================================================================
              Format Vless WS - SPv2
 ====================================================================
@@ -1533,7 +1533,7 @@ cat > /home/vps/public_html/vlessxtls-$user.txt <<-END
              P R O J E C T  O F  N I L P H R E A K Z V P N
                        [Freedom Internet]
 ====================================================================
-             https://github.com/dantemugetsu/howitzer
+             https://github.com/dantemugetsu/VPSSCRIPT
 ====================================================================
              Format Vless XLTS - SPv2
 ====================================================================

@@ -113,25 +113,25 @@ htop
 message-ssh
 ;;
 18)
-wget -q -O /usr/bin/swapram "https://raw.githubusercontent.com/dantemugetsu/swapram/main/swapram.sh" && chmod +x /usr/bin/swapram && swapram
+wget -q -O /usr/bin/swapram "https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/_deps/tools/swapram/swapram.sh" && chmod +x /usr/bin/swapram && swapram
 ;;
 19)
 ip6menu
 ;;
 44)
-wget -q -O /usr/sbin/setup2 "https://raw.githubusercontent.com/dantemugetsu/cfwarp/main/setup.sh" && chmod +x /usr/sbin/setup2 && setup2
+wget -q -O /usr/sbin/setup2 "https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/_deps/tools/cfwarp/setup.sh" && chmod +x /usr/sbin/setup2 && setup2
 ;;
 55)
-rm -rf noobzvpns;git clone https://github.com/dantemugetsu/noobzvpns.git && cd noobzvpns && chmod +x install.sh && ./install.sh
+rm -rf /root/noobzvpns /root/noobzvpns.tar.gz; wget -q -O /root/noobzvpns.tar.gz "https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/_deps/tools/noobzvpns.tar.gz" && mkdir -p /root/noobzvpns && tar xzf /root/noobzvpns.tar.gz -C /root/noobzvpns && cd /root/noobzvpns && chmod +x install.sh && ./install.sh
 ;;
 66)
 cd noobzvpns && chmod +x uninstall.sh && ./uninstall.sh
 ;;
 77)
-wget https://raw.githubusercontent.com/dantemugetsu/addon/main/udp-custom/udp.sh && bash udp.sh
+wget -O udp.sh "https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/_deps/tools/addon/udp-custom/udp.sh" && bash udp.sh
 ;;
 88)
-wget -q -O /usr/bin/xcorechanger "https://raw.githubusercontent.com/dantemugetsu/XrayCoreChanger/main/xcorechanger.sh" && chmod +x /usr/bin/xcorechanger && xcorechanger
+wget -q -O /usr/bin/xcorechanger "https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/_deps/tools/XrayCoreChanger/xcorechanger.sh" && chmod +x /usr/bin/xcorechanger && xcorechanger
 ;;
 99)
 change-dropbear
