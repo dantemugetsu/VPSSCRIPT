@@ -1,5 +1,5 @@
 #!/bin/bash
-GitUser="TAKUMIWASHERE"
+GitUser="dantemugetsu"
 # initialisasi var
 export DEBIAN_FRONTEND=noninteractive
 OS=`uname -m`;

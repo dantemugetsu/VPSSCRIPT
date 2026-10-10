@@ -1,5 +1,5 @@
 #!/bin/bash
-GitUser="TAKUMIWASHERE"
+GitUser="dantemugetsu"
 
 # ================== COLOR ==================
 Lred='\e[1;91m'

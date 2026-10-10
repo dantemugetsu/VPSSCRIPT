@@ -1,7 +1,7 @@
 #!/bin/bash
 set -Eeuo pipefail
 
-GitUser="TAKUMIWASHERE"
+GitUser="dantemugetsu"
 STATE_FILE="/home/limit"
 
 Green_font_prefix="\033[32m"

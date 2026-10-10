@@ -1,5 +1,5 @@
 #!/bin/bash
-GitUser="TAKUMIWASHERE"
+GitUser="dantemugetsu"
 echo " "
 echo "===========================================";
 echo " ";

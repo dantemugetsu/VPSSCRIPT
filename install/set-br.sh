@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GitUser="TAKUMIWASHERE"
+GitUser="dantemugetsu"
 #curl https://rclone.org/install.sh | bash
 # rclone v2
 #wget https://rclone.org/install.sh

@@ -8,7 +8,7 @@ sleep 0.5
 cd
 
 # // GIT USER
-GitUser="TAKUMIWASHERE"
+GitUser="dantemugetsu"
 namafolder="websocket-python"
 
 # ================================
@@ -17,7 +17,7 @@ namafolder="websocket-python"
 cat <<EOF> /etc/systemd/system/ws-https.service
 [Unit]
 Description=Python Proxy
-Documentation=https://github.com/TAKUMIWASHERE/
+Documentation=https://github.com/dantemugetsu/
 After=network.target nss-lookup.target
 
 [Service]
@@ -39,7 +39,7 @@ EOF
 cat <<EOF> /etc/systemd/system/ws-http.service
 [Unit]
 Description=Python Proxy
-Documentation=https://github.com/TAKUMIWASHERE/
+Documentation=https://github.com/dantemugetsu/
 After=network.target nss-lookup.target
 
 [Service]
@@ -61,7 +61,7 @@ EOF
 cat <<EOF> /etc/systemd/system/ws-ovpn.service
 [Unit]
 Description=Python Proxy
-Documentation=https://github.com/TAKUMIWASHERE/
+Documentation=https://github.com/dantemugetsu/
 After=network.target nss-lookup.target
 
 [Service]

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GitUser="TAKUMIWASHERE"
+GitUser="dantemugetsu"
 # wget https://github.com/${GitUser}/
 
 # IP SERVER (kalau perlu)

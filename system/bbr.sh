@@ -1,5 +1,5 @@
 #!/bin/bash
-GitUser="TAKUMIWASHERE"
+GitUser="dantemugetsu"
 # public ip
 MYIP=$(curl -s ipv4.icanhazip.com || curl -s ipinfo.io/ip || curl -s ifconfig.me)
 clear

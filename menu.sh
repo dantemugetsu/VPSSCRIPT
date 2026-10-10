@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GitUser="TAKUMIWASHERE"
+GitUser="dantemugetsu"
 
 # Detail VPS
 IPVPS=$(curl -sS ipv4.icanhazip.com)

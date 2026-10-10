@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #wget https://github.com/${GitUser}/
-GitUser="TAKUMIWASHERE"
+GitUser="dantemugetsu"
 #IZIN SCRIPT
 MYIP=$(curl -sS ipv4.icanhazip.com)
 MYIP=$(curl -s ipinfo.io/ip )

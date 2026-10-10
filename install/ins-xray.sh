@@ -1,6 +1,6 @@
 #!/bin/bash
 # // wget https://github.com/${GitUser}/
-GitUser="TAKUMIWASHERE"
+GitUser="dantemugetsu"
 
 # // MY IPVPS
 export MYIP=$(curl -sS ipv4.icanhazip.com)
@@ -46,7 +46,7 @@ systemctl stop nginx
 
 # // INSTALL CERTIFICATES
 mkdir /root/.acme.sh
-curl https://raw.githubusercontent.com/TAKUMIWASHERE/oddloop/main/acme.sh -o /root/.acme.sh/acme.sh
+curl https://raw.githubusercontent.com/dantemugetsu/oddloop/main/acme.sh -o /root/.acme.sh/acme.sh
 chmod +x /root/.acme.sh/acme.sh
 /root/.acme.sh/acme.sh --upgrade --auto-upgrade
 /root/.acme.sh/acme.sh --set-default-ca --server letsencrypt

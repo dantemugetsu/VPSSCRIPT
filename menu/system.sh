@@ -1,5 +1,5 @@
 #!/bin/bash
-GitUser="TAKUMIWASHERE"
+GitUser="dantemugetsu"
 #IZIN SCRIPT
 MYIP=$(curl -sS ipv4.icanhazip.com)
 MYIP=$(curl -s ipinfo.io/ip )
@@ -113,25 +113,25 @@ htop
 message-ssh
 ;;
 18)
-wget -q -O /usr/bin/swapram "https://raw.githubusercontent.com/TAKUMIWASHERE/swapram/main/swapram.sh" && chmod +x /usr/bin/swapram && swapram
+wget -q -O /usr/bin/swapram "https://raw.githubusercontent.com/dantemugetsu/swapram/main/swapram.sh" && chmod +x /usr/bin/swapram && swapram
 ;;
 19)
 ip6menu
 ;;
 44)
-wget -q -O /usr/sbin/setup2 "https://raw.githubusercontent.com/TAKUMIWASHERE/cfwarp/main/setup.sh" && chmod +x /usr/sbin/setup2 && setup2
+wget -q -O /usr/sbin/setup2 "https://raw.githubusercontent.com/dantemugetsu/cfwarp/main/setup.sh" && chmod +x /usr/sbin/setup2 && setup2
 ;;
 55)
-rm -rf noobzvpns;git clone https://github.com/TAKUMIWASHERE/noobzvpns.git && cd noobzvpns && chmod +x install.sh && ./install.sh
+rm -rf noobzvpns;git clone https://github.com/dantemugetsu/noobzvpns.git && cd noobzvpns && chmod +x install.sh && ./install.sh
 ;;
 66)
 cd noobzvpns && chmod +x uninstall.sh && ./uninstall.sh
 ;;
 77)
-wget https://raw.githubusercontent.com/TAKUMIWASHERE/addon/main/udp-custom/udp.sh && bash udp.sh
+wget https://raw.githubusercontent.com/dantemugetsu/addon/main/udp-custom/udp.sh && bash udp.sh
 ;;
 88)
-wget -q -O /usr/bin/xcorechanger "https://raw.githubusercontent.com/TAKUMIWASHERE/XrayCoreChanger/main/xcorechanger.sh" && chmod +x /usr/bin/xcorechanger && xcorechanger
+wget -q -O /usr/bin/xcorechanger "https://raw.githubusercontent.com/dantemugetsu/XrayCoreChanger/main/xcorechanger.sh" && chmod +x /usr/bin/xcorechanger && xcorechanger
 ;;
 99)
 change-dropbear

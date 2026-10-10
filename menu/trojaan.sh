@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GitUser="TAKUMIWASHERE"
+GitUser="dantemugetsu"
 
 # // IZIN SCRIPT
 export MYIP=$(curl -sS ipv4.icanhazip.com)
@@ -92,7 +92,7 @@ cat > /home/vps/public_html/trojan-$user.txt <<-END
              P R O J E C T  O F  N I L P H R E A K Z V P N
                        [Freedom Internet]
 ====================================================================
-             https://github.com/TAKUMIWASHERE/oddloop
+             https://github.com/dantemugetsu/oddloop
 ====================================================================
              Format Trojan TCP - SPv2
 ====================================================================
@@ -501,7 +501,7 @@ cat > /home/vps/public_html/trojanws-$user.txt <<-END
              P R O J E C T  O F  N I L P H R E A K Z V P N
                        [Freedom Internet]
 ====================================================================
-             https://github.com/TAKUMIWASHERE/oddloop
+             https://github.com/dantemugetsu/oddloop
 ====================================================================
              Format Trojan WS - SPv2
 ====================================================================

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GitUser="TAKUMIWASHERE"
+GitUser="dantemugetsu"
 
 # // initializing var
 export DEBIAN_FRONTEND=noninteractive
