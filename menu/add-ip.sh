@@ -39,7 +39,7 @@ clear
 sed -i "/^# IPREGBEGIN_EXP/,/^# IPREGEND_EXPIP/d" /etc/crontab
 cat << EOF >> /etc/crontab
 # IPREGBEGIN_EXP
-1 0 * * * root /usr/bin/xp-ip # delete expired IP VPS License
+1 0 * * * root /usr/bin/delete-expired-ip # delete expired IP VPS License
 # IPREGEND_EXPIP
 EOF
 rm -f /root/.bash_history

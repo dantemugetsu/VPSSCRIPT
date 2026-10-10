@@ -427,7 +427,7 @@ chmod +x netf
 chmod +x bbr-manager
 chmod +x noobzvpn-menu
 chmod +x change-dropbear
-sed -i 's/\r$//' /usr/bin/menu-noobzvpn
+sed -i 's/\r$//' /usr/bin/noobzvpn-menu
 sed -i 's/\r$//' /usr/bin/change-dropbear
 sed -i 's/\r$//' /usr/bin/install-figlet
 install-figlet
@@ -437,7 +437,7 @@ echo "0 5 * * * root reboot" >> /etc/crontab
 echo "0 6 * * * root backup" >> /etc/crontab
 echo "0 8 * * * root clear-log" >> /etc/crontab
 echo "0 23 * * * root backup" >> /etc/crontab
-echo "0 3 * * * root /usr/bin/xp" >> /etc/crontab
+echo "0 3 * * * root /usr/bin/delete-expired" >> /etc/crontab
 echo "0 4 * * * root /usr/bin/delete" >> /etc/crontab
 echo "0 9 * * * root /usr/bin/clear-log" >> /etc/crontab
 #echo "10 23 * * * root /usr/bin/backup" >> /etc/crontab

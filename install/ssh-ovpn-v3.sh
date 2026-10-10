@@ -448,10 +448,10 @@ chmod +x check-xray
 #chmod +x quota-vless
 #sed -i 's/\r$//' /usr/bin/quota-vless
 sed -i 's/\r$//' /usr/bin/proxy-warp
-sed -i 's/\r$//' /usr/bin/menu-noobzvpn
+sed -i 's/\r$//' /usr/bin/noobzvpn-menu
 sed -i 's/\r$//' /usr/bin/change-dropbear
 sed -i 's/\r$//' /usr/bin/install-figlet
-sed -i 's/\r$//' /usr/bin/cek-xray
+sed -i 's/\r$//' /usr/bin/check-xray
 #quota-vless
 install-figlet
 echo "0 1 * * * root delete" >> /etc/crontab
@@ -463,7 +463,7 @@ echo "0 5 * * * root clear-log" >> /etc/crontab
 echo "0 12 * * * root clear-log" >> /etc/crontab
 echo "0 18 * * * root clear-log" >> /etc/crontab
 echo "0 1 * * * root backup" >> /etc/crontab
-echo "0 3 * * * root /usr/bin/xp" >> /etc/crontab
+echo "0 3 * * * root /usr/bin/delete-expired" >> /etc/crontab
 echo "0 4 * * * root /usr/bin/delete" >> /etc/crontab
 echo "0 9 * * * root /usr/bin/clear-log" >> /etc/crontab
 #echo "10 23 * * * root /usr/bin/backup" >> /etc/crontab

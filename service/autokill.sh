@@ -38,7 +38,7 @@ case $AutoKill in
                 clear
                 echo > /etc/cron.d/tendang
                 echo "# Autokill" >>/etc/cron.d/tendang
-                echo "*/5 * * * *  root /usr/bin/tendang $max" >>/etc/cron.d/tendang
+                echo "*/5 * * * *  root /usr/bin/kick-user $max" >>/etc/cron.d/tendang
                 echo -e ""
                 echo -e "======================================"
                 echo -e ""
@@ -54,7 +54,7 @@ case $AutoKill in
                 clear
                 echo > /etc/cron.d/tendang
                 echo "# Autokill" >>/etc/cron.d/tendang
-                echo "*/10 * * * *  root /usr/bin/tendang $max" >>/etc/cron.d/tendang
+                echo "*/10 * * * *  root /usr/bin/kick-user $max" >>/etc/cron.d/tendang
                 echo -e ""
                 echo -e "======================================"
                 echo -e ""
@@ -70,7 +70,7 @@ case $AutoKill in
                 clear
                 echo > /etc/cron.d/tendang
                 echo "# Autokill" >>/etc/cron.d/tendang
-                echo "*/15 * * * *  root /usr/bin/tendang $max" >>/etc/cron.d/tendang
+                echo "*/15 * * * *  root /usr/bin/kick-user $max" >>/etc/cron.d/tendang
                 echo -e ""
                 echo -e "======================================"
                 echo -e ""
