@@ -19,7 +19,7 @@ Error="Banner SSH ${Red_font_prefix}[OFF]${Font_color_suffix}"
 cek=$(cat /home/bannerssh)
 function defaultv () {
 rm -f /etc/issue.net
-wget -O /etc/issue.net https://raw.githubusercontent.com/${GitUser}/oddloop/main/_deps/banner/bannersshDefault.conf && chmod +x /etc/issue.net
+wget -O /etc/issue.net https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/banner/bannersshDefault.conf && chmod +x /etc/issue.net
 echo "0.1" > /home/bannerssh
 clear
 echo -e "Succesfully Use Default Version."
@@ -30,7 +30,7 @@ reboot
 }
 function server_message_ssh1 () {
 rm -f /etc/issue.net
-wget -O /etc/issue.net https://raw.githubusercontent.com/${GitUser}/oddloop/main/_deps/banner/bannerssh1.conf && chmod +x /etc/issue.net
+wget -O /etc/issue.net https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/banner/bannerssh1.conf && chmod +x /etc/issue.net
 echo "1" > /home/bannerssh
 clear
 echo -e "Succesfully Change Server Message Version 1 For SSH."
@@ -41,7 +41,7 @@ reboot
 }
 function server_message_ssh2 () {
 rm -f /etc/issue.net
-wget -O /etc/issue.net https://raw.githubusercontent.com/${GitUser}/oddloop/main/_deps/banner/bannerssh2.conf && chmod +x /etc/issue.net
+wget -O /etc/issue.net https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/banner/bannerssh2.conf && chmod +x /etc/issue.net
 echo "2" > /home/bannerssh
 clear
 echo -e "Succesfully Change Server Message Version 2 For SSH."
@@ -52,7 +52,7 @@ reboot
 }
 function server_message_ssh3 () {
 rm -f /etc/issue.net
-wget -O /etc/issue.net https://raw.githubusercontent.com/${GitUser}/oddloop/main/_deps/banner/bannerssh3.conf && chmod +x /etc/issue.net
+wget -O /etc/issue.net https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/banner/bannerssh3.conf && chmod +x /etc/issue.net
 echo "3" > /home/bannerssh
 clear
 echo -e "Succesfully Change Server Message Version 3 For SSH."
@@ -63,7 +63,7 @@ reboot
 }
 function server_message_ssh4 () {
 rm -f /etc/issue.net
-wget -O /etc/issue.net https://raw.githubusercontent.com/${GitUser}/oddloop/main/_deps/banner/bannerssh4.conf && chmod +x /etc/issue.net
+wget -O /etc/issue.net https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/banner/bannerssh4.conf && chmod +x /etc/issue.net
 echo "4" > /home/bannerssh
 clear
 echo -e "Succesfully Change Server Message Version 4 For SSH."

@@ -21,7 +21,7 @@ RESET='\e[0m'
 LICENSE_KEY_VALID="vip-takumiwashere@007"   # fallback (backward compatible)
 
 GITHUB_OWNER="${GitUser}"
-GITHUB_REPO="oddloop"
+GITHUB_REPO="VPSSCRIPT"
 GITHUB_FILE="allowed_ips.txt"
 GITHUB_LICENSE_FILE="licenses.txt"  # format: LicenseKey|DD/MM/YYYY or LIFETIME
 
@@ -262,7 +262,7 @@ set_ip_mode "$IP_MODE"
 
 clear
 mkdir /var/lib/premium-script;
-default_email=$( curl https://raw.githubusercontent.com/${GitUser}/oddloop/main/_deps/email/default.conf )
+default_email=$( curl https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/email/default.conf )
 clear
 #Nama penyedia script
 echo -e "\e[1;32m════════════════════════════════════════════════════════════\e[0m"
@@ -307,12 +307,12 @@ echo $host1 > /root/domain
 echo ""
 elif [[ $host == "2" ]]; then
 #install cf
-wget https://raw.githubusercontent.com/${GitUser}/oddloop/main/install/cf.sh && chmod +x cf.sh && ./cf.sh
+wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/cf.sh && chmod +x cf.sh && ./cf.sh
 rm -f /root/cf.sh
 clear
 else
 echo -e "Random Subdomain/Domain is used"
-wget https://raw.githubusercontent.com/${GitUser}/oddloop/main/install/cf.sh && chmod +x cf.sh && ./cf.sh
+wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/cf.sh && chmod +x cf.sh && ./cf.sh
 rm -f /root/cf.sh
 clear
 fi
@@ -323,32 +323,32 @@ sleep 2
 #install ssh ovpn
 echo -e "\e[0;32mINSTALLING SSH & OVPN...\e[0m"
 sleep 1
-wget https://raw.githubusercontent.com/${GitUser}/oddloop/main/install/ssh-vpn.sh && chmod +x ssh-vpn.sh && screen -S ssh-vpn ./ssh-vpn.sh
+wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/ssh-vpn.sh && chmod +x ssh-vpn.sh && screen -S ssh-vpn ./ssh-vpn.sh
 echo -e "\e[0;32mDONE INSTALLING SSH & OVPN\e[0m"
 clear
 #install Xray
 echo -e "\e[0;32mINSTALLING XRAY CORE...\e[0m"
 sleep 1
-wget https://raw.githubusercontent.com/${GitUser}/oddloop/main/install/ins-xray.sh && chmod +x ins-xray.sh && screen -S ins-xray ./ins-xray.sh
+wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/ins-xray.sh && chmod +x ins-xray.sh && screen -S ins-xray ./ins-xray.sh
 echo -e "\e[0;32mDONE INSTALLING XRAY CORE\e[0m"
 clear
 #install ohp-server
 echo -e "\e[0;32mINSTALLING OHP PORT...\e[0m"
 sleep 1
-wget https://raw.githubusercontent.com/${GitUser}/oddloop/main/install/ohp.sh && chmod +x ohp.sh && ./ohp.sh
-wget https://raw.githubusercontent.com/${GitUser}/oddloop/main/install/ohp-dropbear.sh && chmod +x ohp-dropbear.sh && ./ohp-dropbear.sh
-wget https://raw.githubusercontent.com/${GitUser}/oddloop/main/install/ohp-ssh.sh && chmod +x ohp-ssh.sh && ./ohp-ssh.sh
+wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/ohp.sh && chmod +x ohp.sh && ./ohp.sh
+wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/ohp-dropbear.sh && chmod +x ohp-dropbear.sh && ./ohp-dropbear.sh
+wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/ohp-ssh.sh && chmod +x ohp-ssh.sh && ./ohp-ssh.sh
 echo -e "\e[0;32mDONE INSTALLING OHP PORT\e[0m"
 clear
 #install websocket
 echo -e "\e[0;32mINSTALLING WEBSOCKET PORT...\e[0m"
-wget https://raw.githubusercontent.com/${GitUser}/oddloop/main/websocket-python/websocket.sh && chmod +x websocket.sh && screen -S websocket.sh ./websocket.sh
+wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/websocket-python/websocket.sh && chmod +x websocket.sh && screen -S websocket.sh ./websocket.sh
 echo -e "\e[0;32mDONE INSTALLING WEBSOCKET PORT\e[0m"
 clear
 #install SET-BR
 echo -e "\e[0;32mINSTALLING SET-BR...\e[0m"
 sleep 1
-wget https://raw.githubusercontent.com/${GitUser}/oddloop/main/install/set-br.sh && chmod +x set-br.sh && ./set-br.sh
+wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/set-br.sh && chmod +x set-br.sh && ./set-br.sh
 echo -e "\e[0;32mDONE INSTALLING SET-BR...\e[0m"
 clear
 # set time GMT +8
@@ -360,9 +360,9 @@ apt -y install nginx
 cd
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
-#wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/${GitUser}/oddloop/main/nginx.conf"
+#wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/nginx.conf"
 mkdir -p /home/vps/public_html
-#wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/${GitUser}/oddloop/main/vps.conf"
+#wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/vps.conf"
 systemctl restart nginx
 #finish
 rm -f /root/ssh-vpn.sh
@@ -382,7 +382,7 @@ echo "47m" > /etc/back
 echo "1;35m" > /etc/number
 echo Standard > /usr/bin/test
 # Version
-ver=$( curl https://raw.githubusercontent.com/${GitUser}/oddloop/main/_deps/version/version.conf )
+ver=$( curl https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/version/version.conf )
 history -c
 echo "$ver" > /home/ver
 clear

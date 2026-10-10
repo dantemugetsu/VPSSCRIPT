@@ -10,7 +10,7 @@ if [ "$(systemd-detect-virt)" == "openvz" ]; then
 fi
 echo ""
 version=$(cat /home/ver)
-ver=$( curl https://raw.githubusercontent.com/${GitUser}/oddloop/main/_deps/version/version.conf )
+ver=$( curl https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/version/version.conf )
 clear
 # LINE COLOUR
 line=$(cat /etc/line)
@@ -28,7 +28,7 @@ Info1="${Green_font_prefix}($version)${Font_color_suffix}"
 Info2="${Green_font_prefix}(LATEST VERSION)${Font_color_suffix}"
 Error="Version ${Green_font_prefix}[$ver]${Font_color_suffix} available${Red_font_prefix}[Please Update]${Font_color_suffix}"
 version=$(cat /home/ver)
-new_version=$( curl https://raw.githubusercontent.com/${GitUser}/oddloop/main/_deps/version/version.conf | grep $version )
+new_version=$( curl https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/version/version.conf | grep $version )
 #Status Version
 if [ $version = $new_version ]; then
 sts="${Info2}"
@@ -56,7 +56,7 @@ read -p "Please Choose 1 or x & y : " option2
 case $option2 in
 1)
 version=$(cat /home/ver)
-new_version=$( curl https://raw.githubusercontent.com/${GitUser}/oddloop/main/_deps/version/version.conf | grep $version )
+new_version=$( curl https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/version/version.conf | grep $version )
 if [ $version = $new_version ]; then
 clear
 echo ""
@@ -84,7 +84,7 @@ sleep 1
 echo ""
 # UPDATE RUN-UPDATE
 cd /usr/bin
-wget -O run-update "https://raw.githubusercontent.com/${GitUser}/oddloop/main/update/run-update.sh"
+wget -O run-update "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/update/run-update.sh"
 chmod +x run-update
 # RUN UPDATE
 echo ""
@@ -96,24 +96,24 @@ echo ""
 echo -e "\e[0;32mNew Version Downloading started!\e[0m"
 sleep 2
 cd /usr/bin
-wget -O update "https://raw.githubusercontent.com/${GitUser}/oddloop/main/update/update.sh"
-wget -O run-update "https://raw.githubusercontent.com/${GitUser}/oddloop/main/update/run-update.sh"
-wget -O message-ssh "https://raw.githubusercontent.com/${GitUser}/oddloop/main/update/message-ssh.sh"
-wget -O change-port "https://raw.githubusercontent.com/${GitUser}/oddloop/main/change.sh"
-wget -O system "https://raw.githubusercontent.com/${GitUser}/oddloop/main/menu/system.sh"
-wget -O menu "https://raw.githubusercontent.com/${GitUser}/oddloop/main/menu.sh"
-wget -O add-host "https://raw.githubusercontent.com/${GitUser}/oddloop/main/system/add-host.sh"
-wget -O check-sc "https://raw.githubusercontent.com/${GitUser}/oddloop/main/system/running.sh"
-wget -O cert "https://raw.githubusercontent.com/${GitUser}/oddloop/main/cert.sh"
-wget -O trojaan "https://raw.githubusercontent.com/${GitUser}/oddloop/main/menu/trojaan.sh"
-wget -O xraay "https://raw.githubusercontent.com/${GitUser}/oddloop/main/menu/xraay.sh"
-wget -O xp "https://raw.githubusercontent.com/${GitUser}/oddloop/main/xp.sh"
-wget -O port-xray "https://raw.githubusercontent.com/${GitUser}/oddloop/main/change-port/port-xray.sh"
-wget -O themes "https://raw.githubusercontent.com/${GitUser}/oddloop/main/menu/themes.sh"
-wget -O autobackup "https://raw.githubusercontent.com/${GitUser}/oddloop/main/system/autobackup.sh"
-wget -O backup "https://raw.githubusercontent.com/${GitUser}/oddloop/main/system/backup.sh"
-wget -O bckp "https://raw.githubusercontent.com/${GitUser}/oddloop/main/system/bckp.sh"
-wget -O restore "https://raw.githubusercontent.com/${GitUser}/oddloop/main/system/restore.sh"
+wget -O update "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/update/update.sh"
+wget -O run-update "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/update/run-update.sh"
+wget -O message-ssh "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/update/message-ssh.sh"
+wget -O change-port "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/change.sh"
+wget -O system "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/system.sh"
+wget -O menu "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu.sh"
+wget -O add-host "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/add-host.sh"
+wget -O check-sc "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/running.sh"
+wget -O cert "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cert.sh"
+wget -O trojaan "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/trojaan.sh"
+wget -O xraay "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/xraay.sh"
+wget -O xp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/xp.sh"
+wget -O port-xray "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/change-port/port-xray.sh"
+wget -O themes "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/themes.sh"
+wget -O autobackup "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/autobackup.sh"
+wget -O backup "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/backup.sh"
+wget -O bckp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/bckp.sh"
+wget -O restore "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/restore.sh"
 chmod +x update
 chmod +x run-update
 chmod +x message-ssh
@@ -136,7 +136,7 @@ clear
 echo -e ""
 echo -e "\e[0;32mDownloaded successfully!\e[0m"
 echo ""
-ver=$( curl https://raw.githubusercontent.com/${GitUser}/oddloop/main/_deps/version/version.conf )
+ver=$( curl https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/version/version.conf )
 sleep 1
 echo -e "\e[0;32mPatching New Update, Please Wait...\e[0m"
 echo ""

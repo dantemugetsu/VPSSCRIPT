@@ -80,13 +80,13 @@ EOF
 # ================================
 # DOWNLOAD PYTHON FILES
 # ================================
-wget -q -O /usr/local/bin/ws-https https://raw.githubusercontent.com/${GitUser}/oddloop/main/${namafolder}/ws-https
+wget -q -O /usr/local/bin/ws-https https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/${namafolder}/ws-https
 chmod +x /usr/local/bin/ws-https
 
-wget -q -O /usr/local/bin/ws-http https://raw.githubusercontent.com/${GitUser}/oddloop/main/${namafolder}/ws-http
+wget -q -O /usr/local/bin/ws-http https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/${namafolder}/ws-http
 chmod +x /usr/local/bin/ws-http
 
-wget -q -O /usr/local/bin/ws-ovpn https://raw.githubusercontent.com/${GitUser}/oddloop/main/${namafolder}/ws-ovpn
+wget -q -O /usr/local/bin/ws-ovpn https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/${namafolder}/ws-ovpn
 chmod +x /usr/local/bin/ws-ovpn
 
 # ================================

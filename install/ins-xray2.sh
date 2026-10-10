@@ -46,7 +46,7 @@ systemctl stop nginx
 
 # // INSTALL CERTIFICATES
 mkdir /root/.acme.sh
-curl https://raw.githubusercontent.com/dantemugetsu/oddloop/main/acme.sh -o /root/.acme.sh/acme.sh
+curl https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/acme.sh -o /root/.acme.sh/acme.sh
 chmod +x /root/.acme.sh/acme.sh
 /root/.acme.sh/acme.sh --upgrade --auto-upgrade
 /root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
@@ -712,10 +712,10 @@ systemctl restart xray@config
 
 # download script
 cd /usr/bin
-wget -O port-xray "https://raw.githubusercontent.com/${GitUser}/oddloop/main/change-port/port-xray2.sh"
-wget -O certv2ray "https://raw.githubusercontent.com/${GitUser}/oddloop/main/cert.sh"
-wget -O trojaan "https://raw.githubusercontent.com/${GitUser}/oddloop/main/menu/trojaan2.sh"
-wget -O xraay "https://raw.githubusercontent.com/${GitUser}/oddloop/main/menu/xraay2.sh"
+wget -O port-xray "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/change-port/port-xray2.sh"
+wget -O certv2ray "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cert.sh"
+wget -O trojaan "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/trojaan2.sh"
+wget -O xraay "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/xraay2.sh"
 chmod +x port-xray
 chmod +x certv2ray
 chmod +x trojaan

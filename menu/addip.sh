@@ -29,7 +29,7 @@ echo -e "${green}Permission Accepted (forked build).${NC}"
 
 setadmin() {
 #isi link git
-linkinstall="https://raw.githubusercontent.com/${GitUser}/oddloop/main/_deps/allow"
+linkinstall="https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/allow"
 rm -rf /etc/adminip/
 mkdir -p /etc/adminip
 read -p "INPUT OWNER ACCESS TOKEN CODE " ans
@@ -59,7 +59,7 @@ rm -rf /root/allow
 read -p " - IP VPS      : " daftar
 echo -e "[ ${Lyellow}INFO${NC} ] Checking the IPVPS if Already Registered"
 sleep 1
-cek=$( curl -sS https://raw.githubusercontent.com/dantemugetsu/oddloop/main/_deps/allow/ipvps.conf | awk '{print $5}' | grep $daftar )
+cek=$( curl -sS https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/_deps/allow/ipvps.conf | awk '{print $5}' | grep $daftar )
 if [[ $daftar = $cek ]]; then
 echo -e "\e[1;31m The IP VPS Has Been Registered\e[0m"
 sleep 2
@@ -112,7 +112,7 @@ echo -e "IPVPS Registration Completed"
 sleep 1
 links1="apt-get update && apt-get upgrade -y && update-grub && sleep 2 && reboot"
 links2="apt-get update && apt-get upgrade -y && apt dist-upgrade -y && update-grub && sleep 2 && reboot"
-links3="sysctl -w net.ipv6.conf.all.disable_ipv6=1 && sysctl -w net.ipv6.conf.default.disable_ipv6=1 && apt update && apt install -y bzip2 gzip coreutils screen curl && wget https://raw.githubusercontent.com/dantemugetsu/oddloop/main/setup.sh && chmod +x setup.sh && sed -i -e 's/\r$//' setup.sh && screen -S setup ./setup.sh"
+links3="sysctl -w net.ipv6.conf.all.disable_ipv6=1 && sysctl -w net.ipv6.conf.default.disable_ipv6=1 && apt update && apt install -y bzip2 gzip coreutils screen curl && wget https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/setup.sh && chmod +x setup.sh && sed -i -e 's/\r$//' setup.sh && screen -S setup ./setup.sh"
 
 echo -e "\033[0;34m----------------------------------------\033[0m"
 echo "  Client IP VPS Add Successfully"

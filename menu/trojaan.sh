@@ -92,7 +92,7 @@ cat > /home/vps/public_html/trojan-$user.txt <<-END
              P R O J E C T  O F  N I L P H R E A K Z V P N
                        [Freedom Internet]
 ====================================================================
-             https://github.com/dantemugetsu/oddloop
+             https://github.com/dantemugetsu/VPSSCRIPT
 ====================================================================
              Format Trojan TCP - SPv2
 ====================================================================
@@ -501,7 +501,7 @@ cat > /home/vps/public_html/trojanws-$user.txt <<-END
              P R O J E C T  O F  N I L P H R E A K Z V P N
                        [Freedom Internet]
 ====================================================================
-             https://github.com/dantemugetsu/oddloop
+             https://github.com/dantemugetsu/VPSSCRIPT
 ====================================================================
              Format Trojan WS - SPv2
 ====================================================================

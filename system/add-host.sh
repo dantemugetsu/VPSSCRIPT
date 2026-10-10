@@ -16,7 +16,7 @@ MYIP=$(curl -sS ifconfig.me )
 
 # // GMAIL && DOMAIN
 clear
-export default_email=$( curl -sS https://raw.githubusercontent.com/${GitUser}/oddloop/main/_deps/email/default.conf )
+export default_email=$( curl -sS https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/email/default.conf )
 export emailcf=$(cat /usr/local/etc/xray/email)
 
 clear

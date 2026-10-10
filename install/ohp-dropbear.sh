@@ -25,7 +25,7 @@ Port_OHP='8787';
 
 #Installing ohp Server
 cd 
-wget -O /usr/local/bin/ohp "https://raw.githubusercontent.com/${GitUser}/oddloop/main/ohp"
+wget -O /usr/local/bin/ohp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/ohp"
 chmod +x /usr/local/bin/ohp
 
 #Buat File OpenVPN TCP OHP

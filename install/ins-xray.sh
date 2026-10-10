@@ -46,7 +46,7 @@ systemctl stop nginx
 
 # // INSTALL CERTIFICATES
 mkdir /root/.acme.sh
-curl https://raw.githubusercontent.com/dantemugetsu/oddloop/main/acme.sh -o /root/.acme.sh/acme.sh
+curl https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/acme.sh -o /root/.acme.sh/acme.sh
 chmod +x /root/.acme.sh/acme.sh
 /root/.acme.sh/acme.sh --upgrade --auto-upgrade
 /root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
@@ -1410,17 +1410,17 @@ chmod 640 /var/log/xray/access5.log /var/log/xray/error.log
 
 # download script
 cd /usr/bin
-wget -O port-xray "https://raw.githubusercontent.com/${GitUser}/oddloop/main/change-port/port-xray.sh"
-wget -O certv2ray "https://raw.githubusercontent.com/${GitUser}/oddloop/main/cert.sh"
-wget -O trojaan "https://raw.githubusercontent.com/${GitUser}/oddloop/main/menu/trojaan.sh"
-wget -O xraay "https://raw.githubusercontent.com/${GitUser}/oddloop/main/menu/xraay.sh"
+wget -O port-xray "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/change-port/port-xray.sh"
+wget -O certv2ray "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cert.sh"
+wget -O trojaan "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/trojaan.sh"
+wget -O xraay "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/xraay.sh"
 chmod +x port-xray
 chmod +x certv2ray
 chmod +x trojaan
 chmod +x xraay
 
 # Install Xraycore Mod 1.7.2-1 (Custompath)
-mv /usr/local/bin/xray /usr/local/bin/xray.bakk && wget -q -O /usr/local/bin/xray "https://raw.githubusercontent.com/${GitUser}/oddloop/main/_deps/xray/Xray-linux-64-v1.7.2-1" && chmod 755 /usr/local/bin/xray
+mv /usr/local/bin/xray /usr/local/bin/xray.bakk && wget -q -O /usr/local/bin/xray "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/xray/Xray-linux-64-v1.7.2-1" && chmod 755 /usr/local/bin/xray
 
 cd
 rm -f ins-xray.sh
