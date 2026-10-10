@@ -62,10 +62,10 @@ renew-ssh
 del-ssh
 ;;
 5)
-cek-ssh
+check-ssh
 ;;
 6)
-member
+list-member
 ;;
 7)
 delete
@@ -74,7 +74,7 @@ delete
 autokill
 ;;
 9)
-ceklim
+check-limit
 ;;
 10)
 user-list

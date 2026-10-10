@@ -103,16 +103,16 @@ wget -O change-port "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main
 wget -O system "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/system.sh"
 wget -O menu "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu-v2.sh"
 wget -O add-host "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/add-host.sh"
-wget -O check-sc "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/running-v2.sh"
+wget -O check-running "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/running-v2.sh"
 wget -O cert "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/cert.sh"
-wget -O trojaan "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/trojan-v2.sh"
-wget -O xraay "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/xray-v2.sh"
-wget -O xp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/expired.sh"
+wget -O trojan-menu "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/trojan-v2.sh"
+wget -O xray-menu "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/xray-v2.sh"
+wget -O delete-expired "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/expired.sh"
 wget -O port-xray "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/network/ports/xray-v2.sh"
 wget -O themes "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/themes.sh"
 wget -O autobackup "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/autobackup.sh"
 wget -O backup "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/backup.sh"
-wget -O bckp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/quick-backup.sh"
+wget -O quick-backup "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/quick-backup.sh"
 wget -O restore "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/restore.sh"
 chmod +x update
 chmod +x run-update
@@ -121,16 +121,16 @@ chmod +x change-port
 chmod +x system
 chmod +x menu
 chmod +x add-host
-chmod +x check-sc
+chmod +x check-running
 chmod +x cert
-chmod +x trojaan
-chmod +x xraay
-chmod +x xp
+chmod +x trojan-menu
+chmod +x xray-menu
+chmod +x delete-expired
 chmod +x port-xray
 chmod +x themes
 chmod +x autobackup
 chmod +x backup
-chmod +x bckp
+chmod +x quick-backup
 chmod +x restore
 clear
 echo -e ""

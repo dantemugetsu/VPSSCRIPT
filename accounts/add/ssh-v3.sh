@@ -179,4 +179,4 @@ echo -e "PAYLOAD WS OVPN  : GET wss://$sni/ HTTP/1.1[crlf]Host: $domain[crlf]Upg
 echo -e "\e[$line═══════════════════════════════════════════════════════\e[m"
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu SSH"
-exec ssh2
+exec ssh-menu

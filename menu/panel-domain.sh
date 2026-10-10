@@ -38,13 +38,13 @@ read -p "        Please Input Number  [1-3 or x] :  "  sys
 echo -e ""
 case $sys in
 1)
-cfa
+cf-account
 ;;
 2)
-cfd
+cf-domain
 ;;
 3)
-cfp
+cf-pointing
 ;;
 x)
 system

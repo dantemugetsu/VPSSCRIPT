@@ -303,7 +303,7 @@ echo -e "Expired   : $exp"
 echo ""
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 # // TRIAL USER
@@ -528,7 +528,7 @@ echo -e "Expired   : $exp"
 echo ""
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 # FUCTION DELETE USER
@@ -582,7 +582,7 @@ echo " Expired On  : $exp"
 echo " =========================="
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 # FUCTION RENEW USER
 function menu4 () {
@@ -638,7 +638,7 @@ echo " Expired On  : $exp4"
 echo " =========================="
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 # show user
@@ -850,7 +850,7 @@ echo -e "Expired   : $exp"
 echo ""
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 # FUCTION CEK USER
@@ -944,7 +944,7 @@ echo -e "\033[0;34m════════════════════�
   }'
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 # ADD USER VLESS WS
@@ -1097,7 +1097,7 @@ echo -e "Expired   : $exp"
 echo ""
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 # TRIAL USER VLESS WS
@@ -1181,7 +1181,7 @@ echo -e "Expired   : $exp"
 echo ""
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 # DELETE USER VLESS WS
@@ -1229,7 +1229,7 @@ echo " Expired On  : $exp"
 echo " =========================="
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 #RENEW VLESS WS
@@ -1286,7 +1286,7 @@ echo " Expired On  : $exp4"
 echo " =========================="
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 # show user vless ws
@@ -1359,7 +1359,7 @@ echo -e "Expired   : $exp"
 echo ""
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 # USER LOGIN VLESS WS
@@ -1454,7 +1454,7 @@ clear
 
   echo ""
   read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 # CREATE USER VLESS XTLS
@@ -1585,7 +1585,7 @@ echo -e "Expired  : $exp"
 echo ""
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 # TRIAL USER VLESS XTLS
@@ -1651,7 +1651,7 @@ echo -e "Expired  : $exp"
 echo ""
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 # DELETE VLESS XTLS
@@ -1696,7 +1696,7 @@ echo " Expired On  : $exp"
 echo " =========================="
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 # RENEW VLESS XTLS
@@ -1750,7 +1750,7 @@ echo " Expired On  : $exp4"
 echo " =========================="
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 #SHOW VLESS XTLS
@@ -1813,7 +1813,7 @@ echo -e "Expired    : $exp"
 echo ""
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 # CEK USER LOGIN VLESS XTLS
@@ -1907,7 +1907,7 @@ echo -e "\033[0;34m════════════════════�
   }'
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu xray"
-exec xraay
+exec xray-menu
 }
 
 # MENU XRAY VMESS & VLESS
@@ -1994,5 +1994,5 @@ else
 clear
 echo -e "\e[1;31mYou Entered The Wrong Number, Please Try Again!\e[0m"
 sleep 1
-exec xraay
+exec xray-menu
 fi

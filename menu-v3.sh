@@ -366,48 +366,53 @@ echo -e " \e[$line╘═══════════════════�
 echo -e " \e[$text Ssh/Ovpn   V2ray   Vless   Vlessxtls   Trojan-Ws   Trojan-Tls \e[0m "    
 echo -e " \e[$below    $total_ssh         $vmess       $vless        $xtls           $trws           $trtls \e[0m "
 echo -e " \e[$line╒═════════════════════════════════════════════════════════════╕\e[m"
-echo -e "  \e[$back_text                        \e[30m[\e[$box PANEL MENU\e[30m ]\e[1m                       \e[m"
+echo -e "  \e[$back_text                    \e[30m[\e[$box  XRAY / TROJAN PANEL  \e[30m]\e[1m                  \e[m"
+echo -e " \e[$line╞═════════════════════════════════════════════════════════════╡\e[m"
+echo -e "  \e[$number (1)\e[m  \e[$below XRAY  - VMess / VLESS / XTLS\e[m"
+echo -e "  \e[$number (2)\e[m  \e[$below TROJAN - TCP-TLS / WS-TLS\e[m"
+echo -e " \e[$line╞═════════════════════════════════════════════════════════════╡\e[m"
+echo -e "  \e[$back_text                  \e[30m[\e[$box  SSH / OPENVPN PANEL  \e[30m]\e[1m                 \e[m"
+echo -e " \e[$line╞═════════════════════════════════════════════════════════════╡\e[m"
+echo -e "  \e[$number (3)\e[m  \e[$below SSH / OPENVPN - user accounts\e[m"
+echo -e "  \e[$number (4)\e[m  \e[$below NOOBZVPN - menu\e[m"
+echo -e "  \e[$number (5)\e[m  \e[$below CLOUDFLARE WARP - menu\e[m"
+echo -e "  \e[$number (6)\e[m  \e[$below Check Xray user logins\e[m"
+echo -e " \e[$line╞═════════════════════════════════════════════════════════════╡\e[m"
+echo -e "  \e[$back_text                    \e[30m[\e[$box  SERVER PANEL  \e[30m]\e[1m                    \e[m"
+echo -e " \e[$line╞═════════════════════════════════════════════════════════════╡\e[m"
+echo -e "  \e[$number (7)\e[m  \e[$below System tools\e[m         \e[$number (11)\e[m \e[$below Service / port info\e[m"
+echo -e "  \e[$number (8)\e[m  \e[$below Themes & banner\e[m      \e[$number (12)\e[m \e[$below Delete expired users\e[m"
+echo -e "  \e[$number (9)\e[m  \e[$below Change ports\e[m         \e[$number (13)\e[m \e[$below Clear logs\e[m"
+echo -e "  \e[$number (10)\e[m \e[$below Check running\e[m        \e[$number (14)\e[m \e[$below Reboot VPS\e[m"
 echo -e " \e[$line╘═════════════════════════════════════════════════════════════╛\e[m"
-echo -e "  \e[$number (•1)\e[m \e[$below XRAY VMESS & VLESS\e[m"
-echo -e "  \e[$number (•2)\e[m \e[$below TROJAN XRAY & WS\e[m"
-echo -e "  \e[$number (•3)\e[m \e[$below SSHWS & OPENVPN\e[m" 
-echo -e "  \e[$number (•4)\e[m \e[$below NOOBZVPN MENU\e[m" 
-echo -e "  \e[$number (•5)\e[m \e[$below CLOUDFLARE WARP MENU\e[m" 
-echo -e "  \e[$number (•6)\e[m \e[$below CHECK XRAY USER LOGIN\e[m" 
-echo -e " \e[$line╒═════════════════════════════════════════════════════════════╕\e[m"
-echo -e "  \e[$back_text                        \e[30m[\e[$box VPS MENU\e[30m ]\e[1m                         \e[m"
-echo -e " \e[$line╘═════════════════════════════════════════════════════════════╛\e[m"
-echo -e "  \e[$number (•7)\e[m \e[$below SYSTEM MENU\e[m          \e[$number (11)\e[m \e[$below INFO ALL PORT\e[m"
-echo -e "  \e[$number (•8)\e[m \e[$below THEMES MENU\e[m          \e[$number (12)\e[m \e[$below CLEAR EXPIRED USER\e[m"
-echo -e "  \e[$number (•9)\e[m \e[$below CHANGE PORT\e[m          \e[$number (13)\e[m \e[$below CLEAR LOG VPS\e[m"
-echo -e "  \e[$number (10)\e[m \e[$below CHECK RUNNING\e[m        \e[$number (14)\e[m \e[$below REBOOT VPS\e[m"
 echo -e ""
-echo -e "  \e[$below[Ctrl + C] For exit from main menu\e[m"
+echo -e "  \e[$below[ Ctrl+C ] exit   \e[$number x)\e[m \e[$below exit\e[m"
 echo -e " \e[$line╒═════════════════════════════════════════════════════════════╕\e[m"
-echo -e "  \e[$below Version Name         : SSH XRAY WEBSOCKET MULTIPORT V3.0"
-echo -e "  \e[$below Autoscript Mod By    : TAKUMIWASHERE"
+echo -e "  \e[$below Script  : SSH / XRAY / WEBSOCKET MULTIPORT\e[m"
+echo -e "  \e[$below Build   : v3 (latest Xray core + new services)\e[m"
+echo -e "  \e[$below Brand   : TAKUMIWASHERE\e[m"
 echo -e " \e[$line╘═════════════════════════════════════════════════════════════╛\e[m"
 echo -e "\e[$below "
 read -p " Select menu :  " menu
 echo -e ""
 case $menu in
 1)
-    xraay
+    xray-menu
     ;;
 2)
-    trojaan
+    trojan-menu
     ;;
 3)
-    ssh2
+    ssh-menu
     ;;
 4)
-    menu-noobzvpn
+    noobzvpn-menu
     ;;	
 5)
     proxy-warp
     ;;
 6)
-    cek-xray
+    check-xray
     ;;
 7)
     system
@@ -419,13 +424,13 @@ case $menu in
     change-port
     ;;
 10)
-    check-sc
+    check-running
     ;;
 11)
     cat log-install.txt
     ;;
 12)
-    xp
+    delete-expired
     ;;
 13)
     clear-log

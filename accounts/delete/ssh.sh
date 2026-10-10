@@ -72,4 +72,4 @@ else
 fi
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu SSH"
-exec ssh2
+exec ssh-menu

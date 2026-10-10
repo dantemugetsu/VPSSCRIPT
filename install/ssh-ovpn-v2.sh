@@ -320,46 +320,46 @@ netfilter-persistent reload
 # // download script
 cd /usr/bin
 wget -O change-dropbear "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/change-dropbear.sh"
-wget -O menu-noobzvpn "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/noobzvpn.sh"
+wget -O noobzvpn-menu "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/noobzvpn.sh"
 wget -O add-host "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/add-host.sh"
 wget -O about "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/about.sh"
 wget -O menu "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu-v2.sh"
 wget -O add-ssh "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/add/ssh-v2.sh"
 wget -O trial "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/add/ssh-trial-v2.sh"
 wget -O del-ssh "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/delete/ssh.sh"
-wget -O member "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/list.sh"
+wget -O list-member "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/list.sh"
 wget -O delete "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/delete/all.sh"
-wget -O cek-ssh "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/check/ssh.sh"
+wget -O check-ssh "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/check/ssh.sh"
 wget -O restart "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/restart.sh"
 wget -O speedtest "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/speedtest_cli.py"
 wget -O info "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/info.sh"
 wget -O ram "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/ram.sh"
 wget -O renew-ssh "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/renew/ssh.sh"
 wget -O autokill "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/service/autokill.sh"
-wget -O ceklim "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/check/limit.sh"
-wget -O tendang "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/service/kick.sh"
+wget -O check-limit "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/check/limit.sh"
+wget -O kick-user "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/service/kick.sh"
 wget -O clear-log "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/service/clear-log.sh"
 wget -O change-port "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/change-port.sh"
 wget -O port-ovpn "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/network/ports/port-ovpn.sh"
 wget -O port-ssl "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/network/ports/port-ssl.sh"
 wget -O port-squid "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/network/ports/port-squid.sh"
 wget -O port-websocket "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/network/ports/port-websocket.sh"
-wget -O wbmn "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/webmin.sh"
-wget -O xp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/expired.sh"
-wget -O xp2 "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/xp2.sh"
-wget -O kernel-updt "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/kernel.sh"
+wget -O webmin "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/webmin.sh"
+wget -O delete-expired "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/expired.sh"
+# wget -O xp2 "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/xp2.sh"  # xp2.sh absent upstream - skipped by fork
+wget -O kernel-update "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/kernel.sh"
 wget -O user-list "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/tools/user-list.sh"
 wget -O user-lock "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/tools/user-lock.sh"
 wget -O user-unlock "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/tools/user-unlock.sh"
 wget -O user-password "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/tools/user-password.sh"
 wget -O antitorrent "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/tools/antitorrent.sh"
-wget -O cfa "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cloudflare/account.sh"
-wget -O cfd "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cloudflare/domain.sh"
-wget -O cfp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cloudflare/pointing.sh"
+wget -O cf-account "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cloudflare/account.sh"
+wget -O cf-domain "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cloudflare/domain.sh"
+wget -O cf-pointing "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cloudflare/pointing.sh"
 wget -O swap "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/swap.sh"
-wget -O ip6menu "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/ipv6.sh"
-wget -O check-sc "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/running-v2.sh"
-wget -O ssh2 "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/ssh-ovpn.sh"
+wget -O ipv6-menu "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/ipv6.sh"
+wget -O check-running "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/running-v2.sh"
+wget -O ssh-menu "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/ssh-ovpn.sh"
 wget -O autoreboot "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/autoreboot.sh"
 wget -O bbr "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/bbr.sh"
 wget -O port-ohp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/network/ports/port-ohp.sh"
@@ -378,17 +378,17 @@ chmod +x menu
 chmod +x add-ssh
 chmod +x trial
 chmod +x del-ssh
-chmod +x member
+chmod +x list-member
 chmod +x delete
-chmod +x cek-ssh
-chmod +x ip6menu
+chmod +x check-ssh
+chmod +x ipv6-menu
 chmod +x restart
 chmod +x speedtest
 chmod +x info
 chmod +x about
 chmod +x autokill
-chmod +x tendang
-chmod +x ceklim
+chmod +x kick-user
+chmod +x check-limit
 chmod +x ram
 chmod +x renew-ssh
 chmod +x clear-log
@@ -398,21 +398,20 @@ chmod +x port-ovpn
 chmod +x port-ssl
 chmod +x port-squid
 chmod +x port-websocket
-chmod +x wbmn
-chmod +x xp
-chmod +x xp2
-chmod +x kernel-updt
+chmod +x webmin
+chmod +x delete-expired
+chmod +x kernel-update
 chmod +x user-list
 chmod +x user-lock
 chmod +x user-unlock
 chmod +x user-password
 chmod +x antitorrent
-chmod +x cfa
-chmod +x cfd
-chmod +x cfp
+chmod +x cf-account
+chmod +x cf-domain
+chmod +x cf-pointing
 chmod +x swap
-chmod +x check-sc
-chmod +x ssh2
+chmod +x check-running
+chmod +x ssh-menu
 chmod +x autoreboot
 chmod +x bbr
 chmod +x port-ohp
@@ -426,14 +425,14 @@ chmod +x message-ssh
 chmod +x dns
 chmod +x netf
 chmod +x bbr-manager
-chmod +x menu-noobzvpn
+chmod +x noobzvpn-menu
 chmod +x change-dropbear
 sed -i 's/\r$//' /usr/bin/menu-noobzvpn
 sed -i 's/\r$//' /usr/bin/change-dropbear
 sed -i 's/\r$//' /usr/bin/install-figlet
 install-figlet
 echo "0 1 * * * root delete" >> /etc/crontab
-echo "0 2 * * * root xp" >> /etc/crontab
+echo "0 2 * * * root delete-expired" >> /etc/crontab
 echo "0 5 * * * root reboot" >> /etc/crontab
 echo "0 6 * * * root backup" >> /etc/crontab
 echo "0 8 * * * root clear-log" >> /etc/crontab

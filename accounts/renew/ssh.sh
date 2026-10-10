@@ -140,7 +140,7 @@ read -p " Pilih nombor user :  " choice
 if ! [[ "$choice" =~ ^[0-9]+$ ]]; then
     echo "Sila masukkan nombor sahaja."
     read -r -p "Tekan ENTER untuk balik ke menu SSH..." _
-    ssh2
+    ssh-menu
     exit 0
 fi
 
@@ -151,7 +151,7 @@ fi
 if [ "$choice" -lt 1 ] || [ "$choice" -gt "${#USERS[@]}" ]; then
     echo "Nombor tidak sah."
     read -r -p "Tekan ENTER untuk balik ke menu SSH..." _
-    ssh2
+    ssh-menu
     exit 0
 fi
 
@@ -162,5 +162,5 @@ read -p " Day Extend :  " Days
 renew_user "$User" "$Days"
 
 read -r -p "Tekan ENTER untuk balik ke menu SSH..." _
-ssh2
+ssh-menu
 exit 0

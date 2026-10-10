@@ -65,7 +65,7 @@ case $sys in
 add-host
 ;;
 2)
-certv2ray
+renew-cert
 ;;
 3)
 dns
@@ -83,7 +83,7 @@ backup
 restore
 ;;
 8)
-wbmn
+webmin
 ;;
 9)
 limit-speed
@@ -116,7 +116,7 @@ message-ssh
 wget -q -O /usr/bin/swapram "https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/_deps/tools/swapram/swapram.sh" && chmod +x /usr/bin/swapram && swapram
 ;;
 19)
-ip6menu
+ipv6-menu
 ;;
 44)
 wget -q -O /usr/sbin/setup2 "https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/_deps/tools/cfwarp/setup.sh" && chmod +x /usr/sbin/setup2 && setup2

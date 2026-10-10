@@ -72,7 +72,7 @@ case $opt in
     sysctl -w net.ipv6.conf.default.disable_ipv6=1
     echo "IPv6 telah dimatikan. Hanya IPv4 aktif."
     sleep 2
-    exec ip6menu
+    exec ipv6-menu
     ;;
 3)
     clear
@@ -95,6 +95,6 @@ case $opt in
 *)
     echo "Wrong Button"
     sleep 1
-    exec ip6menu
+    exec ipv6-menu
     ;;
 esac

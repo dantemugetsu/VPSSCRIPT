@@ -1411,13 +1411,13 @@ chmod 640 /var/log/xray/access5.log /var/log/xray/error.log
 # download script
 cd /usr/bin
 wget -O port-xray "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/network/ports/xray-v2.sh"
-wget -O certv2ray "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/cert.sh"
-wget -O trojaan "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/trojan-v2.sh"
-wget -O xraay "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/xray-v2.sh"
+wget -O renew-cert "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/cert.sh"
+wget -O trojan-menu "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/trojan-v2.sh"
+wget -O xray-menu "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/xray-v2.sh"
 chmod +x port-xray
-chmod +x certv2ray
-chmod +x trojaan
-chmod +x xraay
+chmod +x renew-cert
+chmod +x trojan-menu
+chmod +x xray-menu
 
 # Install Xraycore Mod 1.7.2-1 (Custompath)
 mv /usr/local/bin/xray /usr/local/bin/xray.bakk && wget -q -O /usr/local/bin/xray "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/xray/Xray-linux-64-v1.7.2-1" && chmod 755 /usr/local/bin/xray

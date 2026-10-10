@@ -134,7 +134,7 @@ echo -e "Expired : $exp"
 echo ""
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu Trojan"
-exec trojaan
+exec trojan-menu
 }
 
 # // FUCTION TRIAL USER TROJAN
@@ -194,7 +194,7 @@ echo -e "Expired : $exp"
 echo ""
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu Trojan"
-exec trojaan
+exec trojan-menu
 }
 
 function menu3 () {
@@ -240,7 +240,7 @@ echo " Expired On  : $exp"
 echo " =========================="
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu Trojan"
-exec trojaan
+exec trojan-menu
 }
 
 function menu4 () {
@@ -297,7 +297,7 @@ echo " Expired On  : $exp4"
 echo " =========================="
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu Trojan"
-exec trojaan
+exec trojan-menu
 }
 
 function menu5 () {
@@ -353,7 +353,7 @@ echo -e "Expired  : $exp"
 echo ""
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu Trojan"
-exec trojaan
+exec trojan-menu
 }
 
 function menu6 () {
@@ -446,7 +446,7 @@ echo -e "\033[0;34m════════════════════�
   }'
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu Trojan"
-exec trojaan
+exec trojan-menu
 }
 
 # // FUCTION CREATE USER TROJAN
@@ -555,7 +555,7 @@ echo -e "Expired : $exp"
 echo ""
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu Trojan"
-exec trojaan
+exec trojan-menu
 }
 
 # FUCTION TRIAL USER TROJAN
@@ -625,7 +625,7 @@ echo -e "Expired : $exp"
 echo ""
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu Trojan"
-exec trojaan
+exec trojan-menu
 }
 
 function menu9 () {
@@ -672,7 +672,7 @@ echo " Expired On  : $exp"
 echo " =========================="
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu Trojan"
-exec trojaan
+exec trojan-menu
 }
 
 function menu10 () {
@@ -725,7 +725,7 @@ echo " Expired On  : $exp4"
 echo " =========================="
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu Trojan"
-exec trojaan
+exec trojan-menu
 }
 
 function menu11 () {
@@ -790,7 +790,7 @@ echo -e "Expired : $exp"
 echo ""
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu Trojan"
-exec trojaan
+exec trojan-menu
 }
 
 function menu12 () {
@@ -883,7 +883,7 @@ echo -e "\033[0;34m════════════════════�
   }'
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu Trojan"
-exec trojaan
+exec trojan-menu
 }
 
 # MENU TROJAN
@@ -947,5 +947,5 @@ else
 clear
 echo -e "\e[1;31mYou Entered The Wrong Number, Please Try Again!\e[0m"
 sleep 1
-trojaan
+trojan-menu
 fi
