@@ -23,7 +23,7 @@ commonname="TAKUMIWASHERE"
 email="admin@takumiwashere.com"
 
 # // simple password minimal
-wget -O /etc/pam.d/common-password "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/password"
+wget -O /etc/pam.d/common-password "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/assets/pam-common-password"
 chmod +x /etc/pam.d/common-password
 
 # // go to root
@@ -188,7 +188,7 @@ apt -y install squid3
 
 # install squid for debian 11
 apt -y install squid
-wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/squid3.conf"
+wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/assets/squid.conf"
 sed -i $MYIP2 /etc/squid/squid.conf
 
 # // setting vnstat
@@ -257,10 +257,10 @@ systemctl start stunnel4
 /etc/init.d/stunnel4 restart
 
 # // OpenVPN
-wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/vpn.sh &&  chmod +x vpn.sh && ./vpn.sh
+wget -O vpn.sh https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/openvpn.sh && chmod +x vpn.sh && ./vpn.sh
 
 # // install lolcat
-wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/lolcat.sh &&  chmod +x lolcat.sh && ./lolcat.sh
+wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/assets/lolcat.sh &&  chmod +x lolcat.sh && ./lolcat.sh
 
 # // install fail2ban
 apt -y install fail2ban
@@ -293,12 +293,12 @@ echo 'Config file is at /usr/local/ddos/ddos.conf'
 echo 'Please send in your comments and/or suggestions to zaf@vsnl.com'
 
 # // banner /etc/issue.net
-wget -O /etc/issue.net "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/banner/bannerssh.conf"
+wget -O /etc/issue.net "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/assets/banner/bannerssh.conf"
 echo "Banner /etc/issue.net" >>/etc/ssh/sshd_config
 sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
 
 # // Bannerku menu
-wget -O /usr/bin/bannerku https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/banner/bannerku && chmod +x /usr/bin/bannerku
+wget -O /usr/bin/bannerku https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/assets/banner/bannerku && chmod +x /usr/bin/bannerku
 
 # // install bbr
 wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/bbr.sh && chmod +x bbr.sh && ./bbr.sh
@@ -335,52 +335,52 @@ cd /usr/bin
 #wget -O quota-vless "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/quota-vless.sh"
 wget -O proxy-warp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/proxy-warp.sh"
 wget -O change-dropbear "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/change-dropbear.sh"
-wget -O menu-noobzvpn "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/menu-noobzvpn.sh"
+wget -O menu-noobzvpn "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/noobzvpn.sh"
 wget -O add-host "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/add-host.sh"
 wget -O about "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/about.sh"
-wget -O menu "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu2.sh"
-wget -O add-ssh "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/add-user/add-ssh2.sh"
-wget -O trial "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/add-user/trial.sh"
-wget -O del-ssh "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/delete-user/del-ssh.sh"
-wget -O member "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/member.sh"
-wget -O delete "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/delete-user/delete.sh"
-wget -O cek-ssh "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cek-user/cek-ssh.sh"
-wget -O cek-xray "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cek-user/cek-xray.sh"
+wget -O menu "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu-v3.sh"
+wget -O add-ssh "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/add/ssh-v3.sh"
+wget -O trial "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/add/ssh-trial-v2.sh"
+wget -O del-ssh "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/delete/ssh.sh"
+wget -O member "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/list.sh"
+wget -O delete "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/delete/all.sh"
+wget -O cek-ssh "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/check/ssh.sh"
+wget -O cek-xray "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/check/xray.sh"
 wget -O restart "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/restart.sh"
 wget -O speedtest "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/speedtest_cli.py"
 wget -O info "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/info.sh"
-wget -O ip6menu "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/ip6menu.sh"
+wget -O ip6menu "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/ipv6.sh"
 wget -O ram "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/ram.sh"
-wget -O renew-ssh "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/renew-user/renew-ssh.sh"
-wget -O autokill "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/autokill.sh"
-wget -O ceklim "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cek-user/ceklim.sh"
-wget -O tendang "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/tendang.sh"
-wget -O clear-log "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/clear-log.sh"
-wget -O change-port "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/change.sh"
-wget -O port-ovpn "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/change-port/port-ovpn.sh"
-wget -O port-ssl "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/change-port/port-ssl.sh"
-wget -O port-squid "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/change-port/port-squid.sh"
-wget -O port-websocket "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/change-port/port-websocket.sh"
-wget -O wbmn "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/webmin.sh"
-wget -O xp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/xp.sh"
+wget -O renew-ssh "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/renew/ssh.sh"
+wget -O autokill "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/service/autokill.sh"
+wget -O ceklim "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/check/limit.sh"
+wget -O tendang "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/service/kick.sh"
+wget -O clear-log "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/service/clear-log.sh"
+wget -O change-port "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/change-port.sh"
+wget -O port-ovpn "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/network/ports/port-ovpn.sh"
+wget -O port-ssl "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/network/ports/port-ssl.sh"
+wget -O port-squid "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/network/ports/port-squid.sh"
+wget -O port-websocket "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/network/ports/port-websocket.sh"
+wget -O wbmn "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/webmin.sh"
+wget -O xp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/accounts/expired.sh"
 wget -O xp2 "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/xp2.sh"
-wget -O kernel-updt "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/kernel.sh"
-wget -O user-list "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/more-option/user-list.sh"
-wget -O user-lock "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/more-option/user-lock.sh"
-wget -O user-unlock "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/more-option/user-unlock.sh"
-wget -O user-password "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/more-option/user-password.sh"
-wget -O antitorrent "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/more-option/antitorrent.sh"
-wget -O cfa "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cloud/cfa.sh"
-wget -O cfd "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cloud/cfd.sh"
-wget -O cfp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cloud/cfp.sh"
-wget -O swap "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/swapkvm.sh"
-wget -O check-sc "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/running2.sh"
+wget -O kernel-updt "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/kernel.sh"
+wget -O user-list "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/tools/user-list.sh"
+wget -O user-lock "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/tools/user-lock.sh"
+wget -O user-unlock "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/tools/user-unlock.sh"
+wget -O user-password "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/tools/user-password.sh"
+wget -O antitorrent "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/tools/antitorrent.sh"
+wget -O cfa "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cloudflare/account.sh"
+wget -O cfd "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cloudflare/domain.sh"
+wget -O cfp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/cloudflare/pointing.sh"
+wget -O swap "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/swap.sh"
+wget -O check-sc "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/running-v3.sh"
 wget -O bbr-manager "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/bbr-manager.sh"
-wget -O ssh2 "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/ssh2.sh"
+wget -O ssh2 "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/ssh-ovpn.sh"
 wget -O autoreboot "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/autoreboot.sh"
 wget -O bbr "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/bbr.sh"
-wget -O port-ohp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/change-port/port-ohp.sh"
-wget -O port-xray "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/change-port/port-xray.sh"
+wget -O port-ohp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/network/ports/port-ohp.sh"
+wget -O port-xray "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/network/ports/xray-v2.sh"
 wget -O panel-domain "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/panel-domain.sh"
 wget -O system "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/system.sh"
 wget -O themes "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/themes.sh"

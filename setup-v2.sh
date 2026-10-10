@@ -307,12 +307,12 @@ echo $host1 > /root/domain
 echo ""
 elif [[ $host == "2" ]]; then
 #install cf
-wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/cf.sh && chmod +x cf.sh && ./cf.sh
+wget -O cf.sh https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/cloudflare.sh && chmod +x cf.sh && ./cf.sh
 rm -f /root/cf.sh
 clear
 else
 echo -e "Random Subdomain/Domain is used"
-wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/cf.sh && chmod +x cf.sh && ./cf.sh
+wget -O cf.sh https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/cloudflare.sh && chmod +x cf.sh && ./cf.sh
 rm -f /root/cf.sh
 clear
 fi
@@ -323,13 +323,13 @@ sleep 2
 #install ssh ovpn
 echo -e "\e[0;32mINSTALLING SSH & OVPN...\e[0m"
 sleep 1
-wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/ssh-vpn.sh && chmod +x ssh-vpn.sh && screen -S ssh-vpn ./ssh-vpn.sh
+wget -O ssh-vpn.sh https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/ssh-ovpn-v2.sh && chmod +x ssh-vpn.sh && screen -S ssh-vpn ./ssh-vpn.sh
 echo -e "\e[0;32mDONE INSTALLING SSH & OVPN\e[0m"
 clear
 #install Xray
 echo -e "\e[0;32mINSTALLING XRAY CORE...\e[0m"
 sleep 1
-wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/ins-xray.sh && chmod +x ins-xray.sh && screen -S ins-xray ./ins-xray.sh
+wget -O ins-xray.sh https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/xray-v2.sh && chmod +x ins-xray.sh && screen -S ins-xray ./ins-xray.sh
 echo -e "\e[0;32mDONE INSTALLING XRAY CORE\e[0m"
 clear
 #install ohp-server
@@ -342,13 +342,13 @@ echo -e "\e[0;32mDONE INSTALLING OHP PORT\e[0m"
 clear
 #install websocket
 echo -e "\e[0;32mINSTALLING WEBSOCKET PORT...\e[0m"
-wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/websocket-python/websocket.sh && chmod +x websocket.sh && screen -S websocket.sh ./websocket.sh
+wget -O websocket.sh https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/websocket/websocket-v2.sh && chmod +x websocket.sh && screen -S websocket.sh ./websocket.sh
 echo -e "\e[0;32mDONE INSTALLING WEBSOCKET PORT\e[0m"
 clear
 #install SET-BR
 echo -e "\e[0;32mINSTALLING SET-BR...\e[0m"
 sleep 1
-wget https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/set-br.sh && chmod +x set-br.sh && ./set-br.sh
+wget -O set-br.sh https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/base-config.sh && chmod +x set-br.sh && ./set-br.sh
 echo -e "\e[0;32mDONE INSTALLING SET-BR...\e[0m"
 clear
 # set time GMT +8

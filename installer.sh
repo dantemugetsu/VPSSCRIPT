@@ -18,10 +18,10 @@ install_v2() {
     apt dist-upgrade -y && \
     apt update && \
     apt install -y bzip2 gzip coreutils screen wget curl && \
-    wget https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/setup.sh && \
-    chmod +x setup.sh && \
-    sed -i -e 's/\r$//' setup.sh && \
-    screen -S setup ./setup.sh
+    wget -O setup-v2.sh https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/setup-v2.sh && \
+    chmod +x setup-v2.sh && \
+    sed -i -e 's/\r$//' setup-v2.sh && \
+    screen -S setup ./setup-v2.sh
 }
 
 install_v3() {
@@ -32,10 +32,10 @@ install_v3() {
     apt dist-upgrade -y && \
     apt update && \
     apt install -y bzip2 gzip coreutils screen wget curl && \
-    wget https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/setup2.sh && \
-    chmod +x setup2.sh && \
-    sed -i -e 's/\r$//' setup2.sh && \
-    screen -S setup ./setup2.sh
+    wget -O setup-v3.sh https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/setup-v3.sh && \
+    chmod +x setup-v3.sh && \
+    sed -i -e 's/\r$//' setup-v3.sh && \
+    screen -S setup ./setup-v3.sh
 }
 
 while true; do

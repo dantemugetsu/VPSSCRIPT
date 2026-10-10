@@ -36,10 +36,10 @@ rm -rf wondershaper
 cd /usr/bin
 wget -O autobackup "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/autobackup.sh"
 wget -O backup "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/backup.sh"
-wget -O bckp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/bckp.sh"
+wget -O bckp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/quick-backup.sh"
 wget -O restore "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/restore.sh"
 #wget -O strt "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/strt.sh"
-wget -O limit-speed "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/limit-speed.sh"
+wget -O limit-speed "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/network/speed-limit.sh"
 chmod +x autobackup
 chmod +x backup
 chmod +x bckp
