@@ -76,7 +76,7 @@ fi
 clear
 echo -e "1) Lifetime ID" 
 echo -e "2) Sewa / Had Masa"
-read -p "Sila Pilih : " jawab
+read -p "   SELECT MENU :  " jawab
 if [ "$jawab" = "1" ]; then
 read -p " - Client Name: " client 
 read -p " - Client ID : " id
@@ -185,7 +185,7 @@ echo -e "    No.     USER      EXP DATE    IPVPS"
 echo -e "\033[0;34m----------------------------------------\033[0m"
 grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 2-5 | nl -s '. '
 echo -e "\033[0;34m----------------------------------------\033[0m"
-read -rp " Please Input Number : " nombor 
+read -rp "   SELECT MENU :  " nombor 
 client=$(grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 2 | sed -n "${nombor}"p)
 id=$(grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 3 | sed -n "${nombor}"p)
 exp=$(grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 4 | sed -n "${nombor}"p)
