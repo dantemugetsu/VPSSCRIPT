@@ -419,7 +419,8 @@ Other commands: `check-ssh`, `check-limit`, `list-member`, `quick-backup`, `back
  ├─ [ 22 ] Uninstall Noobzvpns      ->                        [was 66]
  ├─ [ 23 ] Install UDP Custom       -> (downloads)          [was 77]
  ├─ [ 24 ] Xray-core Changer        -> (downloads)          [was 88]
- └─ [ 25 ] Change Dropbear Version  -> change-dropbear       [was 99]
+ ├─ [ 25 ] Change Dropbear Version  -> change-dropbear       [was 99]
+ └─ [ 26 ] Allow-list Manager       -> add-ip   (RESELLER)
 ```
 
 > Items **20–25** were previously numbered `44/55/66/77/88/99`. **Both numbers
@@ -427,6 +428,65 @@ Other commands: `check-ssh`, `check-limit`, `list-member`, `quick-backup`, `back
 
 > Items 20–24 download their tool from the bundled `_deps/tools/` on first use
 > (that's why they aren't pre-installed), then run it.
+
+---
+
+## 7b. Reseller / license flow (optional)
+
+The installer can gate itself on a **licence allow-list**, so you can sell
+installs to customers whose VPSs you authorise. It is **off by default** —
+nothing changes unless you add entries.
+
+### How authorisation works
+
+`setup-v2.sh` / `setup-v3.sh` check the VPS's **public IP** against
+`_deps/allow/ipvps.conf` in this repo:
+
+```
+### Name OrderID VALIDITY IPVPS
+### Ali       ORD-001 LIFETIME 203.0.113.10
+### Abu       ORD-002 2026-12-31 198.51.100.7
+```
+
+`VALIDITY` is `LIFETIME` or `YYYY-MM-DD` (legacy `DD/MM/YYYY` also accepted).
+A registered, unexpired IP → install proceeds. Anything else → install aborts.
+
+### You can never lock yourself out
+
+Three independent owner bypasses, all working offline:
+
+| Bypass | How |
+|---|---|
+| Env var | `VPSSCRIPT_OWNER=1 ./installer.sh` |
+| Marker file | `/etc/vpscript-owner` (created by **Set Admin**) |
+| Master key | the built-in key in `setup-*.sh` |
+
+If GitHub is unreachable the gate **fails closed** (correct for a reseller),
+but the three bypasses above still work.
+
+### Managing the list
+
+`menu` → `5` (SYSTEM TOOLS) → `[ 26 ] ALLOW-LIST MANAGER`, or run `add-ip`:
+
+```
+[ 01 ] ADD IP                  register a customer VPS
+[ 02 ] DELETE IP
+[ 03 ] RENEW IP                extend validity
+[ 04 ] LIST REGISTERED IP
+[ 05 ] SET ADMIN               store your GitHub token (do this first)
+```
+
+**Set Admin (05)** asks for a GitHub personal access token with **`repo`**
+scope. It is stored in `/etc/adminip/access.conf` (mode 600) and only used to
+update `_deps/allow/ipvps.conf` via the GitHub Contents API. It also creates
+`/etc/vpscript-owner`, which is what keeps your own box authorised.
+
+### A new entry takes a few minutes to be seen
+
+The gate reads via `raw.githubusercontent.com`, which is CDN-cached. A
+just-added IP can take **~4–6 minutes** to appear. The GitHub API shows it
+immediately — if a customer says "it still says not registered", wait, don't
+debug.
 
 ---
 
