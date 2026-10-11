@@ -40,7 +40,45 @@ touch /var/log/xray/error.log;
 export version="$(curl -s https://api.github.com/repos/XTLS/Xray-core/releases | grep tag_name | sed -E 's/.*"v(.*)".*/\1/' | head -n 1)"
 
 # // INSTALL CORE XRAY (LATEST)
-bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data
+# // INSTALL CORE XRAY
+# github is flaky; a failed download leaves NO binary and NO xray@.service
+# template, which produces a silently broken install. Retry, then verify.
+for _try in 1 2 3; do
+  bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data && break
+  echo "!! Xray core install attempt $_try failed - retrying in 5s..."
+  sleep 5
+done
+
+xray_bin_missing=0
+xray_unit_missing=0
+[ -x /usr/local/bin/xray ] || xray_bin_missing=1
+if [ ! -f /lib/systemd/system/xray@.service ] && [ ! -f /etc/systemd/system/xray@.service ]; then
+  xray_unit_missing=1
+fi
+
+if [ "$xray_bin_missing" = "1" ] || [ "$xray_unit_missing" = "1" ]; then
+  echo
+  echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  echo "!! WARNING: Xray core did not install correctly."
+  if [ "$xray_bin_missing" = "1" ]; then
+    echo "!!   /usr/local/bin/xray        : MISSING"
+  else
+    echo "!!   /usr/local/bin/xray        : ok"
+  fi
+  if [ "$xray_unit_missing" = "1" ]; then
+    echo "!!   xray@.service template     : MISSING"
+  else
+    echo "!!   xray@.service template     : ok"
+  fi
+  echo "!! The install continues, but Xray services will NOT work."
+  echo "!! Fix: re-run the XTLS installer:"
+  echo "!!   curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh | bash -s -- @ install -u www-data"
+  echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  echo
+  echo "XRAY CORE INSTALL FAILED (bin_missing=$xray_bin_missing unit_missing=$xray_unit_missing)" >> /root/log-install.txt
+else
+  echo "Xray core installed OK"
+fi
 
 systemctl stop nginx
 

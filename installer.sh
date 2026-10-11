@@ -34,6 +34,18 @@ NREOF
         sed -i "s/^#*\$nrconf{restart} = .*/\$nrconf{restart} = 'l';/"   /etc/needrestart/needrestart.conf 2>/dev/null
         sed -i "s/^#*\$nrconf{kernelhints} = .*/\$nrconf{kernelhints} = 0;/" /etc/needrestart/needrestart.conf 2>/dev/null
     fi
+
+    # dpkg must never stop on a conffile prompt. /etc/crontab in particular is
+    # edited by this installer and then upgraded by cron-daemon-common, which
+    # otherwise blocks apt with a "crontab (Y/I/N/O/D/Z)?" prompt.
+    mkdir -p /etc/apt/apt.conf.d
+    cat > /etc/apt/apt.conf.d/99-vpsscript-noninteractive <<'APTCONF'
+Dpkg::Options {
+   "--force-confdef";
+   "--force-confold";
+};
+APT::Get::Assume-Yes "true";
+APTCONF
 }
 
 run_install() {

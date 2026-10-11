@@ -7,6 +7,15 @@ if [ -d /etc/needrestart ]; then
   printf '%s\n' "\$nrconf{restart} = 'l';" "\$nrconf{kernelhints} = 0;" \
     > /etc/needrestart/conf.d/99-vpsscript.conf
 fi
+# dpkg must never stop on a conffile prompt (e.g. /etc/crontab vs cron-daemon-common)
+mkdir -p /etc/apt/apt.conf.d
+cat > /etc/apt/apt.conf.d/99-vpsscript-noninteractive <<'APTCONF'
+Dpkg::Options {
+   "--force-confdef";
+   "--force-confold";
+};
+APT::Get::Assume-Yes "true";
+APTCONF
 GitUser="dantemugetsu"
 
 # ================== COLOR ==================
