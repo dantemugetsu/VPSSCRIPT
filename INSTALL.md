@@ -433,60 +433,80 @@ Other commands: `check-ssh`, `check-limit`, `list-member`, `quick-backup`, `back
 
 ## 7b. Reseller / license flow (optional)
 
-The installer can gate itself on a **licence allow-list**, so you can sell
-installs to customers whose VPSs you authorise. It is **off by default** —
-nothing changes unless you add entries.
+The installer can gate itself on **cryptographic per-VPS licenses**, so you can
+sell installs and authorise only the VPSs you've issued a key for. **There is no
+master key** — the only bypass is your private key, which never leaves your box.
 
-### How authorisation works
+### The model
 
-`setup-v2.sh` / `setup-v3.sh` check the VPS's **public IP** against
-`_deps/allow/ipvps.conf` in this repo:
+Each customer VPS gets a **unique license key**, an Ed25519-signed token:
 
 ```
-### Name OrderID VALIDITY IPVPS
-### Ali       ORD-001 LIFETIME 203.0.113.10
-### Abu       ORD-002 2026-12-31 198.51.100.7
+<b64url(Name|OrderID|Validity|sha256(VPS-IP))> . <b64url(signature)>
 ```
 
-`VALIDITY` is `LIFETIME` or `YYYY-MM-DD` (legacy `DD/MM/YYYY` also accepted).
-A registered, unexpired IP → install proceeds. Anything else → install aborts.
+Because the VPS's IP hash is *inside* the signed payload:
 
-### You can never lock yourself out
-
-Three independent owner bypasses, all working offline:
-
-| Bypass | How |
+| Property | Why |
 |---|---|
-| Env var | `VPSSCRIPT_OWNER=1 ./installer.sh` |
-| Marker file | `/etc/vpscript-owner` (created by **Set Admin**) |
-| Master key | the built-in key in `setup-*.sh` |
+| **Unique per IP** | the IP hash is part of the signed data |
+| **Cannot be moved** | a different VPS computes a different hash → rejected |
+| **Cannot be edited** | the signature covers the whole payload |
+| **Cannot be forged** | needs the owner private key |
+| **Works offline** | no GitHub needed at install time |
 
-If GitHub is unreachable the gate **fails closed** (correct for a reseller),
-but the three bypasses above still work.
+The **public** key is embedded in `setup-v2.sh` / `setup-v3.sh` (verify-only —
+safe to publish). The **private** key lives only at `/etc/adminip/owner.key`
+(mode 600) on your box.
 
-### Managing the list
+### Authorisation order
+
+1. **Owner box** — private key present *and* it derives to the embedded public
+   key → authorised. (No master key exists.)
+2. **License key** — supplied via `VPSSCRIPT_LICENSE=…`, cached in
+   `/etc/vpscript-license`, or typed at the prompt. Verified, then the IP hash
+   must match **this** VPS and the validity must not be expired.
+3. **Signed registry** — `_deps/allow/registry.txt` + `.sig`, fetched from
+   GitHub. The signature is checked before it is trusted, so a tampered or
+   MITM'd registry is rejected.
+
+Anything else → install aborts.
+
+### Issuing a license
 
 `menu` → `5` (SYSTEM TOOLS) → `[ 26 ] ALLOW-LIST MANAGER`, or run `add-ip`:
 
 ```
-[ 01 ] ADD IP                  register a customer VPS
-[ 02 ] DELETE IP
-[ 03 ] RENEW IP                extend validity
-[ 04 ] LIST REGISTERED IP
-[ 05 ] SET ADMIN               store your GitHub token (do this first)
+[ 01 ] ISSUE LICENSE (per-VPS KEY)      -> prints the customer's key
+[ 02 ] LIST ISSUED LICENSES             -> local record
+[ 03 ] PUBLISH SIGNED REGISTRY          -> so customers need no key at all
+[ 05 ] OWNER KEY (generate / show)      -> run this FIRST
+[ 07 ] SET GITHUB TOKEN                 -> only needed for [ 03 ]
 ```
 
-**Set Admin (05)** asks for a GitHub personal access token with **`repo`**
-scope. It is stored in `/etc/adminip/access.conf` (mode 600) and only used to
-update `_deps/allow/ipvps.conf` via the GitHub Contents API. It also creates
-`/etc/vpscript-owner`, which is what keeps your own box authorised.
+**First run:** `[ 05 ]` generates the owner keypair and prints the **public**
+key. Put that value into `OWNER_PUBKEY=` in both `setup-v2.sh` and
+`setup-v3.sh`. The private key stays on your box.
 
-### A new entry takes a few minutes to be seen
+**Then:** `[ 01 ]`, enter the customer's name / order ID / **their VPS IP** and
+a validity. You get a key to send them:
 
-The gate reads via `raw.githubusercontent.com`, which is CDN-cached. A
-just-added IP can take **~4–6 minutes** to appear. The GitHub API shows it
-immediately — if a customer says "it still says not registered", wait, don't
-debug.
+```bash
+VPSSCRIPT_LICENSE='<the key>' ./installer.sh
+```
+
+…or they paste it when the installer asks.
+
+**Optional:** `[ 03 ]` publishes a **signed** registry so customers need no key
+at all — their IP just has to be in it. Needs `[ 07 ]` (a GitHub PAT with
+`repo` scope, stored mode 600).
+
+### A new registry entry takes a few minutes to be seen
+
+The registry is fetched via `raw.githubusercontent.com`, which is CDN-cached. A
+just-published change can take **~4–6 minutes** to appear. The GitHub API shows
+it immediately — if a customer says "still not authorised", wait, don't debug.
+(License keys have no such delay — they're verified offline.)
 
 ---
 
