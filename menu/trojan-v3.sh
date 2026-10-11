@@ -732,7 +732,7 @@ echo -e "   \e[$line════════════════════
 echo -e "\1\\e[$number [ x ]\\e[m \\e[$below BACK TO MENU\\e[m"
 echo -e "   \e[$line════════════════════════════════════════\e[m"
 echo -e "\e[$line"
-read -rp "   SELECT MENU [1-12 or x] :  "  num
+if ! read -rp "   SELECT MENU [1-12 or x] :  "  num; then echo; exit 0; fi
 echo -e ""
 if [[ "$num" = "1" ]]; then
 menu1

@@ -397,7 +397,7 @@ echo -e "  \e[$below BUILD   : V2 (LEGACY XRAY CORE)\e[m"
 echo -e "  \e[$below BRAND   : TAKUMIWASHERE\e[m"
 echo -e " \e[$line╘═════════════════════════════════════════════════════════════╛\e[m"
 echo -e "\e[$below "
-read -p "   SELECT MENU [0-99 or x] :  " menu
+if ! read -p "   SELECT MENU [0-99 or x] :  " menu; then echo; exit 0; fi
 echo -e ""
 case $menu in
 1)

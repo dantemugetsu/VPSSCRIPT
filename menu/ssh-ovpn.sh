@@ -52,7 +52,7 @@ echo -e "   \e[$line════════════════════
 echo -e "   \e[$number [ x ]\e[m \e[$below BACK TO MENU\e[m"
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
 echo -e "\e[$line"
-read -p "   SELECT MENU [1-14 or x] :  "  ssh
+if ! read -p "   SELECT MENU [1-14 or x] :  "  ssh; then echo; exit 0; fi
 echo -e ""
 case $ssh in
 1)

@@ -64,7 +64,7 @@ echo -e "   \e[$line════════════════════
 echo -e "   \e[$number [ x ]\e[m \e[$below BACK TO MENU\e[m"
 echo -e "   \e[$line════════════════════════════════════════\e[m"
 echo -e "\e[$line"
-read -p "   SELECT MENU [1-25 or x] :  "  sys
+if ! read -p "   SELECT MENU [1-25 or x] :  "  sys; then echo; exit 0; fi
 echo -e ""
 case $sys in
 1)
