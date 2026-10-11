@@ -2,7 +2,7 @@
 # --- root guard: re-exec as root (system files need root) ---
 if [ "${EUID}" -ne 0 ]; then
   if command -v sudo >/dev/null 2>&1; then exec sudo -H "$0" "$@"; fi
-  echo "Run as root: sudo $0"; exit 1
+  echo "RUN AS ROOT: sudo $0"; exit 1
 fi
 
 GitUser="dantemugetsu"
@@ -61,7 +61,7 @@ echo -e   "  \e[$line═══════════════════�
 echo -e   "  \e[$back_text           \e[30m[\e[$box CREATE USER XRAY VMESS WS TLS\e[30m ]\e[1m           \e[m"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
 until [[ $user =~ ^[a-zA-Z0-9_]+$ && ${CLIENT_EXISTS} == '0' ]]; do
-		read -rp "   Username: " -e user
+		read -rp "   USERNAME: " -e user
 		CLIENT_EXISTS=$(grep -w $user /usr/local/etc/xray/config.json | wc -l)
 
 		if [[ ${CLIENT_EXISTS} == '1' ]]; then
@@ -74,10 +74,10 @@ export patchtls=/vmess
 export patchnontls=/vmess
 export uuid=$(cat /proc/sys/kernel/random/uuid)
 
-read -p "   Bug Address (Example: www.google.com) : " address
-read -p "   Bug SNI/Host (Example : m.facebook.com) : " sni
-read -p "   Input custom UUID (press Enter for random): " uuid_input
-read -p "   Expired (days) : " masaaktif
+read -p "   BUG ADDRESS (EXAMPLE: WWW.GOOGLE.COM) : " address
+read -p "   BUG SNI/HOST (EXAMPLE : M.FACEBOOK.COM) : " sni
+read -p "   INPUT CUSTOM UUID (PRESS ENTER FOR RANDOM): " uuid_input
+read -p "   EXPIRED (DAYS) : " masaaktif
 bug_addr=${address}.
 bug_addr2=$address
 if [[ $address == "" ]]; then
@@ -306,8 +306,8 @@ export patchtls=/vmess
 export patchnontls=/vmess
 export uuid=$(cat /proc/sys/kernel/random/uuid)
 
-read -p "   Bug Address (Example: www.google.com) : " address
-read -p "   Bug SNI/Host (Example : m.facebook.com) : " sni
+read -p "   BUG ADDRESS (EXAMPLE: WWW.GOOGLE.COM) : " address
+read -p "   BUG SNI/HOST (EXAMPLE : M.FACEBOOK.COM) : " sni
 
 bug_addr=${address}.
 bug_addr2=$address
@@ -507,9 +507,9 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^#vms " "/usr/local/etc/xray/config.json")
 	grep -E "^#vms " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
 		else
-			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done	
 export harini=$(grep -E "^#vms " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 4 | sed -n "${CLIENT_NUMBER}"p)
@@ -557,12 +557,12 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^#vms " "/usr/local/etc/xray/config.json")
 	grep -E "^#vms " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
 		else
-			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done
-read -p "Expired (days): " masaaktif
+read -p "EXPIRED (DAYS): " masaaktif
 export harini=$(grep -E "^#vms " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 4 | sed -n "${CLIENT_NUMBER}"p)
 export uuid=$(grep -E "^#vms " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 5 | sed -n "${CLIENT_NUMBER}"p)
 export user=$(grep -E "^#vms " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2 | sed -n "${CLIENT_NUMBER}"p)
@@ -615,9 +615,9 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^#vms " "/usr/local/etc/xray/config.json")
 	grep -E "^#vms " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
 		else
-			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done
 export patchtls=/vmess
@@ -797,7 +797,7 @@ echo -e   "  \e[$line═══════════════════�
 echo -e   "  \e[$back_text           \e[30m[\e[$box CREATE USER XRAY VLESS WS TLS\e[30m ]\e[1m           \e[m"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
 until [[ $user =~ ^[a-zA-Z0-9_]+$ && ${CLIENT_EXISTS} == '0' ]]; do
-		read -rp "   Username: " -e user
+		read -rp "   USERNAME: " -e user
 		CLIENT_EXISTS=$(grep -w $user /usr/local/etc/xray/config.json | wc -l)
 
 		if [[ ${CLIENT_EXISTS} == '1' ]]; then
@@ -812,10 +812,10 @@ export patchupgrade=/httpupgrade
 export patchxhttp=/xhttp
 export uuid=$(cat /proc/sys/kernel/random/uuid)
 
-read -p "   Bug Address (Example: www.google.com) : " address
-read -p "   Bug SNI/Host (Example : m.facebook.com) : " sni
-read -p "   Input custom UUID (press Enter for random): " uuid_input
-read -p "   Expired (days) : " masaaktif
+read -p "   BUG ADDRESS (EXAMPLE: WWW.GOOGLE.COM) : " address
+read -p "   BUG SNI/HOST (EXAMPLE : M.FACEBOOK.COM) : " sni
+read -p "   INPUT CUSTOM UUID (PRESS ENTER FOR RANDOM): " uuid_input
+read -p "   EXPIRED (DAYS) : " masaaktif
 
 bug_addr=${address}.
 bug_addr2=$address
@@ -992,8 +992,8 @@ export patchupgrade=/httpupgrade
 export patchxhttp=/xhttp
 export uuid=$(cat /proc/sys/kernel/random/uuid)
 
-read -p "   Bug Address (Example: www.google.com) : " address
-read -p "   Bug SNI/Host (Example : m.facebook.com) : " sni
+read -p "   BUG ADDRESS (EXAMPLE: WWW.GOOGLE.COM) : " address
+read -p "   BUG SNI/HOST (EXAMPLE : M.FACEBOOK.COM) : " sni
 
 bug_addr=${address}.
 bug_addr2=$address
@@ -1087,9 +1087,9 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^#vls " "/usr/local/etc/xray/config.json")
 	grep -E "^#vls " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
 		else
-			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done
 export harini=$(grep -E "^#vls " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 4 | sed -n "${CLIENT_NUMBER}"p)
@@ -1137,12 +1137,12 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^#vls " "/usr/local/etc/xray/config.json")
 	grep -E "^#vls " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
 		else
-			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done
-read -p "Expired (days): " masaaktif
+read -p "EXPIRED (DAYS): " masaaktif
 export harini=$(grep -E "^#vls " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 4 | sed -n "${CLIENT_NUMBER}"p)
 export uuid=$(grep -E "^#vls " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 5 | sed -n "${CLIENT_NUMBER}"p)
 export user=$(grep -E "^#vls " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2 | sed -n "${CLIENT_NUMBER}"p)
@@ -1203,9 +1203,9 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^#vls " "/usr/local/etc/xray/config.json")
 	grep -E "^#vls " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
 		else
-			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done
 export patchtls=/vless
@@ -1273,7 +1273,7 @@ echo -e   "  \e[$line═══════════════════�
 echo -e   "  \e[$back_text           \e[30m[\e[$box CREATE USER XRAY XTLS VISION\e[30m ]\e[1m            \e[m"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
 until [[ $user =~ ^[a-zA-Z0-9_]+$ && ${CLIENT_EXISTS} == '0' ]]; do
-		read -rp "   Username: " -e user
+		read -rp "   USERNAME: " -e user
 		CLIENT_EXISTS=$(grep -w $user /usr/local/etc/xray/config.json | wc -l)
 
 		if [[ ${CLIENT_EXISTS} == '1' ]]; then
@@ -1283,10 +1283,10 @@ until [[ $user =~ ^[a-zA-Z0-9_]+$ && ${CLIENT_EXISTS} == '0' ]]; do
 		fi
 	done
 export uuid=$(cat /proc/sys/kernel/random/uuid)
-read -p "   Bug Address (Example: www.google.com) : " address
-read -p "   Bug SNI/Host (Example : m.facebook.com) : " sni
-read -p "   Input custom UUID (press Enter for random): " uuid_input
-read -p "   Expired (days) : " masaaktif
+read -p "   BUG ADDRESS (EXAMPLE: WWW.GOOGLE.COM) : " address
+read -p "   BUG SNI/HOST (EXAMPLE : M.FACEBOOK.COM) : " sni
+read -p "   INPUT CUSTOM UUID (PRESS ENTER FOR RANDOM): " uuid_input
+read -p "   EXPIRED (DAYS) : " masaaktif
 bug_addr=${address}.
 bug_addr2=$address
 if [[ $address == "" ]]; then
@@ -1407,8 +1407,8 @@ export exp=$(date -d "$masaaktif days" +"%Y-%m-%d")
 export user=Trial`</dev/urandom tr -dc X-Z0-9 | head -c4`
 export uuid=$(cat /proc/sys/kernel/random/uuid)
 
-read -p "   Bug Address (Example: www.google.com) : " address
-read -p "   Bug SNI/Host (Example : m.facebook.com) : " sni
+read -p "   BUG ADDRESS (EXAMPLE: WWW.GOOGLE.COM) : " address
+read -p "   BUG SNI/HOST (EXAMPLE : M.FACEBOOK.COM) : " sni
 
 bug_addr=${address}.
 bug_addr2=$address
@@ -1474,9 +1474,9 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^#vxtls " "/usr/local/etc/xray/config.json")
 	grep -E "^#vxtls " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
 		else
-			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done
 export harini=$(grep -E "^#vxtls " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 4 | sed -n "${CLIENT_NUMBER}"p)
@@ -1519,12 +1519,12 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^#vxtls " "/usr/local/etc/xray/config.json")
 	grep -E "^#vxtls " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
 		else
-			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done
-read -p "Expired (days): " masaaktif
+read -p "EXPIRED (DAYS): " masaaktif
 export harini=$(grep -E "^#vxtls " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 4 | sed -n "${CLIENT_NUMBER}"p)
 export uuid=$(grep -E "^#vxtls " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 5 | sed -n "${CLIENT_NUMBER}"p)
 export user=$(grep -E "^#vxtls " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2 | sed -n "${CLIENT_NUMBER}"p)
@@ -1574,9 +1574,9 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^#vxtls " "/usr/local/etc/xray/config.json")
 	grep -E "^#vxtls " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
 		else
-			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done
 export user=$(grep -E "^#vxtls " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2 | sed -n "${CLIENT_NUMBER}"p)
@@ -1619,38 +1619,38 @@ echo -e ""
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
 echo -e "   \e[$back_text    \e[30m[\e[$box PANEL XRAY VMESS WEBSOCKET TLS\e[30m ]\e[1m    \e[m"
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
-echo -e "    \e[$number [ 1 ]\e[m \e[$below Create Vmess Websocket Account\e[m"
-echo -e "    \e[$number [ 2 ]\e[m \e[$below Trial User Vmess Websocket\e[m"
-echo -e "    \e[$number [ 3 ]\e[m \e[$below Delete Vmess Websocket Account\e[m"
-echo -e "    \e[$number [ 4 ]\e[m \e[$below Renew Vmess Websocket Account\e[m"
-echo -e "    \e[$number [ 5 ]\e[m \e[$below Show Config Vmess Account\e[m"
+echo -e "    \e[$number [ 1 ]\e[m \e[$below CREATE VMESS WEBSOCKET ACCOUNT\e[m"
+echo -e "    \e[$number [ 2 ]\e[m \e[$below TRIAL USER VMESS WEBSOCKET\e[m"
+echo -e "    \e[$number [ 3 ]\e[m \e[$below DELETE VMESS WEBSOCKET ACCOUNT\e[m"
+echo -e "    \e[$number [ 4 ]\e[m \e[$below RENEW VMESS WEBSOCKET ACCOUNT\e[m"
+echo -e "    \e[$number [ 5 ]\e[m \e[$below SHOW CONFIG VMESS ACCOUNT\e[m"
 echo -e ""
-echo -e "   \e[$number    >> Total :\e[m \e[$below ${total1} Client\e[m"
+echo -e "   \e[$number    >> Total :\e[m \e[$below ${total1} CLIENT\e[m"
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
 echo -e "   \e[$back_text    \e[30m[\e[$box PANEL XRAY VLESS WEBSOCKET TLS\e[30m ]\e[1m    \e[m"
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
-echo -e "    \e[$number [ 6 ]\e[m \e[$below Create Vless Websocket Account\e[m"
-echo -e "    \e[$number [ 7 ]\e[m \e[$below Trial User Vless Websocket\e[m"
-echo -e "    \e[$number [ 8 ]\e[m \e[$below Deleting Vless Websocket Account\e[m"
-echo -e "    \e[$number [ 9 ]\e[m \e[$below Renew Vless Websocket Account\e[m"
-echo -e "    \e[$number [ 10 ]\e[m \e[$below Show Config Vless Account\e[m"
+echo -e "    \e[$number [ 6 ]\e[m \e[$below CREATE VLESS WEBSOCKET ACCOUNT\e[m"
+echo -e "    \e[$number [ 7 ]\e[m \e[$below TRIAL USER VLESS WEBSOCKET\e[m"
+echo -e "    \e[$number [ 8 ]\e[m \e[$below DELETING VLESS WEBSOCKET ACCOUNT\e[m"
+echo -e "    \e[$number [ 9 ]\e[m \e[$below RENEW VLESS WEBSOCKET ACCOUNT\e[m"
+echo -e "    \e[$number [ 10 ]\e[m \e[$below SHOW CONFIG VLESS ACCOUNT\e[m"
 echo -e ""
-echo -e "   \e[$number    >> Total :\e[m \e[$below ${total2} Client\e[m"
+echo -e "   \e[$number    >> Total :\e[m \e[$below ${total2} CLIENT\e[m"
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
 echo -e "   \e[$back_text    \e[30m[\e[$box PANEL XRAY VLESS XTLS VISION\e[30m ]\e[1m      \e[m"
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
-echo -e "    \e[$number [ 11 ]\e[m \e[$below Create Xray VLess Xtls Account\e[m"
-echo -e "    \e[$number [ 12 ]\e[m \e[$below Trial User Vless Xtls\e[m"
-echo -e "    \e[$number [ 13 ]\e[m \e[$below Deleting Xray Vless Xtls Account\e[m"
-echo -e "    \e[$number [ 14 ]\e[m \e[$below Renew Xray Vless Xtls Account\e[m"
-echo -e "    \e[$number [ 15 ]\e[m \e[$below Show Config Vless Xtls Account\e[m"
+echo -e "    \e[$number [ 11 ]\e[m \e[$below CREATE XRAY VLESS XTLS ACCOUNT\e[m"
+echo -e "    \e[$number [ 12 ]\e[m \e[$below TRIAL USER VLESS XTLS\e[m"
+echo -e "    \e[$number [ 13 ]\e[m \e[$below DELETING XRAY VLESS XTLS ACCOUNT\e[m"
+echo -e "    \e[$number [ 14 ]\e[m \e[$below RENEW XRAY VLESS XTLS ACCOUNT\e[m"
+echo -e "    \e[$number [ 15 ]\e[m \e[$below SHOW CONFIG VLESS XTLS ACCOUNT\e[m"
 echo -e ""
-echo -e "   \e[$number    >> Total :\e[m \e[$below ${total3} Client\e[m"
+echo -e "   \e[$number    >> Total :\e[m \e[$below ${total3} CLIENT\e[m"
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
 echo -e "   \e[$number [ x ]\e[m \e[$below BACK TO MENU\e[m"
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
 echo -e "\e[$line"
-if ! read -rp "   SELECT MENU [1-18 or x] :  "  num; then echo; exit 0; fi
+if ! read -rp "   SELECT MENU [1-18 OR X] :  "  num; then echo; exit 0; fi
 echo -e ""
 if [[ "$num" = "1" ]]; then
 menu1

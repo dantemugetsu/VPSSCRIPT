@@ -2,7 +2,7 @@
 # --- root guard: re-exec as root (system files need root) ---
 if [ "${EUID}" -ne 0 ]; then
   if command -v sudo >/dev/null 2>&1; then exec sudo -H "$0" "$@"; fi
-  echo "Run as root: sudo $0"; exit 1
+  echo "RUN AS ROOT: sudo $0"; exit 1
 fi
 
 GitUser="dantemugetsu"
@@ -32,9 +32,9 @@ echo -e ""
 echo -e "   \e[$line════════════════════════════════════════\e[m"
 echo -e "   \e[$back_text            \e[30m═[\e[$box PANEL DOMAIN\e[30m ]═          \e[m"
 echo -e "   \e[$line════════════════════════════════════════\e[m"
-echo -e "   \e[$number [ 1 ]\e[m \e[$below Add ID Cloudflare\e[m"
-echo -e "   \e[$number [ 2 ]\e[m \e[$below Add Subdomain\e[m"
-echo -e "   \e[$number [ 3 ]\e[m \e[$below Pointing IP\e[m"
+echo -e "   \e[$number [ 1 ]\e[m \e[$below ADD ID CLOUDFLARE\e[m"
+echo -e "   \e[$number [ 2 ]\e[m \e[$below ADD SUBDOMAIN\e[m"
+echo -e "   \e[$number [ 3 ]\e[m \e[$below POINTING IP\e[m"
 echo -e ""
 echo -e "   \e[$line════════════════════════════════════════\e[m"
 echo -e "\1\\e[$number [ x ]\\e[m \\e[$below BACK TO MENU\\e[m"

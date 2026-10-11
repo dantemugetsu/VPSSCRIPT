@@ -2,7 +2,7 @@
 # --- root guard: re-exec as root (system files need root) ---
 if [ "${EUID}" -ne 0 ]; then
   if command -v sudo >/dev/null 2>&1; then exec sudo -H "$0" "$@"; fi
-  echo "Run as root: sudo $0"; exit 1
+  echo "RUN AS ROOT: sudo $0"; exit 1
 fi
 
 
@@ -260,7 +260,7 @@ tmon="$(first_nonempty "$(trim "$tmon")")"
 clear
 echo -e "\e[$banner_colour"
 figlet -f $ascii "$banner"
-echo -e "\e[$text VPS Script"
+echo -e "\e[$text VPS SCRIPT"
 GREEN=$'\e[32m'
 RED=$'\e[31m'
 NC=$'\e[0m'
@@ -392,12 +392,12 @@ echo -e " \e[$line╘═══════════════════�
 echo -e ""
 echo -e "  \e[$number [ x ]\e[m  \e[$below EXIT\e[m"
 echo -e " \e[$line╒═════════════════════════════════════════════════════════════╕\e[m"
-echo -e "  \e[$below Script  : SSH / XRAY / WEBSOCKET MULTIPORT\e[m"
+echo -e "  \e[$below SCRIPT  : SSH / XRAY / WEBSOCKET MULTIPORT\e[m"
 echo -e "  \e[$below BUILD   : V2 (LEGACY XRAY CORE)\e[m"
 echo -e "  \e[$below BRAND   : TAKUMIWASHERE\e[m"
 echo -e " \e[$line╘═════════════════════════════════════════════════════════════╛\e[m"
 echo -e "\e[$below "
-if ! read -p "   SELECT MENU [0-99 or x] :  " menu; then echo; exit 0; fi
+if ! read -p "   SELECT MENU [0-99 OR X] :  " menu; then echo; exit 0; fi
 echo -e ""
 case $menu in
 1)

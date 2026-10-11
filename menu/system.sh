@@ -2,7 +2,7 @@
 # --- root guard: re-exec as root (system files need root) ---
 if [ "${EUID}" -ne 0 ]; then
   if command -v sudo >/dev/null 2>&1; then exec sudo -H "$0" "$@"; fi
-  echo "Run as root: sudo $0"; exit 1
+  echo "RUN AS ROOT: sudo $0"; exit 1
 fi
 
 GitUser="dantemugetsu"
@@ -11,7 +11,7 @@ MYIP=$(curl -sS ipv4.icanhazip.com)
 MYIP=$(curl -s ipinfo.io/ip )
 MYIP=$(curl -sS ipv4.icanhazip.com)
 MYIP=$(curl -sS ifconfig.me )
-echo -e "\e[32mloading...\e[0m"
+echo -e "\e[32mLOADING...\e[0m"
 
 clear
 # LINE COLOUR
@@ -34,37 +34,37 @@ echo -e ""
 echo -e "   \e[$line════════════════════════════════════════\e[m"
 echo -e "   \e[$back_text             \e[30m═[\e[$box SYSTEM MENU\e[30m ]═          \e[m"
 echo -e "   \e[$line════════════════════════════════════════\e[m"
-echo -e "   \e[$number [ 1 ]\e[m \e[$below Add New Subdomain\e[m"
-echo -e "   \e[$number [ 2 ]\e[m \e[$below Renew Cert Xray Core\e[m"
-echo -e "   \e[$number [ 3 ]\e[m \e[$below DNS Changer\e[m"
-echo -e "   \e[$number [ 4 ]\e[m \e[$below Netflix Checker\e[m"
-echo -e "   \e[$number [ 5 ]\e[m \e[$below Panel Domain\e[m"
-echo -e "   \e[$number [ 6 ]\e[m \e[$below Backup Vps\e[m"
-echo -e "   \e[$number [ 7 ]\e[m \e[$below Restore Vps\e[m"
-echo -e "   \e[$number [ 8 ]\e[m \e[$below Install Webmin\e[m"
-echo -e "   \e[$number [ 9 ]\e[m \e[$below Setup Speed VPS\e[m"
-echo -e "   \e[$number [ 10 ]\e[m \e[$below Restart VPN\e[m"
-echo -e "   \e[$number [ 11 ]\e[m \e[$below Speedtest VPS\e[m"
-echo -e "   \e[$number [ 12 ]\e[m \e[$below Xray Version\e[m"
-echo -e "   \e[$number [ 13 ]\e[m \e[$below BBR Manager\e[m"
-echo -e "   \e[$number [ 14 ]\e[m \e[$below ON/OF Auto Reboot\e[m"
-echo -e "   \e[$number [ 15 ]\e[m \e[$below Change Password VPS\e[m"
-echo -e "   \e[$number [ 16 ]\e[m \e[$below Check CPU & RAM\e[m"
-echo -e "   \e[$number [ 17 ]\e[m \e[$below Change Banner SSH\e[m"
-echo -e "   \e[$number [ 18 ]\e[m \e[$below SwapRAM Menu \e[m"
-echo -e "   \e[$number [ 19 ]\e[m \e[$below ipv4/v6 Menu \e[m"
+echo -e "   \e[$number [ 1 ]\e[m \e[$below ADD NEW SUBDOMAIN\e[m"
+echo -e "   \e[$number [ 2 ]\e[m \e[$below RENEW CERT XRAY CORE\e[m"
+echo -e "   \e[$number [ 3 ]\e[m \e[$below DNS CHANGER\e[m"
+echo -e "   \e[$number [ 4 ]\e[m \e[$below NETFLIX CHECKER\e[m"
+echo -e "   \e[$number [ 5 ]\e[m \e[$below PANEL DOMAIN\e[m"
+echo -e "   \e[$number [ 6 ]\e[m \e[$below BACKUP VPS\e[m"
+echo -e "   \e[$number [ 7 ]\e[m \e[$below RESTORE VPS\e[m"
+echo -e "   \e[$number [ 8 ]\e[m \e[$below INSTALL WEBMIN\e[m"
+echo -e "   \e[$number [ 9 ]\e[m \e[$below SETUP SPEED VPS\e[m"
+echo -e "   \e[$number [ 10 ]\e[m \e[$below RESTART VPN\e[m"
+echo -e "   \e[$number [ 11 ]\e[m \e[$below SPEEDTEST VPS\e[m"
+echo -e "   \e[$number [ 12 ]\e[m \e[$below XRAY VERSION\e[m"
+echo -e "   \e[$number [ 13 ]\e[m \e[$below BBR MANAGER\e[m"
+echo -e "   \e[$number [ 14 ]\e[m \e[$below ON/OF AUTO REBOOT\e[m"
+echo -e "   \e[$number [ 15 ]\e[m \e[$below CHANGE PASSWORD VPS\e[m"
+echo -e "   \e[$number [ 16 ]\e[m \e[$below CHECK CPU & RAM\e[m"
+echo -e "   \e[$number [ 17 ]\e[m \e[$below CHANGE BANNER SSH\e[m"
+echo -e "   \e[$number [ 18 ]\e[m \e[$below SWAPRAM MENU \e[m"
+echo -e "   \e[$number [ 19 ]\e[m \e[$below IPV4/V6 MENU \e[m"
 echo -e ""
-echo -e "   \e[$number [ 20 ]\e[m \e[$below Warp Installer Menu\e[m"
-echo -e "   \e[$number [ 21 ]\e[m \e[$below Install Noobzvpns\e[m"
-echo -e "   \e[$number [ 22 ]\e[m \e[$below Uninstall Noobzvpns\e[m"
-echo -e "   \e[$number [ 23 ]\e[m \e[$below Install UDP Custom\e[m"
-echo -e "   \e[$number [ 24 ]\e[m \e[$below Xray-core Changer\e[m"
-echo -e "   \e[$number [ 25 ]\e[m \e[$below Change Dropbear Version\e[m"
+echo -e "   \e[$number [ 20 ]\e[m \e[$below WARP INSTALLER MENU\e[m"
+echo -e "   \e[$number [ 21 ]\e[m \e[$below INSTALL NOOBZVPNS\e[m"
+echo -e "   \e[$number [ 22 ]\e[m \e[$below UNINSTALL NOOBZVPNS\e[m"
+echo -e "   \e[$number [ 23 ]\e[m \e[$below INSTALL UDP CUSTOM\e[m"
+echo -e "   \e[$number [ 24 ]\e[m \e[$below XRAY-CORE CHANGER\e[m"
+echo -e "   \e[$number [ 25 ]\e[m \e[$below CHANGE DROPBEAR VERSION\e[m"
 echo -e "   \e[$line════════════════════════════════════════\e[m"
 echo -e "   \e[$number [ x ]\e[m \e[$below BACK TO MENU\e[m"
 echo -e "   \e[$line════════════════════════════════════════\e[m"
 echo -e "\e[$line"
-if ! read -p "   SELECT MENU [1-25 or x] :  "  sys; then echo; exit 0; fi
+if ! read -p "   SELECT MENU [1-25 OR X] :  "  sys; then echo; exit 0; fi
 echo -e ""
 case $sys in
 1)

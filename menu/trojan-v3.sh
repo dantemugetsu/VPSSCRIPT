@@ -2,7 +2,7 @@
 # --- root guard: re-exec as root (system files need root) ---
 if [ "${EUID}" -ne 0 ]; then
   if command -v sudo >/dev/null 2>&1; then exec sudo -H "$0" "$@"; fi
-  echo "Run as root: sudo $0"; exit 1
+  echo "RUN AS ROOT: sudo $0"; exit 1
 fi
 
 GitUser="dantemugetsu"
@@ -59,7 +59,7 @@ echo -e   "  \e[$line═══════════════════�
 echo -e   "  \e[$back_text          \e[30m[\e[$box CREATE USER XRAY TROJAN TCP TLS\e[30m ]\e[1m          \e[m"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
 until [[ $user =~ ^[a-zA-Z0-9_]+$ && ${user_EXISTS} == '0' ]]; do
-		read -rp "   Password: " -e user
+		read -rp "   PASSWORD: " -e user
 		user_EXISTS=$(grep -w $user /usr/local/etc/xray/akunxtr.conf | wc -l)
 
 		if [[ ${user_EXISTS} == '1' ]]; then
@@ -68,9 +68,9 @@ until [[ $user =~ ^[a-zA-Z0-9_]+$ && ${user_EXISTS} == '0' ]]; do
 			exit 1
 		fi
 	done
-read -p "   Bug Address (Example: www.google.com) : " address
-read -p "   Bug SNI (Example : m.facebook.com) : " sni
-read -p "   Expired (days) : " masaaktif
+read -p "   BUG ADDRESS (EXAMPLE: WWW.GOOGLE.COM) : " address
+read -p "   BUG SNI (EXAMPLE : M.FACEBOOK.COM) : " sni
+read -p "   EXPIRED (DAYS) : " masaaktif
 
 export bug_addr=${address}.
 export bug_addr2=$address
@@ -157,8 +157,8 @@ export exp=$(date -d "$masaaktif days" +"%Y-%m-%d")
 # // Make Random Username 
 export user=Trial`</dev/urandom tr -dc X-Z0-9 | head -c4`
 
-read -p "   Bug Address (Example: www.google.com) : " address
-read -p "   Bug SNI (Example : m.facebook.com) : " sni
+read -p "   BUG ADDRESS (EXAMPLE: WWW.GOOGLE.COM) : " address
+read -p "   BUG SNI (EXAMPLE : M.FACEBOOK.COM) : " sni
 
 bug_addr=${address}.
 bug_addr2=$address
@@ -220,9 +220,9 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/usr/local/etc/xray/akunxtr.conf")
 	grep -E "^### " "/usr/local/etc/xray/akunxtr.conf" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
 		else
-			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done
 export harini=$(grep -E "^### " "/usr/local/etc/xray/akunxtr.conf" | cut -d ' ' -f 4 | sed -n "${CLIENT_NUMBER}"p)
@@ -267,12 +267,12 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/usr/local/etc/xray/akunxtr.conf")
 	grep -E "^### " "/usr/local/etc/xray/akunxtr.conf" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
 		else
-			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done
-read -p "Expired (days): " masaaktif
+read -p "EXPIRED (DAYS): " masaaktif
 
 export harini=$(grep -E "^### " "/usr/local/etc/xray/akunxtr.conf" | cut -d ' ' -f 4 | sed -n "${CLIENT_NUMBER}"p)
 export uuid=$(grep -E "^### " "/usr/local/etc/xray/akunxtr.conf" | cut -d ' ' -f 5 | sed -n "${CLIENT_NUMBER}"p)
@@ -325,9 +325,9 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/usr/local/etc/xray/akunxtr.conf")
 	grep -E "^### " "/usr/local/etc/xray/akunxtr.conf" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
 		else
-			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done
 export patch=/xray
@@ -370,7 +370,7 @@ echo -e   "  \e[$line═══════════════════�
 echo -e   "  \e[$back_text          \e[30m[\e[$box CREATE USER XRAY TROJAN WS TLS\e[30m ]\e[1m          \e[m"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
 until [[ $user =~ ^[a-zA-Z0-9_]+$ && ${user_EXISTS} == '0' ]]; do
-		read -rp "   Password: " -e user
+		read -rp "   PASSWORD: " -e user
 		user_EXISTS=$(grep -w $user /usr/local/etc/xray/config.json | wc -l)
 
 		if [[ ${user_EXISTS} == '1' ]]; then
@@ -381,9 +381,9 @@ until [[ $user =~ ^[a-zA-Z0-9_]+$ && ${user_EXISTS} == '0' ]]; do
 	done
 export patchtls=/trojanwstls
 export patchnone=/trojanwsntls
-read -p "   Bug Address (Example: www.google.com) : " address
-read -p "   Bug SNI (Example : m.facebook.com) : " sni
-read -p "   Expired (days) : " masaaktif
+read -p "   BUG ADDRESS (EXAMPLE: WWW.GOOGLE.COM) : " address
+read -p "   BUG SNI (EXAMPLE : M.FACEBOOK.COM) : " sni
+read -p "   EXPIRED (DAYS) : " masaaktif
 
 bug_addr=${address}.
 bug_addr2=$address
@@ -487,8 +487,8 @@ export user=Trial`</dev/urandom tr -dc X-Z0-9 | head -c4`
 export patchtls=/trojanwstls
 export patchnone=/trojanwsntls
 
-read -p "   Bug Address (Example: www.google.com) : " address
-read -p "   Bug SNI (Example : m.facebook.com) : " sni
+read -p "   BUG ADDRESS (EXAMPLE: WWW.GOOGLE.COM) : " address
+read -p "   BUG SNI (EXAMPLE : M.FACEBOOK.COM) : " sni
 
 bug_addr=${address}.
 bug_addr2=$address
@@ -558,9 +558,9 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^#trws " "/usr/local/etc/xray/config.json")
 	grep -E "^#trws " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
 		else
-			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done
 export harini=$(grep -E "^#trws " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 4 | sed -n "${CLIENT_NUMBER}"p)
@@ -606,12 +606,12 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^#trws " "/usr/local/etc/xray/config.json")
 	grep -E "^#trws " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
 		else
-			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done
-read -p "Expired (days): " masaaktif
+read -p "EXPIRED (DAYS): " masaaktif
 export harini=$(grep -E "^#trws " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 4 | sed -n "${CLIENT_NUMBER}"p)
 export uuid=$(grep -E "^#trws " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 5 | sed -n "${CLIENT_NUMBER}"p)
 export user=$(grep -E "^#trws " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2 | sed -n "${CLIENT_NUMBER}"p)
@@ -661,9 +661,9 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^#trws " "/usr/local/etc/xray/config.json")
 	grep -E "^#trws " "/usr/local/etc/xray/config.json" | cut -d ' ' -f 2-3 | nl -s ') '
 	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
 		else
-			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done
 export patchtls=/trojanwstls
@@ -711,28 +711,28 @@ echo -e ""
 echo -e "   \e[$line════════════════════════════════════════\e[m"
 echo -e "   \e[$back_text          \e[30m═[\e[$box TROJAN TCP TLS\e[30m ]═          \e[m"
 echo -e "   \e[$line════════════════════════════════════════\e[m"
-echo -e "   \e[$number [ 1 ]\e[m \e[$below Create Trojan TCP TLS Account\e[m"
-echo -e "   \e[$number [ 2 ]\e[m \e[$below Trial Trojan TCP TLS Account\e[m"
-echo -e "   \e[$number [ 3 ]\e[m \e[$below Deleting Trojan TCP TLS Account\e[m"
-echo -e "   \e[$number [ 4 ]\e[m \e[$below Renew Xray Trojan TCP TLS Account\e[m"
-echo -e "   \e[$number [ 5 ]\e[m \e[$below Show Config Trojan TCP TLS Account\e[m"
+echo -e "   \e[$number [ 1 ]\e[m \e[$below CREATE TROJAN TCP TLS ACCOUNT\e[m"
+echo -e "   \e[$number [ 2 ]\e[m \e[$below TRIAL TROJAN TCP TLS ACCOUNT\e[m"
+echo -e "   \e[$number [ 3 ]\e[m \e[$below DELETING TROJAN TCP TLS ACCOUNT\e[m"
+echo -e "   \e[$number [ 4 ]\e[m \e[$below RENEW XRAY TROJAN TCP TLS ACCOUNT\e[m"
+echo -e "   \e[$number [ 5 ]\e[m \e[$below SHOW CONFIG TROJAN TCP TLS ACCOUNT\e[m"
 echo -e ""
-echo -e "   \e[$number    >> Total :\e[m \e[$below ${total} Client\e[m"
+echo -e "   \e[$number    >> Total :\e[m \e[$below ${total} CLIENT\e[m"
 echo -e "   \e[$line════════════════════════════════════════\e[m"
 echo -e "   \e[$back_text          \e[30m═[\e[$box TROJAN WS TLS\e[30m ]═           \e[m"
 echo -e "   \e[$line════════════════════════════════════════\e[m"
-echo -e "   \e[$number [ 6 ]\e[m \e[$below Create Trojan WS TLS Account\e[m"
-echo -e "   \e[$number [ 7 ]\e[m \e[$below Trial Trojan WS TLS Account\e[m"
-echo -e "   \e[$number [ 8 ]\e[m \e[$below Deleting Trojan WS TLS Account\e[m"
-echo -e "   \e[$number [ 9 ]\e[m \e[$below Renew Xray Trojan WS TLS Account\e[m"
-echo -e "   \e[$number [ 10 ]\e[m \e[$below Show Config Trojan WS TLS Account\e[m"
+echo -e "   \e[$number [ 6 ]\e[m \e[$below CREATE TROJAN WS TLS ACCOUNT\e[m"
+echo -e "   \e[$number [ 7 ]\e[m \e[$below TRIAL TROJAN WS TLS ACCOUNT\e[m"
+echo -e "   \e[$number [ 8 ]\e[m \e[$below DELETING TROJAN WS TLS ACCOUNT\e[m"
+echo -e "   \e[$number [ 9 ]\e[m \e[$below RENEW XRAY TROJAN WS TLS ACCOUNT\e[m"
+echo -e "   \e[$number [ 10 ]\e[m \e[$below SHOW CONFIG TROJAN WS TLS ACCOUNT\e[m"
 echo -e ""
-echo -e "   \e[$number    >> Total :\e[m \e[$below ${total2} Client\e[m"
+echo -e "   \e[$number    >> Total :\e[m \e[$below ${total2} CLIENT\e[m"
 echo -e "   \e[$line════════════════════════════════════════\e[m"
 echo -e "\1\\e[$number [ x ]\\e[m \\e[$below BACK TO MENU\\e[m"
 echo -e "   \e[$line════════════════════════════════════════\e[m"
 echo -e "\e[$line"
-if ! read -rp "   SELECT MENU [1-12 or x] :  "  num; then echo; exit 0; fi
+if ! read -rp "   SELECT MENU [1-12 OR X] :  "  num; then echo; exit 0; fi
 echo -e ""
 if [[ "$num" = "1" ]]; then
 menu1

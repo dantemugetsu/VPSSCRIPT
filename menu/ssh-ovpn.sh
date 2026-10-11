@@ -2,7 +2,7 @@
 # --- root guard: re-exec as root (system files need root) ---
 if [ "${EUID}" -ne 0 ]; then
   if command -v sudo >/dev/null 2>&1; then exec sudo -H "$0" "$@"; fi
-  echo "Run as root: sudo $0"; exit 1
+  echo "RUN AS ROOT: sudo $0"; exit 1
 fi
 
 GitUser="dantemugetsu"
@@ -30,29 +30,29 @@ MYIP=$(wget -qO- ifconfig.me/ip);
 
 echo -e ""
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
-echo -e "   \e[$back_text         \e[30m═[\e[$box SSH & OpenVPN Menu\e[30m ]═         \e[m"
+echo -e "   \e[$back_text         \e[30m═[\e[$box SSH & OPENVPN MENU\e[30m ]═         \e[m"
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
-echo -e "    \e[$number [ 1 ]\e[m \e[$below Create SSH & OpenVPN Account\e[m"
-echo -e "    \e[$number [ 2 ]\e[m \e[$below Trial Account SSH & OpenVPN\e[m"
-echo -e "    \e[$number [ 3 ]\e[m \e[$below Renew SSH & OpenVPN Account\e[m"
-echo -e "    \e[$number [ 4 ]\e[m \e[$below Delete SSH & OpenVPN Account\e[m"
-echo -e "    \e[$number [ 5 ]\e[m \e[$below Check User Login SSH & OpenVPN\e[m"
-echo -e "    \e[$number [ 6 ]\e[m \e[$below List Member SSH & OpenVPN\e[m"
-echo -e "    \e[$number [ 7 ]\e[m \e[$below Delete User Expired SSH & OpenVPN\e[m"
-echo -e "    \e[$number [ 8 ]\e[m \e[$below Set up Autokill SSH\e[m"
-echo -e "    \e[$number [ 9 ]\e[m \e[$below Cek Users Who Do Multi Login SSH\e[m"
-echo -e "    \e[$number [ 10 ]\e[m \e[$below User List\e[m"
-echo -e "    \e[$number [ 11 ]\e[m \e[$below User Lock\e[m"
-echo -e "    \e[$number [ 12 ]\e[m \e[$below User Unlock\e[m"
-echo -e "    \e[$number [ 13 ]\e[m \e[$below User Password\e[m"
-echo -e "    \e[$number [ 14 ]\e[m \e[$below Restart Service Dropbear, Squid3,\e[m"
-echo -e "          \e[$below OpenVPN & SSH\e[m"
+echo -e "    \e[$number [ 1 ]\e[m \e[$below CREATE SSH & OPENVPN ACCOUNT\e[m"
+echo -e "    \e[$number [ 2 ]\e[m \e[$below TRIAL ACCOUNT SSH & OPENVPN\e[m"
+echo -e "    \e[$number [ 3 ]\e[m \e[$below RENEW SSH & OPENVPN ACCOUNT\e[m"
+echo -e "    \e[$number [ 4 ]\e[m \e[$below DELETE SSH & OPENVPN ACCOUNT\e[m"
+echo -e "    \e[$number [ 5 ]\e[m \e[$below CHECK USER LOGIN SSH & OPENVPN\e[m"
+echo -e "    \e[$number [ 6 ]\e[m \e[$below LIST MEMBER SSH & OPENVPN\e[m"
+echo -e "    \e[$number [ 7 ]\e[m \e[$below DELETE USER EXPIRED SSH & OPENVPN\e[m"
+echo -e "    \e[$number [ 8 ]\e[m \e[$below SET UP AUTOKILL SSH\e[m"
+echo -e "    \e[$number [ 9 ]\e[m \e[$below CEK USERS WHO DO MULTI LOGIN SSH\e[m"
+echo -e "    \e[$number [ 10 ]\e[m \e[$below USER LIST\e[m"
+echo -e "    \e[$number [ 11 ]\e[m \e[$below USER LOCK\e[m"
+echo -e "    \e[$number [ 12 ]\e[m \e[$below USER UNLOCK\e[m"
+echo -e "    \e[$number [ 13 ]\e[m \e[$below USER PASSWORD\e[m"
+echo -e "    \e[$number [ 14 ]\e[m \e[$below RESTART SERVICE DROPBEAR, SQUID3,\e[m"
+echo -e "          \e[$below OPENVPN & SSH\e[m"
 echo -e ""
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
 echo -e "   \e[$number [ x ]\e[m \e[$below BACK TO MENU\e[m"
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
 echo -e "\e[$line"
-if ! read -p "   SELECT MENU [1-14 or x] :  "  ssh; then echo; exit 0; fi
+if ! read -p "   SELECT MENU [1-14 OR X] :  "  ssh; then echo; exit 0; fi
 echo -e ""
 case $ssh in
 1)

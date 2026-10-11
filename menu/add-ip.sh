@@ -2,7 +2,7 @@
 # --- root guard: re-exec as root (system files need root) ---
 if [ "${EUID}" -ne 0 ]; then
   if command -v sudo >/dev/null 2>&1; then exec sudo -H "$0" "$@"; fi
-  echo "Run as root: sudo $0"; exit 1
+  echo "RUN AS ROOT: sudo $0"; exit 1
 fi
 
 # Color Validation
@@ -67,26 +67,26 @@ echo -e "[ ${Lyellow}INFO${NC} ] Checking the IPVPS if Already Registered"
 sleep 1
 cek=$( curl -sS https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/_deps/allow/ipvps.conf | awk '{print $5}' | grep $daftar )
 if [[ $daftar = $cek ]]; then
-echo -e "\e[1;31m The IP VPS Has Been Registered\e[0m"
+echo -e "\e[1;31m THE IP VPS HAS BEEN REGISTERED\e[0m"
 sleep 2
 exit
 else
-echo -e "IP VPS is not Registered, Permission Accepted.."
+echo -e "IP VPS IS NOT REGISTERED - PERMISSION ACCEPTED."
 fi
 clear
-echo -e "1) Lifetime ID" 
-echo -e "2) Sewa / Had Masa"
+echo -e "1) LIFETIME ID" 
+echo -e "2) RENT / LIMITED TIME"
 read -p "   SELECT MENU :  " jawab
 if [ "$jawab" = "1" ]; then
-read -p " - Client Name: " client 
-read -p " - Client ID : " id
+read -p " - CLIENT NAME : " client 
+read -p " - CLIENT ID   : " id
 exp=LIFETIME
 hariini=`date -d "0 days" +"%Y-%m-%d"`
 echo "### $client $id $exp $daftar" >> /root/data
 elif [ "$jawab" = "2" ]; then
-read -p " - Client Name: " client 
-read -p " - Client ID : " id
-read -p " - masa aktif : " exp
+read -p " - CLIENT NAME : " client 
+read -p " - CLIENT ID   : " id
+read -p " - ACTIVE DAYS : " exp
 exp=`date -d "$exp days" +"%Y-%m-%d"`
 hariini=`date -d "0 days" +"%Y-%m-%d"`
 echo "### $client $id $exp $daftar" >> /root/data
@@ -250,12 +250,12 @@ NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/root/allow/ipvps.conf")
  grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 2-5 | nl -s '. '
   	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
 		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
 		else
-			read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
 		fi
 	done
-read -p "Expired (days): " masaaktif
+read -p "EXPIRED (DAYS): " masaaktif
 user=$(grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 5 | sed -n "${CLIENT_NUMBER}"p)
 exp=$(grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 4 | sed -n "${CLIENT_NUMBER}"p)
 client=$(grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 2 | sed -n "${CLIENT_NUMBER}"p)
@@ -331,19 +331,19 @@ echo -e "\033[0;34m----------------------------------------\033[0m"
 echo -e "\E[44;1;39m    MENU ADD IP MULTIPORT WS  \E[0m"
 echo -e "\033[0;34m----------------------------------------\033[0m"
 echo ""
-echo -e " [\e[36m 01 \e[0m] Add IP"
-echo -e " [\e[36m 02 \e[0m] Delete IP"
-echo -e " [\e[36m 03 \e[0m] Renew IP"
-echo -e " [\e[36m 04 \e[0m] Check User IP"
-echo -e " [\e[36m 05 \e[0m] Set Admin IP VPS"
+echo -e " [\e[36m 01 \e[0m] ADD IP"
+echo -e " [\e[36m 02 \e[0m] DELETE IP"
+echo -e " [\e[36m 03 \e[0m] RENEW IP"
+echo -e " [\e[36m 04 \e[0m] CHECK USER IP"
+echo -e " [\e[36m 05 \e[0m] SET ADMIN IP VPS"
 echo ""
-echo -e "Press x or [ Ctrl+C ]   To-Exit"
+echo -e "PRESS x OR [ CTRL+C ]   TO EXIT"
 echo -e ""
 echo -e "\033[0;34m----------------------------------------\033[0m"
 echo -e "\E[44;1;39m      SCRIPT MULTIPORT WS \E[0m"
 echo -e "\033[0;34m----------------------------------------\033[0m"
 echo ""
-read -p " Select menu : " opt
+read -p "   SELECT MENU :  " opt
 echo -e ""
 case $opt in
 1) clear ; add-ip ;;
@@ -352,5 +352,5 @@ case $opt in
 4) clear ; cek-ip ;;
 5) clear ; setadmin ;;
 x) clear ; menu ;;
-* )echo  "Please enter an correct number";;
+* )echo  "INVALID SELECTION. PLEASE TRY AGAIN.";;
 esac
