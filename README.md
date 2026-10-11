@@ -10,10 +10,27 @@ fully self-contained build. Brand: **TAKUMIWASHERE**.
 ## Install (fresh Debian/Ubuntu VPS, as root)
 
 ```bash
+apt update -y
+apt install -y wget curl screen unzip procps iproute2 net-tools
+
+cd /root
 wget -O installer.sh https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/installer.sh
 chmod +x installer.sh && ./installer.sh
-# pick 2 (v3) or 1 (v2) — no license gate
+# pick 1 (v2, legacy Xray core) or 2 (v3, latest) — no license gate
 ```
+
+Prompts: `IPv4+IPv6? [y/N]` → `N` · provider name → anything · email → ENTER ·
+domain type → `1` then type your subdomain.
+
+> **Point your DNS first.** `acme.sh` issues a cert for **both** `<domain>` and
+> `sshws.<domain>`, so create both A-records → your VPS IP (Cloudflare: **DNS
+> only / grey cloud**) before running. Full walkthrough: **[INSTALL.md](INSTALL.md)**.
+>
+> `SKIP_REBOOT=1 ./installer.sh` suppresses the automatic reboot at the end.
+> Expect **25 services** and a real Let's Encrypt cert on a clean KVM box.
+
+Provider edge firewalls are separate from the VM's — open the ports in §6.1 of
+INSTALL.md or clients will time out even though everything is running.
 
 ## Directory layout
 
@@ -96,5 +113,11 @@ up, or leave it and backups simply fail.
 
 - `system/ram.sh` is Python (upstream `ps_mem.py`), not shell.
 - `system/speedtest_cli.py` is the Ookla binary.
+- The figlet theme name is stored in **`/etc/vps-theme`** — never in
+  `/usr/bin/test` (an upstream bug that clobbered the coreutils binary).
+- Menu entry scripts **re-exec as root**, so running `menu` as a normal user no
+  longer produces `sed: ... Permission denied` or a polkit prompt.
 - A few optional URLs (`nginx.conf`, `vps.conf`, `xp2.sh`, quota helpers) are
   commented out — those files were never present in the source project.
+- **Not idempotent.** Don't re-run the installer on an installed box — re-image
+  it instead (see INSTALL.md §9).

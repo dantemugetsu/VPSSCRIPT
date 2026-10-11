@@ -13,6 +13,10 @@ recommended way to explore before renting a VPS.
 **Verified working** — full run in `jrei/systemd-debian:12`: 14 services up,
 35 ports listening, menus render.
 
+**Also verified end-to-end on a real VPS** (Tencent Lighthouse, Ubuntu 22.04,
+KVM, ap-singapore): **25 services** running, **zero failed units**, and a real
+Let's Encrypt certificate issued for the configured domain.
+
 ### Prereqs
 - Docker Desktop running (Windows/macOS) or Docker Engine (Linux)
 - ~3 GB free disk
@@ -124,11 +128,17 @@ docker rm -f vps-test     # delete the container (everything is inside it)
 SSH into your VPS as root, then:
 
 ```bash
-apt update -y && apt install -y wget curl
+apt update -y
+apt install -y wget curl screen unzip procps iproute2 net-tools
+
+cd /root
 wget -O installer.sh https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/installer.sh
 chmod +x installer.sh
 ./installer.sh
 ```
+
+> `screen` and `unzip` matter — a bare Ubuntu/Debian image does not ship them,
+> and the installer uses both.
 
 You'll see:
 
@@ -193,6 +203,19 @@ Please select a domain type below
 
 Then it installs everything and **reboots automatically after ~5 seconds**.
 
+> ⚠️ **The DNS record must exist BEFORE you run this.** The installer runs
+> `acme.sh --issue -d <domain> -d sshws.<domain> --standalone`, so **both**
+> names must resolve to this VPS or the certificate step fails:
+> ```
+> A   <your-domain>         -> <VPS IP>    (DNS only / grey cloud)
+> A   sshws.<your-domain>   -> <VPS IP>    (DNS only / grey cloud)
+> ```
+> If you use Cloudflare, the proxy **must be OFF** (grey cloud) — orange-cloud
+> proxying breaks the raw TLS/WS the VPN needs.
+>
+> If the cert fails the install still completes; you just get a self-signed cert
+> and clients will warn. Re-run `renew-cert` later once DNS is right.
+
 ---
 
 ## 4. Non-interactive / unattended install
@@ -222,7 +245,7 @@ bash setup-v2.sh < /root/answers.txt
 ## 5. After it finishes
 
 ```bash
-menu                 # the main panel
+menu                        # the main panel
 cat /root/log-install.txt   # full install log (service + port list)
 ```
 
@@ -231,13 +254,28 @@ If you set `SKIP_REBOOT=1`, reboot manually when ready:
 reboot
 ```
 
-Verify services:
+Verify services — **all of these should say `active`**:
 ```bash
-systemctl list-units --type=service --state=running | grep -Ei 'xray|nginx|squid|openvpn|dropbear|ohp|stunnel'
-ss -tlnp | grep -E ':(22|80|81|109|143|222|442|443|777|1194|2086|2087|2096|2097|2200|3128|7100|8000|8080|8585|8686|8787|8880)\b'
+systemctl --failed                                          # should print NOTHING
+systemctl list-units --type=service --state=running --no-pager
+ss -tlnp
 ```
 
-Expected: **14 services**, **~24 listening ports**.
+A healthy v2 install on a real VPS shows **25 services**:
+
+```
+dropbear  nginx  squid  stunnel4  ohp  ohpd  ohps  fail2ban
+ws-http  ws-https  ws-ovpn
+openvpn-server@server-tcp-1194   openvpn-server@server-udp-2200
+xray  xray@none  xray@tcp  xray@vless  xray@vlessnone  xray@vlessc
+xray@config  xray@vmess  xray@vmessnone  xray@vmessc  xray@trojan  xray@trojannone
+```
+
+> If `systemctl --failed` lists any `xray@*` unit, run the recovery sweep:
+> ```bash
+> for u in $(systemctl list-units --type=service --state=failed --no-legend | awk '{print $1}'); do systemctl restart "$u"; done
+> ```
+> See §11 for why this can happen.
 
 ---
 
@@ -265,6 +303,32 @@ Expected: **14 services**, **~24 listening ports**.
 
 Xray configs live in `/usr/local/etc/xray/` (`vmess.json`, `vless.json`, `trojan.json`, `none.json`, `vlessc.json`, `trojannone.json`, …).
 
+### 6.1 Open the firewall
+
+**Cloud providers have an edge firewall separate from anything in the VM.** The
+installer removes `ufw`/`firewalld` *inside* the box, but that does nothing about
+the provider's edge. If you skip this, services run perfectly and every client
+still times out.
+
+Tencent Lighthouse default is only **22, 80, ICMP** — and **443 is NOT open**
+despite what the docs imply. Add (console → instance → **Firewall** tab, or via
+API):
+
+| Protocol | Ports |
+|---|---|
+| **TCP** | `81,109,143,222,442,443,777,1194,2086,2087,2096,2097,3128,8000,8080,8585,8686,8787,8880` |
+| **UDP** | `2200` ← OpenVPN-UDP; **must be its own rule** |
+
+Via API:
+
+```bash
+tccli lighthouse CreateFirewallRules --region <region> --InstanceId <instance-id> \
+  --FirewallRules '[{"Protocol":"TCP","Port":"81,109,143,222,442,443,777,1194,2086,2087,2096,2097","CidrBlock":"0.0.0.0/0","Action":"ACCEPT","FirewallRuleDescription":"VPSSCRIPT-TCP-1"}]'
+```
+
+> The `Port` field is capped at **64 characters**, so split long lists across
+> multiple rules. Do **not** open 7100–7900 — badvpn binds `127.0.0.1` only.
+
 ---
 
 ## 7. Main menu map (installed commands)
@@ -273,39 +337,44 @@ Xray configs live in `/usr/local/etc/xray/` (`vmess.json`, `vless.json`, `trojan
 
 ```
 menu
- ├─ 1) Xray VMess & VLESS      -> xray-menu
- ├─ 2) Trojan Xray & WS        -> trojan-menu
- ├─ 3) SSHWS & OpenVPN         -> ssh-menu
- ├─ 4) NoobzVPN menu           -> noobzvpn-menu
- ├─ 5) System tools            -> system
- ├─ 6) Themes & banner         -> themes
- ├─ 7) Change ports            -> change-port
- ├─ 8) Check running           -> check-running
- ├─ 9) Service / port info     -> cat log-install.txt
- ├─10) Delete expired users    -> delete-expired
- ├─11) Clear logs              -> clear-log
- └─12) Reboot VPS
+ ├─ 1) XRAY  - VMess / VLESS / XTLS  -> xray-menu
+ ├─ 2) TROJAN - TCP-TLS / WS-TLS     -> trojan-menu
+ ├─ 3) SSH / OPENVPN - user accounts -> ssh-menu
+ ├─ 4) NOOBZVPN - menu               -> noobzvpn-menu
+ ├─ 5) SYSTEM TOOLS                  -> system
+ ├─ 6) THEMES & BANNER               -> themes
+ ├─ 7) CHANGE PORTS                  -> change-port
+ ├─ 8) CHECK RUNNING                 -> check-running
+ ├─ 9) SERVICE / PORT INFO           -> cat /root/log-install.txt
+ ├─10) DELETE EXPIRED USERS          -> delete-expired
+ ├─11) CLEAR LOGS                    -> clear-log
+ └─12) REBOOT VPS
 ```
 
 **v3 menu** (adds WARP + Xray-login check, so numbers shift)
 
 ```
 menu
- ├─ 1) Xray VMess & VLESS      -> xray-menu
- ├─ 2) Trojan Xray & WS        -> trojan-menu
- ├─ 3) SSHWS & OpenVPN         -> ssh-menu
- ├─ 4) NoobzVPN menu           -> noobzvpn-menu
- ├─ 5) Cloudflare WARP menu    -> proxy-warp
- ├─ 6) Check Xray user logins  -> check-xray
- ├─ 7) System tools            -> system
- ├─ 8) Themes & banner         -> themes
- ├─ 9) Change ports            -> change-port
- ├─10) Check running           -> check-running
- ├─11) Service / port info     -> cat log-install.txt
- ├─12) Delete expired users    -> delete-expired
- ├─13) Clear logs              -> clear-log
- └─14) Reboot VPS
+ ├─ 1) XRAY  - VMess / VLESS / XTLS  -> xray-menu
+ ├─ 2) TROJAN - TCP-TLS / WS-TLS     -> trojan-menu
+ ├─ 3) SSH / OPENVPN - user accounts -> ssh-menu
+ ├─ 4) NOOBZVPN - menu               -> noobzvpn-menu
+ ├─ 5) CLOUDFLARE WARP - menu        -> proxy-warp
+ ├─ 6) CHECK XRAY USER LOGINS        -> check-xray
+ ├─ 7) SYSTEM TOOLS                  -> system
+ ├─ 8) THEMES & BANNER               -> themes
+ ├─ 9) CHANGE PORTS                  -> change-port
+ ├─10) CHECK RUNNING                 -> check-running
+ ├─11) SERVICE / PORT INFO           -> cat /root/log-install.txt
+ ├─12) DELETE EXPIRED USERS          -> delete-expired
+ ├─13) CLEAR LOGS                    -> clear-log
+ └─14) REBOOT VPS
 ```
+
+> Every menu entry script now **re-execs itself as root** if you run it as a
+> normal user (`sudo -E "$0"`). If you were seeing
+> `sed: couldn't open temporary file /usr/local/etc/xray/...: Permission denied`
+> and a polkit password prompt, that was the cause — it's fixed.
 
 Other commands: `check-ssh`, `check-limit`, `list-member`, `quick-backup`, `backup`,
 `restore`, `webmin`, `ipv6-menu`, `kernel-update`, `renew-cert`, `cf-account`,
@@ -331,21 +400,42 @@ rclone config        # create a remote named exactly: dr
 
 ## 9. Re-install / uninstall
 
-There is **no uninstaller** in the script. To wipe a VPS clean, either:
+There is **no uninstaller** in the script, and **the installer is not
+idempotent** — re-running it on an already-installed box produces duplicate
+work and broken state. The reliable reset is to **wipe the VPS**.
+
+### Re-image the VPS (recommended)
+
+In the Tencent Lighthouse console: **instance → more → reinstall system**, or
+via API:
 
 ```bash
-# nuke and re-image the VPS (recommended)
+tccli lighthouse ResetInstance --region <region> \
+  --InstanceId <instance-id> \
+  --BlueprintId lhbp-qnuz61zs \
+  --LoginConfiguration '{"AutoGeneratePassword":"NO","Password":"<your-password>"}'
 ```
 
-or, to remove the script's services manually:
+Then poll until `LatestOperationState` is `SUCCESS`:
 
 ```bash
-systemctl disable --now xray@* nginx squid openvpn-server@* dropbear ohp ohpd ohps stunnel4
-rm -f /usr/bin/{menu,xray-menu,trojan-menu,ssh-menu,noobzvpn-menu,check-running,check-ssh,check-xray,check-limit,list-member,delete-expired,change-port,quick-backup,webmin,ipv6-menu,renew-cert,cf-account,cf-domain,cf-pointing,kick-user,autokill,autoreboot,clear-log,system,themes,info,about,ram,swap,bbr,bbr-manager,dns,netf,restart,update,run-update,message-ssh,panel-domain,antitorrent,user-list,user-lock,user-unlock,user-password,speedtest}
-rm -rf /usr/local/etc/xray /var/lib/premium-script
+tccli lighthouse DescribeInstances --region <region> --InstanceIds '["<instance-id>"]'
 ```
 
-Simplest is to **re-image** — the installer is not idempotent.
+> Your **edge firewall rules survive** a reset (they live at the provider's
+> edge, not on the disk), so you don't have to re-add them. Everything on the
+> system disk is gone.
+
+### Or remove the script's services manually
+
+```bash
+systemctl disable --now xray@* xray nginx squid openvpn-server@* dropbear ohp ohpd ohps \
+  stunnel4 fail2ban ws-http ws-https ws-ovpn
+rm -f /usr/bin/{menu,xray-menu,trojan-menu,ssh-menu,noobzvpn-menu,check-running,check-ssh,check-xray,check-limit,list-member,delete-expired,change-port,quick-backup,webmin,ipv6-menu,renew-cert,cf-account,cf-domain,cf-pointing,kick-user,autokill,autoreboot,clear-log,system,themes,info,about,ram,swap,bbr,bbr-manager,dns,netf,restart,update,run-update,message-ssh,panel-domain,antitorrent,user-list,user-lock,user-unlock,user-password,speedtest,bannerku}
+rm -rf /usr/local/etc/xray /etc/xray /var/log/xray /etc/vps-theme
+```
+
+This is messier than re-imaging and easy to get incomplete. **Prefer the wipe.**
 
 ---
 
@@ -356,8 +446,47 @@ Simplest is to **re-image** — the installer is not idempotent.
 | `You need to run this script as root` | run as root |
 | `OpenVZ is not supported` | use KVM/VMware/bare metal |
 | `raw.githubusercontent.com` 404 or stale file | CDN lag after a push — wait 5–15 min and retry |
-| Install "succeeds" but no services | should not happen now (screen/TTY fix). Check `/root/log-install.txt` and `systemctl --failed` |
+| Install "succeeds" but no services | check `/root/log-install.txt` and `systemctl --failed` |
+| `screen: Must be connected to a terminal` | **fixed** — installer falls back to running the script directly when there's no TTY (headless/CI/piped stdin) |
+| `figlet: invalid option -- '-'` | **fixed** — the theme name is stored in `/etc/vps-theme` (was clobbering `/usr/bin/test`) |
+| `sed: couldn't open temporary file ... Permission denied` + polkit prompt | **fixed** — menus now re-exec as root |
+| `cat: log-install.txt: No such file` | **fixed** — menu 9 now reads `/root/log-install.txt` |
+| `ws-http`/`ws-https`/`ws-ovpn` are 0 bytes / dead | **fixed** — the websocket fetch URL now matches the directory |
+| `check-running` shows blank user/order/validity | **fixed** — `GitUser` was wrong in `running-*.sh` |
 | Backup fails | no `dr` rclone remote configured — see §8 |
-| Menu banner shows a different name | it's the *theme* — change via menu 8 (themes) |
+| Menu banner shows a different name | it's the *theme* — change via menu 6 (themes) |
 
 Report back with `/root/log-install.txt` + `systemctl --failed` + `ss -tlnp` if anything misbehaves.
+
+---
+
+## 11. Known-bad conditions to watch for
+
+These were all real, reproduced bugs — fixed in the repo, but listed here so you
+can recognise them if you run an older copy or hit a variant:
+
+1. **xray units failing with `exit 23`**
+   ```
+   Failed to start: main: failed to create server > app/log:
+   failed to initialize access logger > open /var/log/xray/access2.log: permission denied
+   ```
+   The services were being started *before* their log files were created and
+   chowned to `www-data`, and `RestartPreventExitStatus=23` in `xray@.service`
+   meant systemd never retried. Fixed by pre-creating/chowning every
+   `access*.log` before the start, plus a restart sweep at the end.
+   **If you see this**: `systemctl restart xray@vmess xray@vmessc xray@vmessnone xray@tcp xray@trojan`
+
+2. **`/usr/bin/test` overwritten** — the original script used it as a scratch
+   file for the figlet theme name, replacing the coreutils `test` binary with a
+   9-byte text file. Check with `file /usr/bin/test` (must say `ELF ...`).
+   Restore: `apt-get install --reinstall -y coreutils`.
+
+3. **`ws-*` proxies at 0 bytes** — the installer `wget`s
+   `.../websocket/ws-http` etc.; if the path is wrong you get empty files and
+   the services exit instantly. Check `stat -c %s /usr/local/bin/ws-http`.
+
+4. **Firewall looks fine but clients time out** — on Tencent Lighthouse the
+   *edge* firewall is separate from the in-VM one. Only 22 and 80 are open by
+   default; 443 is **not**, despite the docs. Open your ports in the console or
+   via `tccli lighthouse CreateFirewallRules`. Remember **UDP 2200 needs its own
+   rule** — a TCP rule does not cover it.
