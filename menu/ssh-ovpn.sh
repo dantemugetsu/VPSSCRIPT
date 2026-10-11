@@ -49,7 +49,7 @@ echo -e "    \e[$number [ 14 ]\e[m \e[$below Restart Service Dropbear, Squid3,\e
 echo -e "          \e[$below OpenVPN & SSH\e[m"
 echo -e ""
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
-echo -e "   \e[$back_text \e[$box x)   MENU                               \e[m"
+echo -e "   \e[$number [ x ]\e[m \e[$below BACK TO MENU\e[m"
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
 echo -e "\e[$line"
 read -p "   SELECT MENU [1-14 or x] :  "  ssh

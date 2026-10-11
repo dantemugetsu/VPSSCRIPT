@@ -61,7 +61,7 @@ echo -e "   \e[$number [ 23 ]\e[m \e[$below Install UDP Custom\e[m"
 echo -e "   \e[$number [ 24 ]\e[m \e[$below Xray-core Changer\e[m"
 echo -e "   \e[$number [ 25 ]\e[m \e[$below Change Dropbear Version\e[m"
 echo -e "   \e[$line════════════════════════════════════════\e[m"
-echo -e "   \e[$back_text \e[$box x)   MENU                             \e[m"
+echo -e "   \e[$number [ x ]\e[m \e[$below BACK TO MENU\e[m"
 echo -e "   \e[$line════════════════════════════════════════\e[m"
 echo -e "\e[$line"
 read -p "   SELECT MENU [1-25 or x] :  "  sys

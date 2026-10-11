@@ -37,7 +37,7 @@ echo -e "   \e[$number [ 2 ]\e[m \e[$below Add Subdomain\e[m"
 echo -e "   \e[$number [ 3 ]\e[m \e[$below Pointing IP\e[m"
 echo -e ""
 echo -e "   \e[$line════════════════════════════════════════\e[m"
-echo -e "   \e[$back_text \e[$box x) SYSTEM MENU                        \e[m"
+echo -e "\1\\e[$number [ x ]\\e[m \\e[$below BACK TO MENU\\e[m"
 echo -e "   \e[$line════════════════════════════════════════\e[m"
 echo -e "\e[$line"
 read -p "   SELECT MENU :  "  sys

@@ -1647,7 +1647,7 @@ echo -e "    \e[$number [ 15 ]\e[m \e[$below Show Config Vless Xtls Account\e[m"
 echo -e ""
 echo -e "   \e[$number    >> Total :\e[m \e[$below ${total3} Client\e[m"
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
-echo -e "   \e[$back_text  \e[$box x)   MENU                              \e[m"
+echo -e "   \e[$number [ x ]\e[m \e[$below BACK TO MENU\e[m"
 echo -e "   \e[$line══════════════════════════════════════════\e[m"
 echo -e "\e[$line"
 read -rp "   SELECT MENU [1-18 or x] :  "  num
