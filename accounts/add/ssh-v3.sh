@@ -35,6 +35,9 @@ while true; do
 done
 read -p "   Password : " Pass
 read -p "   Bug SNI/Host (Example : m.facebook.com) : " sni
+# default the SNI/Host to the server domain when the user leaves it blank,
+# otherwise the generated payload reads "wss:///" with no host
+if [ -z "$sni" ]; then sni="$domain"; fi
 read -p "   Expired (days): " masaaktif
 
 IP=$(wget -qO- icanhazip.com);

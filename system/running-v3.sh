@@ -6,6 +6,42 @@ export NC="\e[0m"
 
 # // GIT USER
 export GitUser="dantemugetsu"
+
+# --- geo lookup with fallback -------------------------------------------
+# ipinfo.io rate-limits unauthenticated callers (HTTP 429) and returns JSON;
+# the old code printed that JSON straight into the menu. This helper tries
+# ipinfo.io first, then a keyless fallback, and never returns raw JSON.
+geo() {
+  local field="$1" out=""
+  case "$field" in
+    org)      out=$(curl -s --max-time 6 "https://ipinfo.io/org"      2>/dev/null);;
+    region)   out=$(curl -s --max-time 6 "https://ipinfo.io/region"   2>/dev/null);;
+    country)  out=$(curl -s --max-time 6 "https://ipinfo.io/country"  2>/dev/null);;
+    city)     out=$(curl -s --max-time 6 "https://ipinfo.io/city"     2>/dev/null);;
+    timezone) out=$(curl -s --max-time 6 "https://ipinfo.io/timezone" 2>/dev/null);;
+    loc)      out=$(curl -s --max-time 6 "https://ipinfo.io/loc"      2>/dev/null);;
+    *)        out="";;
+  esac
+  # reject JSON / error payloads and empties
+  case "$out" in
+    *'"error"'*|*'"status"'*|*'{'*|*'}'*|"") out="";;
+  esac
+  if [ -z "$out" ]; then
+    case "$field" in
+      timezone) out=$(curl -s --max-time 6 "https://ipapi.co/timezone" 2>/dev/null);;
+      country)  out=$(curl -s --max-time 6 "https://ipapi.co/country"  2>/dev/null);;
+      city)     out=$(curl -s --max-time 6 "https://ipapi.co/city"     2>/dev/null);;
+      region)   out=$(curl -s --max-time 6 "https://ipapi.co/region"   2>/dev/null);;
+      org)      out=$(curl -s --max-time 6 "https://ipapi.co/org"      2>/dev/null);;
+      *)        out="";;
+    esac
+  fi
+  case "$out" in
+    *'"error"'*|*'"status"'*|*'{'*|*'}'*|"") out="N/A";;
+  esac
+  printf '%s' "$out"
+}
+# ------------------------------------------------------------------------
 export MYIP=$(wget -qO- icanhazip.com);
 MYIP=$(curl -s ipinfo.io/ip )
 MYIP=$(curl -sS ipv4.icanhazip.com)
@@ -31,14 +67,14 @@ echo -e "\e[32mloading...\e[0m"
 clear
 export ITAM='\033[0;30m'
 echo -e "$ITAM"
-export NAMAISP=$( curl -s ipinfo.io/org | cut -d " " -f 2-10  )
-export REGION=$( curl -s ipinfo.io/region )
-export COUNTRY=$( curl -s ipinfo.io/country )
-export WAKTU=$( curl -s ipinfo.ip/timezone )
-export CITY=$( curl -s ipinfo.io/city )
-export REGION=$( curl -s ipinfo.io/region )
-export WAKTUE=$( curl -s ipinfo.io/timezone )
-export koordinat=$( curl -s ipinfo.io/loc )
+export NAMAISP="$(geo org)"
+export REGION="$(geo region)"
+export COUNTRY="$(geo country)"
+export WAKTU="$(geo timezone)"
+export CITY="$(geo city)"
+export REGION="$(geo region)"
+export WAKTUE="$(geo timezone)"
+export koordinat="$(geo loc)"
 
 # // TOTAL RAM
 export tram=$( free -m | awk 'NR==2 {print $2}' )
