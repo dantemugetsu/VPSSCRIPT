@@ -700,6 +700,16 @@ netfilter-persistent save
 netfilter-persistent reload
 
 # // ENABLE XRAY TCP XTLS 80/443
+# // PRE-CREATE + CHOWN ALL XRAY LOG FILES
+# (fix: services used to be started BEFORE these logs were writable -> exit 23)
+mkdir -p /var/log/xray
+touch /var/log/xray/access.log /var/log/xray/access2.log /var/log/xray/access3.log \
+      /var/log/xray/access4.log /var/log/xray/access5.log /var/log/xray/error.log
+chown -R www-data:www-data /var/log/xray
+chmod 750 /var/log/xray
+chmod 640 /var/log/xray/access.log /var/log/xray/access2.log /var/log/xray/access3.log \
+         /var/log/xray/access4.log /var/log/xray/access5.log /var/log/xray/error.log
+
 systemctl daemon-reload
 systemctl enable xray.service
 systemctl restart xray.service
@@ -709,6 +719,13 @@ systemctl restart xray@none
 # // ENABLE XRAY WS TLS && NONE TLS
 systemctl enable xray@config
 systemctl restart xray@config
+
+
+# // RECOVER: restart any xray unit that failed its first start (log-perm race)
+for u in xray xray@none xray@tcp xray@vless xray@vlessnone xray@vlessc xray@config \
+         xray@vmess xray@vmessnone xray@vmessc xray@trojan xray@trojannone; do
+  systemctl is-active --quiet "$u" || systemctl restart "$u" 2>/dev/null || true
+done
 
 # download script
 cd /usr/bin

@@ -9,7 +9,7 @@ cd
 
 # // GIT USER
 GitUser="dantemugetsu"
-namafolder="websocket-python"
+namafolder="websocket"
 
 # ================================
 # SYSTEMD WEBSOCKET HTTPS (443)

@@ -1,4 +1,10 @@
 #!/bin/bash
+# --- root guard: re-exec as root (system files need root) ---
+if [ "${EUID}" -ne 0 ]; then
+  if command -v sudo >/dev/null 2>&1; then exec sudo -E "$0" "$@"; fi
+  echo "Run as root: sudo $0"; exit 1
+fi
+
 
 GitUser="dantemugetsu"
 
@@ -363,37 +369,37 @@ printf "  %s%-*s%s %s%*s %*s %s%*s\033[0m%s\n" \
   "$GREEN" "$wcol" "[$tmon]" \
   "$RESET"
 echo -e " \e[$line╘═════════════════════════════════════════════════════════════╛\e[m"
-echo -e " \e[$text Ssh/Ovpn   V2ray   Vless   Vlessxtls   Trojan-Ws   Trojan-Tls \e[0m "    
+echo -e " \e[$text SSH/OVPN   VMESS   VLESS   VLESS-XTLS   TROJAN-WS   TROJAN-TLS \e[0m "    
 echo -e " \e[$below    $total_ssh         $vmess       $vless        $xtls           $trws           $trtls \e[0m "
 echo -e " \e[$line╒═════════════════════════════════════════════════════════════╕\e[m"
 echo -e "  \e[$back_text                    \e[30m[\e[$box  XRAY / TROJAN PANEL  \e[30m]\e[1m                  \e[m"
 echo -e " \e[$line╞═════════════════════════════════════════════════════════════╡\e[m"
-echo -e "  \e[$number (1)\e[m  \e[$below XRAY  - VMess / VLESS / XTLS\e[m"
+echo -e "  \e[$number (1)\e[m  \e[$below XRAY  - VMESS / VLESS / XTLS\e[m"
 echo -e "  \e[$number (2)\e[m  \e[$below TROJAN - TCP-TLS / WS-TLS\e[m"
 echo -e " \e[$line╞═════════════════════════════════════════════════════════════╡\e[m"
 echo -e "  \e[$back_text                  \e[30m[\e[$box  SSH / OPENVPN PANEL  \e[30m]\e[1m                 \e[m"
 echo -e " \e[$line╞═════════════════════════════════════════════════════════════╡\e[m"
-echo -e "  \e[$number (3)\e[m  \e[$below SSH / OPENVPN - user accounts\e[m"
-echo -e "  \e[$number (4)\e[m  \e[$below NOOBZVPN - menu\e[m"
-echo -e "  \e[$number (5)\e[m  \e[$below CLOUDFLARE WARP - menu\e[m"
-echo -e "  \e[$number (6)\e[m  \e[$below Check Xray user logins\e[m"
+echo -e "  \e[$number (3)\e[m  \e[$below SSH / OPENVPN - USER ACCOUNTS\e[m"
+echo -e "  \e[$number (4)\e[m  \e[$below NOOBZVPN - MENU\e[m"
+echo -e "  \e[$number (5)\e[m  \e[$below CLOUDFLARE WARP - MENU\e[m"
+echo -e "  \e[$number (6)\e[m  \e[$below CHECK XRAY USER LOGINS\e[m"
 echo -e " \e[$line╞═════════════════════════════════════════════════════════════╡\e[m"
 echo -e "  \e[$back_text                    \e[30m[\e[$box  SERVER PANEL  \e[30m]\e[1m                    \e[m"
 echo -e " \e[$line╞═════════════════════════════════════════════════════════════╡\e[m"
-echo -e "  \e[$number (7)\e[m  \e[$below System tools\e[m         \e[$number (11)\e[m \e[$below Service / port info\e[m"
-echo -e "  \e[$number (8)\e[m  \e[$below Themes & banner\e[m      \e[$number (12)\e[m \e[$below Delete expired users\e[m"
-echo -e "  \e[$number (9)\e[m  \e[$below Change ports\e[m         \e[$number (13)\e[m \e[$below Clear logs\e[m"
-echo -e "  \e[$number (10)\e[m \e[$below Check running\e[m        \e[$number (14)\e[m \e[$below Reboot VPS\e[m"
+echo -e "  \e[$number (7)\e[m  \e[$below SYSTEM TOOLS\e[m         \e[$number (11)\e[m \e[$below SERVICE / PORT INFO\e[m"
+echo -e "  \e[$number (8)\e[m  \e[$below THEMES & BANNER\e[m      \e[$number (12)\e[m \e[$below DELETE EXPIRED USERS\e[m"
+echo -e "  \e[$number (9)\e[m  \e[$below CHANGE PORTS\e[m         \e[$number (13)\e[m \e[$below CLEAR LOGS\e[m"
+echo -e "  \e[$number (10)\e[m \e[$below CHECK RUNNING\e[m        \e[$number (14)\e[m \e[$below REBOOT VPS\e[m"
 echo -e " \e[$line╘═════════════════════════════════════════════════════════════╛\e[m"
 echo -e ""
-echo -e "  \e[$below[ Ctrl+C ] exit   \e[$number x)\e[m \e[$below exit\e[m"
+echo -e "  \e[$below[ CTRL+C ] EXIT   \e[$number x)\e[m \e[$below EXIT\e[m"
 echo -e " \e[$line╒═════════════════════════════════════════════════════════════╕\e[m"
 echo -e "  \e[$below Script  : SSH / XRAY / WEBSOCKET MULTIPORT\e[m"
-echo -e "  \e[$below Build   : v3 (latest Xray core + new services)\e[m"
-echo -e "  \e[$below Brand   : TAKUMIWASHERE\e[m"
+echo -e "  \e[$below BUILD   : V3 (LATEST XRAY CORE + NEW SERVICES)\e[m"
+echo -e "  \e[$below BRAND   : TAKUMIWASHERE\e[m"
 echo -e " \e[$line╘═════════════════════════════════════════════════════════════╛\e[m"
 echo -e "\e[$below "
-read -p " Select menu :  " menu
+read -p " SELECT MENU :  " menu
 echo -e ""
 case $menu in
 1)
@@ -427,7 +433,7 @@ case $menu in
     check-running
     ;;
 11)
-    cat log-install.txt
+    cat /root/log-install.txt
     ;;
 12)
     delete-expired
