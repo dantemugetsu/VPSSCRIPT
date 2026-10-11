@@ -1,359 +1,296 @@
 #!/bin/bash
-# owner of the GitHub repo that holds the IP allow-list
+# ============================================================================
+#  add-ip - reseller allow-list manager
+#
+#  Single source of truth: _deps/allow/ipvps.conf in the script repo.
+#  The install gate (setup-v2/v3.sh) and `check-running` both read that file,
+#  so what you register here is exactly what authorises a customer's VPS.
+#
+#  File format (one per line):
+#      ### Name OrderID VALIDITY IPVPS
+#  VALIDITY = LIFETIME or YYYY-MM-DD
+#
+#  Uses the GitHub Contents API, so there is no local clone/push dance and
+#  only one repo is involved.
+# ============================================================================
 GitUser="dantemugetsu"
-# --- root guard: re-exec as root (system files need root) ---
+GITHUB_REPO="VPSSCRIPT"
+ALLOW_PATH="_deps/allow/ipvps.conf"
+TOKEN_FILE="/etc/adminip/access.conf"
+OWNER_MARKER="/etc/vpscript-owner"
+API="https://api.github.com/repos/${GitUser}/${GITHUB_REPO}/contents/${ALLOW_PATH}"
+
+# --- root guard ---
 if [ "${EUID}" -ne 0 ]; then
   if command -v sudo >/dev/null 2>&1; then exec sudo -H "$0" "$@"; fi
   echo "RUN AS ROOT: sudo $0"; exit 1
 fi
 
-# Color Validation
-DF='\e[39m'
-Bold='\e[1m'
-Blink='\e[5m'
-yell='\e[33m'
-red='\e[31m'
-RED='\033[0;31m'
-BGWHITE='\e[0;47;30m'
-green='\e[32m'
-blue='\e[34m'
-PURPLE='\e[35m'
-CYAN='\e[36m'
-Lred='\e[91m'
-Lgreen='\e[92m'
-Lyellow='\e[93m'
-NC='\e[0m'
-GREEN='\033[0;32m'
-ORANGE='\033[0;33m'
-CYAN='\e[36m'
-LIGHT='\033[0;37m'
-tokengit=$(cat /etc/adminip/access.conf)
-MYIP=$(wget -qO- ipinfo.io/ip);
-MYIP=$(curl -s ipinfo.io/ip )
-MYIP=$(curl -sS ipv4.icanhazip.com)
-MYIP=$(curl -sS ifconfig.me )
-# owner-permission gate removed by TAKUMIWASHERE fork
-echo -e "${green}Permission Accepted (forked build).${NC}"
+# --- colours ---
+green='\e[32m'; red='\e[31m'; Lyellow='\e[93m'; Lgreen='\e[92m'; Lred='\e[91m'
+NC='\e[0m'; BOLD='\e[1m'; RESET='\e[0m'
 
+tokengit=""
+[ -f "$TOKEN_FILE" ] && tokengit="$(head -n1 "$TOKEN_FILE" | tr -d '\r\n ')"
+
+need_token() {
+  if [ -z "$tokengit" ]; then
+    echo -e "[ ${red}ERROR${NC} ] No GitHub token set."
+    echo -e "            Run ${BOLD}[ 05 ] SET ADMIN${RESET} first."
+    return 1
+  fi
+  return 0
+}
+
+# ---------------------------------------------------------------- API helpers
+# get_allow -> writes the decoded file to stdout, sets globals SHA
+SHA=""
+get_allow() {
+  local resp
+  resp="$(curl -s --max-time 20 \
+    -H "Authorization: token ${tokengit}" \
+    -H "Accept: application/vnd.github+json" \
+    "$API")"
+  SHA="$(printf '%s' "$resp" | jq -r '.sha // empty')"
+  if [ -z "$SHA" ]; then
+    echo -e "[ ${Lred}ERROR${NC} ] Could not read ${ALLOW_PATH} from GitHub." >&2
+    printf '%s' "$resp" | jq -r '.message // empty' >&2
+    return 1
+  fi
+  printf '%s' "$resp" | jq -r '.content' | base64 -d
+}
+
+# put_allow <file> <message>
+put_allow() {
+  local file="$1" msg="$2" b64 payload code
+  b64="$(base64 -w0 < "$file")"
+  payload="$(jq -n --arg m "$msg" --arg c "$b64" --arg s "$SHA" \
+              '{message:$m, content:$c, sha:$s}')"
+  code="$(curl -s -o /tmp/.allow_put.json -w '%{http_code}' --max-time 25 \
+    -X PUT \
+    -H "Authorization: token ${tokengit}" \
+    -H "Accept: application/vnd.github+json" \
+    -d "$payload" "$API")"
+  if [ "$code" = "200" ] || [ "$code" = "201" ]; then
+    return 0
+  fi
+  echo -e "[ ${Lred}ERROR${NC} ] GitHub returned HTTP ${code}." >&2
+  jq -r '.message // empty' /tmp/.allow_put.json >&2
+  return 1
+}
+
+# ---------------------------------------------------------------- 05 SET ADMIN
 setadmin() {
-#isi link git
-linkinstall="https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/allow"
-rm -rf /etc/adminip/
-mkdir -p /etc/adminip
-read -p "INPUT OWNER ACCESS TOKEN CODE " ans
-echo -e "$ans" >> /etc/adminip/access.conf
-# xp-ip helper removed by fork (not present in the bundled _deps)
-clear
-sed -i "/^# IPREGBEGIN_EXP/,/^# IPREGEND_EXPIP/d" /etc/crontab
-cat << EOF >> /etc/crontab
-# IPREGBEGIN_EXP
-# (forked build: /usr/bin/delete-expired-ip does not exist here,
-#  so no auto-expiry cron is installed)
-# IPREGEND_EXPIP
-EOF
-rm -f /root/.bash_history
-sleep 2
-echo " Setelah Selesai type addip untuk access"
-}
-
-add-ip() {
-if [ -z "$tokengit" ]; then
-echo -e "[ ${green}INFO${NC} ] Please Set IP ADMIN FIRST!!!"
-sleep 3
-clear
-exit 0
-fi
-clear
-rm -rf /root/allow
-read -p " - IP VPS      : " daftar
-echo -e "[ ${Lyellow}INFO${NC} ] Checking the IPVPS if Already Registered"
-sleep 1
-cek=$( curl -sS https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/_deps/allow/ipvps.conf | awk '{print $5}' | grep $daftar )
-if [[ $daftar = $cek ]]; then
-echo -e "\e[1;31m THE IP VPS HAS BEEN REGISTERED\e[0m"
-sleep 2
-exit
-else
-echo -e "IP VPS IS NOT REGISTERED - PERMISSION ACCEPTED."
-fi
-clear
-echo -e "1) LIFETIME ID" 
-echo -e "2) RENT / LIMITED TIME"
-read -p "   SELECT MENU :  " jawab
-if [ "$jawab" = "1" ]; then
-read -p " - CLIENT NAME : " client 
-read -p " - CLIENT ID   : " id
-exp=LIFETIME
-hariini=`date -d "0 days" +"%Y-%m-%d"`
-echo "### $client $id $exp $daftar" >> /root/data
-elif [ "$jawab" = "2" ]; then
-read -p " - CLIENT NAME : " client 
-read -p " - CLIENT ID   : " id
-read -p " - ACTIVE DAYS : " exp
-exp=`date -d "$exp days" +"%Y-%m-%d"`
-hariini=`date -d "0 days" +"%Y-%m-%d"`
-echo "### $client $id $exp $daftar" >> /root/data
-else
-clear
-echo "PLEASE INPUT OPTION NUMBER!!!!"
-add-ip
-fi
-
-daftarip=$(cat /root/data)
-rm -rf /root/allow
-git config --global user.email "admin@chubcity.dpdns.org"
-git config --global user.name "TAKUMIWASHERE"
-git clone https://github.com/dantemugetsu/allow.git
-mkdir /root/allow
-cd /root/allow/
-rm -rf .git
-git init
-touch ipvps.conf
-echo "$daftarip" >> /root/allow/ipvps.conf
-echo -e "Client IP VPS Add Successfully"
-git init >/dev/null 2>&1
-git add .
-git commit -m register
-git branch -M main
-git remote add origin https://github.com/dantemugetsu/allow.git
-git push -f https://${tokengit}@github.com/dantemugetsu/allow.git
-echo -e "IPVPS Registration Completed"
-sleep 1
-links1="apt-get update && apt-get upgrade -y && update-grub && sleep 2 && reboot"
-links2="apt-get update && apt-get upgrade -y && apt dist-upgrade -y && update-grub && sleep 2 && reboot"
-links3="sysctl -w net.ipv6.conf.all.disable_ipv6=1 && sysctl -w net.ipv6.conf.default.disable_ipv6=1 && apt update && apt install -y bzip2 gzip coreutils screen curl && wget -O setup-v2.sh https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/setup-v2.sh && chmod +x setup-v2.sh && sed -i -e 's/\r$//' setup-v2.sh && if [ -t 0 ]; then screen -S setup ./setup-v2.sh; else ./setup-v2.sh; fi"
-
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo "  Client IP VPS Add Successfully"
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo "  Ip VPS        : $daftar"
-echo "  Order ID      : $id"
-echo "  Register Date : $hariini"
-echo "  Expired Date  : $exp"
-echo "  Client Name   : $client"
-echo "  Script Ver    : TAKUMIWASHERE_MULTIPORT"
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo " Update & Upgrade First Your VPS for Debian 10 & 11: "
-echo ""
-echo -e '' ${links1}''
-echo ""
-echo " Update & Upgrade First Your VPS for Ubuntu 18.04 & 20.04:"
-echo ""
-echo -e '' ${links2}''
-echo ""
-echo "  Link Script 	: "
-echo ""
-echo -e '' ${links3}''
-echo ""
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo "                          NOTA"
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo "  siapkan email cloud flare untuk cert xray  "
-echo "  pastikan domain dah siap2 pointing di CF ya sblm install  "
-echo -e "\033[0;34m----------------------------------------\033[0m"
-rm -rf /root/allow
-rm -rf /root/data
-rm -rf /root/ipvps.conf
-echo ""
-read -n 1 -s -r -p "Press any key to back on menu-addip"
-exec "$0"
-}
-
-del-ip() {
-if [ -z "$tokengit" ]; then
-echo -e "[ ${green}INFO${NC} ] Please Set IP ADMIN FIRST!!!"
-sleep 3
-clear
-exit 0
-fi
-clear
-rm -rf /root/allow
-rm -rf /root/data
-rm -rf /root/ipvps.conf
-git config --global user.email "admin@chubcity.dpdns.org"
-git config --global user.name "TAKUMIWASHERE"
-git clone https://github.com/dantemugetsu/allow.git
-mkdir /root/allow
-cd /root/allow/
-rm -rf .git
-git init
-touch ipvps.conf
-echo -e "[ ${Lyellow}INFO${NC} ] Checking list.."
-clear
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo -e "\E[44;1;39m      Delete User IP VPS Registered     \E[0m"
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo -e "    No.     USER      EXP DATE    IPVPS"
-echo -e "\033[0;34m----------------------------------------\033[0m"
-grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 2-5 | nl -s '. '
-echo -e "\033[0;34m----------------------------------------\033[0m"
-read -rp "   SELECT MENU :  " nombor 
-client=$(grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 2 | sed -n "${nombor}"p)
-id=$(grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 3 | sed -n "${nombor}"p)
-exp=$(grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 4 | sed -n "${nombor}"p)
-daftar=$(grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 5 | sed -n "${nombor}"p)
-sed -i '/^### '$client' '$id' '$exp' '$daftar'/d' /root/allow/ipvps.conf
-git init >/dev/null 2>&1
-git add .
-git commit -m delete
-git branch -M main
-git remote add origin https://github.com/dantemugetsu/allow.git
-git push -f https://${tokengit}@github.com/dantemugetsu/allow.git
-clear
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo " Client IP Deleted Successfully"
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo " Ip VPS       : $daftar"
-echo " Order ID     : $id"
-echo " Expired Date : $exp"
-echo " Client Name  : $client"
-rm -rf /root/allow
-rm -rf /root/data
-rm -rf /root/ipvps.conf
-echo ""
-read -n 1 -s -r -p "Press any key to back on menu-addip"
-exec "$0"
-}
-
-renew-ip() {
-if [ -z "$tokengit" ]; then
-echo -e "[ ${green}INFO${NC} ] Please Set IP ADMIN FIRST!!!"
-sleep 3
-clear
-exit 0
-fi
-clear
-rm -rf /root/allow
-git config --global user.email "admin@chubcity.dpdns.org"
-git config --global user.name "TAKUMIWASHERE"
-git clone https://github.com/dantemugetsu/allow.git
-  mkdir /root/allow
-  cd /root/allow/
-  rm -rf .git
-git init
-  touch ipvps.conf
-echo -e "[ ${Lyellow}INFO${NC} ] Checking list.."
-clear
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo -e "\E[44;1;39m      Renew User IP VPS Registered      \E[0m"
-echo -e "\033[0;34m----------------------------------------\033[0m"
-NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/root/allow/ipvps.conf")
-	if [[ ${NUMBER_OF_CLIENTS} == '0' ]]; then
-		clear
-		echo "You have no existing clients!"
-		exit 1
-	fi
-	clear
-	echo -e "\033[0;34m----------------------------------------\033[0m"
-	echo -e "\E[44;1;39m      Renew User IP VPS Registered      \E[0m"
-	echo -e "\033[0;34m----------------------------------------\033[0m"
-	echo " Select the existing client you want to renew"
-	echo -e "\033[0;34m----------------------------------------\033[0m"
- grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 2-5 | nl -s '. '
-  	until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
-		if [[ ${CLIENT_NUMBER} == '1' ]]; then
-			read -rp "SELECT ONE CLIENT [1]: " CLIENT_NUMBER
-		else
-			read -rp "SELECT ONE CLIENT [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
-		fi
-	done
-read -p "EXPIRED (DAYS): " masaaktif
-user=$(grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 5 | sed -n "${CLIENT_NUMBER}"p)
-exp=$(grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 4 | sed -n "${CLIENT_NUMBER}"p)
-client=$(grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 2 | sed -n "${CLIENT_NUMBER}"p)
-now=$(date +%Y-%m-%d)
-d1=$(date -d "$exp" +%s)
-d2=$(date -d "$now" +%s)
-exp2=$(( (d1 - d2) / 86400 ))
-exp3=$(($exp2 + $masaaktif))
-exp4=`date -d "$exp3 days" +"%Y-%m-%d"`
-sed -i "s/### $user $exp/### $user $exp4/g" /root/allow/ipvps.conf
-git add .
-git commit -m renew
-git branch -M main
-git remote add origin https://github.com/dantemugetsu/allow.git
-git push -f https://${tokengit}@github.com/dantemugetsu/allow.git
-echo -e "IPVPS Registration Completed"
   clear
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo -e "\E[44;1;39m    Client IP VPS Renew Successfully    \E[0m"
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo "  Ip VPS        : $user"
-echo "  Order ID      : $id"
-echo "  Renew Date    : $now"
-echo "  Expired Date  : $exp4"
-echo "  Client Name   : $client"
-echo -e "\033[0;34m----------------------------------------\033[0m"
-rm -rf /root/allow
-rm -rf /root/data
-rm -rf /root/ipvps.conf
-echo ""
-read -n 1 -s -r -p "Press any key to back on menu-addip"
-exec "$0"
+  echo -e "${BOLD}=== SET ADMIN (owner) ===${RESET}"
+  echo
+  echo "Paste a GitHub personal access token with 'repo' scope."
+  echo "It is stored in ${TOKEN_FILE} (root only) and is only used to"
+  echo "update ${ALLOW_PATH} in ${GitUser}/${GITHUB_REPO}."
+  echo
+  read -rp "  TOKEN : " ans
+  if [ -z "$ans" ]; then
+    echo -e "${Lred}Empty token - aborted.${NC}"; sleep 2; return
+  fi
+  mkdir -p "$(dirname "$TOKEN_FILE")"
+  printf '%s\n' "$ans" > "$TOKEN_FILE"
+  chmod 600 "$TOKEN_FILE"
+  tokengit="$ans"
+
+  # owner bypass marker so the installer never locks the owner out
+  touch "$OWNER_MARKER"
+  chmod 600 "$OWNER_MARKER"
+
+  echo
+  echo -e "${Lgreen}Token saved.${NC}"
+  echo -e "${Lgreen}Owner bypass enabled (${OWNER_MARKER}).${NC}"
+  echo -e "This box can now install with no allow-list entry."
+  sleep 3
 }
 
-cek-ip() {
-if [ -z "$tokengit" ]; then
-echo -e "[ ${green}INFO${NC} ] Please Set IP ADMIN FIRST!!!"
-sleep 3
-clear
-exit 0
-fi
-clear
-rm -rf /root/allow
-rm -rf /root/data
-rm -rf /root/ipvps.conf
-git config --global user.email "admin@chubcity.dpdns.org"
-git config --global user.name "TAKUMIWASHERE"
-git clone https://github.com/dantemugetsu/allow.git
-cd /root/allow/
-rm -rf .git
-git init
-touch ipvps.conf
-echo -e "[ ${Lyellow}INFO${NC} ] Checking list.."
-clear
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo -e "\E[44;1;39m       List User IP VPS Registered      \E[0m"
-echo -e "\033[0;34m----------------------------------------\033[0m"
-### USER  ID  VALIDITY  IPVPS
-echo -e "    No.   CLIENT NAME   EXP DATE   IPVPS"
-echo -e "\033[0;34m----------------------------------------\033[0m"
-grep -E "^### " "/root/allow/ipvps.conf" | cut -d ' ' -f 2-5 | awk '{print $4,$3,$1}' | nl -s '. ' 
-echo -e "\033[0;34m----------------------------------------\033[0m"
-rm -rf /root/allow
-rm -rf /root/data
-rm -rf /root/ipvps.conf
-echo ""
-read -n 1 -s -r -p "Press any key to back on menu-addip"
-exec "$0"
+# ---------------------------------------------------------------- 01 ADD IP
+add_ip() {
+  need_token || { sleep 3; return; }
+  clear
+  echo -e "${BOLD}=== ADD IP TO ALLOW-LIST ===${RESET}"
+  echo
+  read -rp "  - Client Name   : " client
+  read -rp "  - Order ID      : " oid
+  read -rp "  - VPS IP        : " daftar
+  [ -z "$client" ] || [ -z "$daftar" ] && { echo -e "${Lred}Name and IP are required.${NC}"; sleep 2; return; }
+
+  echo
+  echo "  Validity:"
+  echo "    1) LIFETIME"
+  echo "    2) N days from today"
+  echo "    3) Fixed date (YYYY-MM-DD)"
+  read -rp "  SELECT [1-3] : " v
+  case "$v" in
+    1) validity="LIFETIME" ;;
+    2) read -rp "  DAYS : " nd
+       validity="$(date -d "+${nd} days" +%Y-%m-%d)" ;;
+    3) read -rp "  DATE (YYYY-MM-DD) : " validity ;;
+    *) echo -e "${Lred}Invalid.${NC}"; sleep 2; return ;;
+  esac
+
+  local tmp; tmp="$(mktemp)"
+  if ! get_allow > "$tmp"; then rm -f "$tmp"; sleep 3; return; fi
+
+  if grep -qE "^###[[:space:]]+.*[[:space:]]${daftar//./\\.}[[:space:]]*$" "$tmp"; then
+    echo -e "${Lred}That IP is already registered.${NC}"
+    rm -f "$tmp"; sleep 3; return
+  fi
+
+  printf '### %s %s %s %s\n' "$client" "$oid" "$validity" "$daftar" >> "$tmp"
+
+  if put_allow "$tmp" "add: ${client} (${daftar})"; then
+    echo
+    echo -e "${Lgreen}Registered.${NC}"
+    echo "  Client   : $client"
+    echo "  Order ID : $oid"
+    echo "  IP VPS   : $daftar"
+    echo "  Validity : $validity"
+  fi
+  rm -f "$tmp"
+  echo
+  read -n 1 -s -r -p "Press any key to continue"; echo
 }
 
-clear
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo -e "\E[44;1;39m    MENU ADD IP MULTIPORT WS  \E[0m"
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo ""
-echo -e " [\e[36m 01 \e[0m] ADD IP"
-echo -e " [\e[36m 02 \e[0m] DELETE IP"
-echo -e " [\e[36m 03 \e[0m] RENEW IP"
-echo -e " [\e[36m 04 \e[0m] CHECK USER IP"
-echo -e " [\e[36m 05 \e[0m] SET ADMIN IP VPS"
-echo ""
-echo -e "PRESS x OR [ CTRL+C ]   TO EXIT"
-echo -e ""
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo -e "\E[44;1;39m      SCRIPT MULTIPORT WS \E[0m"
-echo -e "\033[0;34m----------------------------------------\033[0m"
-echo ""
-read -p "   SELECT MENU :  " opt
-echo -e ""
-case $opt in
-1) clear ; add-ip ;;
-2) clear ; del-ip ;;
-3) clear ; renew-ip ;;
-4) clear ; cek-ip ;;
-5) clear ; setadmin ;;
-x) clear ; menu ;;
-* )echo  "INVALID SELECTION. PLEASE TRY AGAIN.";;
-esac
+# ---------------------------------------------------------------- 02 DELETE IP
+del_ip() {
+  need_token || { sleep 3; return; }
+  clear
+  local tmp; tmp="$(mktemp)"
+  if ! get_allow > "$tmp"; then rm -f "$tmp"; sleep 3; return; fi
+
+  if ! grep -q '^### ' "$tmp"; then
+    echo -e "${Lyellow}The allow-list is empty.${NC}"; rm -f "$tmp"; sleep 3; return
+  fi
+
+  echo -e "${BOLD}=== DELETE IP ===${RESET}"
+  echo
+  echo "    No.   NAME            ORDER        VALIDITY      IPVPS"
+  echo "  ------------------------------------------------------------"
+  grep '^### ' "$tmp" | awk '{printf "  %3d)  %-15s %-12s %-13s %s\n", NR, $2, $3, $4, $5}'
+  echo
+  read -rp "  SELECT NUMBER : " n
+  local line
+  line="$(grep '^### ' "$tmp" | sed -n "${n}p")"
+  if [ -z "$line" ]; then echo -e "${Lred}Invalid number.${NC}"; rm -f "$tmp"; sleep 2; return; fi
+
+  grep -vxF "$line" "$tmp" > "$tmp.new" && mv "$tmp.new" "$tmp"
+  if put_allow "$tmp" "delete: entry ${n}"; then
+    echo -e "${Lgreen}Deleted:${NC} $line"
+  fi
+  rm -f "$tmp"
+  echo
+  read -n 1 -s -r -p "Press any key to continue"; echo
+}
+
+# ---------------------------------------------------------------- 03 RENEW IP
+renew_ip() {
+  need_token || { sleep 3; return; }
+  clear
+  local tmp; tmp="$(mktemp)"
+  if ! get_allow > "$tmp"; then rm -f "$tmp"; sleep 3; return; fi
+
+  if ! grep -q '^### ' "$tmp"; then
+    echo -e "${Lyellow}The allow-list is empty.${NC}"; rm -f "$tmp"; sleep 3; return
+  fi
+
+  echo -e "${BOLD}=== RENEW IP ===${RESET}"
+  echo
+  grep '^### ' "$tmp" | awk '{printf "  %3d)  %-15s %-12s %-13s %s\n", NR, $2, $3, $4, $5}'
+  echo
+  read -rp "  SELECT NUMBER : " n
+  local line
+  line="$(grep '^### ' "$tmp" | sed -n "${n}p")"
+  if [ -z "$line" ]; then echo -e "${Lred}Invalid number.${NC}"; rm -f "$tmp"; sleep 2; return; fi
+
+  read -rp "  NEW VALIDITY (LIFETIME | YYYY-MM-DD | +N days) : " nv
+  local newval
+  case "$nv" in
+    LIFETIME|lifetime) newval="LIFETIME" ;;
+    +*) newval="$(date -d "+${nv#+} days" +%Y-%m-%d)" ;;
+    *)  newval="$nv" ;;
+  esac
+
+  local name oid ip
+  name="$(echo "$line" | awk '{print $2}')"
+  oid="$(echo  "$line" | awk '{print $3}')"
+  ip="$(echo   "$line" | awk '{print $5}')"
+
+  grep -vxF "$line" "$tmp" > "$tmp.new" && mv "$tmp.new" "$tmp"
+  printf '### %s %s %s %s\n' "$name" "$oid" "$newval" "$ip" >> "$tmp"
+
+  if put_allow "$tmp" "renew: ${name} (${ip}) -> ${newval}"; then
+    echo -e "${Lgreen}Renewed:${NC} $name  ->  $newval"
+  fi
+  rm -f "$tmp"
+  echo
+  read -n 1 -s -r -p "Press any key to continue"; echo
+}
+
+# ---------------------------------------------------------------- 04 CHECK IP
+cek_ip() {
+  need_token || { sleep 3; return; }
+  clear
+  local tmp; tmp="$(mktemp)"
+  if ! get_allow > "$tmp"; then rm -f "$tmp"; sleep 3; return; fi
+
+  echo -e "${BOLD}=== REGISTERED VPS (allow-list) ===${RESET}"
+  echo
+  echo "    No.   NAME            ORDER        VALIDITY      IPVPS"
+  echo "  ------------------------------------------------------------"
+  if grep -q '^### ' "$tmp"; then
+    grep '^### ' "$tmp" | awk '{printf "  %3d)  %-15s %-12s %-13s %s\n", NR, $2, $3, $4, $5}'
+  else
+    echo "  (empty)"
+  fi
+  echo
+  echo "  Total: $(grep -c '^### ' "$tmp" 2>/dev/null || echo 0)"
+  echo
+  echo "  This VPS IP : $(curl -s --max-time 8 https://api.ipify.org || echo unknown)"
+  rm -f "$tmp"
+  echo
+  read -n 1 -s -r -p "Press any key to continue"; echo
+}
+
+# ---------------------------------------------------------------- MENU
+while true; do
+  clear
+  echo -e "\033[0;34m----------------------------------------\033[0m"
+  echo -e "\E[44;1;39m       ALLOW-LIST MANAGER (RESELLER)     \E[0m"
+  echo -e "\033[0;34m----------------------------------------\033[0m"
+  echo ""
+  echo -e " [\e[36m 01 \e[0m] ADD IP"
+  echo -e " [\e[36m 02 \e[0m] DELETE IP"
+  echo -e " [\e[36m 03 \e[0m] RENEW IP"
+  echo -e " [\e[36m 04 \e[0m] LIST REGISTERED IP"
+  echo -e " [\e[36m 05 \e[0m] SET ADMIN (GITHUB TOKEN)"
+  echo ""
+  echo -e " [\e[36m x  \e[0m] BACK TO MENU"
+  echo -e "\033[0;34m----------------------------------------\033[0m"
+  echo ""
+  if [ -n "$tokengit" ]; then
+    echo -e "  Token : ${Lgreen}set${NC}"
+  else
+    echo -e "  Token : ${Lred}not set${NC}"
+  fi
+  if [ -f "$OWNER_MARKER" ]; then
+    echo -e "  Owner : ${Lgreen}enabled${NC}"
+  else
+    echo -e "  Owner : ${Lyellow}not enabled${NC}"
+  fi
+  echo ""
+  if ! read -rp "   SELECT MENU : " opt; then echo; exit 0; fi
+  case "$opt" in
+    1) add_ip ;;
+    2) del_ip ;;
+    3) renew_ip ;;
+    4) cek_ip ;;
+    5) setadmin ;;
+    x|X) exec menu 2>/dev/null || exit 0 ;;
+    *) echo -e "${Lred}Invalid selection.${NC}"; sleep 1 ;;
+  esac
+done

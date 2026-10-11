@@ -60,11 +60,12 @@ echo -e "   \e[$number [ 22 ]\e[m \e[$below UNINSTALL NOOBZVPNS\e[m"
 echo -e "   \e[$number [ 23 ]\e[m \e[$below INSTALL UDP CUSTOM\e[m"
 echo -e "   \e[$number [ 24 ]\e[m \e[$below XRAY-CORE CHANGER\e[m"
 echo -e "   \e[$number [ 25 ]\e[m \e[$below CHANGE DROPBEAR VERSION\e[m"
+echo -e "   \e[$number [ 26 ]\e[m \e[$below ALLOW-LIST MANAGER (RESELLER)\e[m"
 echo -e "   \e[$line════════════════════════════════════════\e[m"
 echo -e "   \e[$number [ x ]\e[m \e[$below BACK TO MENU\e[m"
 echo -e "   \e[$line════════════════════════════════════════\e[m"
 echo -e "\e[$line"
-if ! read -p "   SELECT MENU [1-25 OR X] :  "  sys; then echo; exit 0; fi
+if ! read -p "   SELECT MENU [1-26 OR X] :  "  sys; then echo; exit 0; fi
 echo -e ""
 case $sys in
 1)
@@ -141,6 +142,9 @@ wget -q -O /usr/bin/xcorechanger "https://raw.githubusercontent.com/dantemugetsu
 ;;
 25|99)
 change-dropbear
+;;
+26)
+add-ip
 ;;
 x)
 menu

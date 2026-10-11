@@ -34,13 +34,21 @@ WHITE='\e[97m'
 BOLD='\e[1m'
 RESET='\e[0m'
 
-# ================== AUTH + IP MODE CONFIG ==================
-LICENSE_KEY_VALID="vip-takumi1337z@007"   # fallback (backward compatible)
+# ================== RESELLER / LICENSE CONFIG ==================
+# Owner master key - ALWAYS accepted, works offline, so the script owner can
+# never be locked out of their own installs.
+LICENSE_KEY_VALID="vip-takumi1337z@007"
 
 GITHUB_OWNER="${GitUser}"
 GITHUB_REPO="VPSSCRIPT"
-GITHUB_FILE="allowed_ips.txt"
-GITHUB_LICENSE_FILE="licenses.txt"  # format: LicenseKey|DD/MM/YYYY or LIFETIME
+# The reseller allow-list. This is the SAME file `add-ip` writes and
+# `check-running` reads, so there is one source of truth.
+ALLOW_FILE="_deps/allow/ipvps.conf"
+# license keys file (optional alternative to IP registration)
+GITHUB_LICENSE_FILE="licenses.txt"
+
+# Owner bypass: env var or marker file
+OWNER_MARKER="/etc/vpscript-owner"
 
 AUTHORIZED=0
 IP_MODE="ipv4"   # default
@@ -135,60 +143,62 @@ check_license() {
 
 check_ip_registered() {
   echo
-  echo -e "${Lyellow}Semak IP VPS di GitHub...${RESET}"
+  echo -e "${Lyellow}Checking this VPS against the allow-list...${RESET}"
 
   MYIP="$(get_public_ip)"
-  TODAY="$(date +%s)"
-
   if [ -z "$MYIP" ]; then
-    echo -e "${Lred}Gagal dapatkan IP VPS.${RESET}"
+    echo -e "${Lred}Could not detect this VPS public IP.${RESET}"
     return 1
   fi
 
   TS=$(date +%s)
-  IP_URL="https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${GITHUB_FILE}?t=${TS}"
-  DATA="$(curl -fsSL --connect-timeout 6 "${IP_URL}" 2>/dev/null || true)"
-  DATA="$(printf '%s' "$DATA" | tr -d '\r')"
+  IP_URL="https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${ALLOW_FILE}?t=${TS}"
+  DATA="$(curl -fsSL --connect-timeout 8 "${IP_URL}" 2>/dev/null || true)"
+  DATA="$(printf '%s' "$DATA" | tr -d '')"
 
   if [ -z "$DATA" ]; then
-    echo -e "${Lred}Gagal baca fail GitHub (${GITHUB_FILE}).${RESET}"
+    echo -e "${Lred}Could not read the allow-list from GitHub.${RESET}"
     return 1
   fi
 
-  while IFS='|' read -r NAME IP EXP; do
-    [ -z "$IP" ] && continue
-    case "$NAME" in \#*) continue ;; esac
-
-    [[ "$IP" != "$MYIP" ]] && continue
+  # format: ### Name OrderID VALIDITY IPVPS
+  while read -r tag name oid validity ip rest; do
+    [ "$tag" = "###" ] || continue
+    [ "$ip" = "$MYIP" ] || continue
 
     echo
-    echo -e "${Lgreen}Nama    : ${BOLD}$NAME${RESET}"
-    echo -e "${Lgreen}IP VPS  : ${BOLD}$IP${RESET}"
-    echo -e "${Lgreen}Expired : ${BOLD}$EXP${RESET}"
+    echo -e "${Lgreen}Name    : ${BOLD}$name${RESET}"
+    echo -e "${Lgreen}Order   : ${BOLD}$oid${RESET}"
+    echo -e "${Lgreen}IP VPS  : ${BOLD}$ip${RESET}"
+    echo -e "${Lgreen}Expired : ${BOLD}$validity${RESET}"
 
-    if [[ "$EXP" == "LIFETIME" ]]; then
+    if [ "$validity" = "LIFETIME" ]; then
       echo -e "${Lgreen}Status  : LIFETIME ACCESS${RESET}"
       AUTHORIZED=1
       return 0
     fi
 
-    EXP_EPOCH=$(date -d "$(awk -F/ '{print $3"-"$2"-"$1}' <<< "$EXP")" +%s 2>/dev/null)
+    # accept YYYY-MM-DD and legacy DD/MM/YYYY
+    EXP_EPOCH=$(date -d "$validity" +%s 2>/dev/null)
     if [ -z "$EXP_EPOCH" ]; then
-      echo -e "${Lred}Format tarikh tidak sah.${RESET}"
+      EXP_EPOCH=$(date -d "$(awk -F/ '{print $3"-"$2"-"$1}' <<< "$validity")" +%s 2>/dev/null)
+    fi
+    if [ -z "$EXP_EPOCH" ]; then
+      echo -e "${Lred}Invalid expiry date format.${RESET}"
       return 1
     fi
 
-    if [[ "$TODAY" -le "$EXP_EPOCH" ]]; then
-      echo -e "${Lgreen}Status  : AKTIF${RESET}"
+    if [ "$(date +%s)" -le "$EXP_EPOCH" ]; then
+      echo -e "${Lgreen}Status  : ACTIVE${RESET}"
       AUTHORIZED=1
       return 0
     else
-      echo -e "${Lred}Status  : EXPIRED ❌${RESET}"
+      echo -e "${Lred}Status  : EXPIRED${RESET}"
       return 1
     fi
   done <<< "$DATA"
 
-  echo -e "${Lred}IP VPS tidak berdaftar.${RESET}"
+  echo -e "${Lred}This VPS IP is not registered.${RESET}"
   return 1
 }
 
@@ -272,9 +282,28 @@ if [ "$(systemd-detect-virt)" == "openvz" ]; then
   exit 1
 fi
 
-# =================== AUTH GATE (REMOVED BY TAKUMIWASHERE FORK) ===================
-AUTHORIZED=1
-echo -e "${Lgreen}License gate bypassed (forked build).${RESET}"
+# =================== AUTH GATE ===================
+AUTHORIZED=0
+if [ "${VPSSCRIPT_OWNER:-0}" = "1" ] || [ -f "$OWNER_MARKER" ]; then
+  AUTHORIZED=1
+  echo -e "${Lgreen}OWNER MODE - authorization skipped.${RESET}"
+elif check_ip_registered; then
+  echo -e "${Lgreen}IP REGISTERED - AUTHORIZED.${RESET}"
+else
+  # not registered -> offer a license key (interactive only)
+  if [ -t 0 ]; then
+    if ! auth_menu; then
+      echo -e "${Lred}NOT AUTHORIZED - ABORTING.${RESET}"
+      exit 1
+    fi
+  fi
+fi
+if [ "$AUTHORIZED" != "1" ]; then
+  echo -e "${Lred}NOT AUTHORIZED - ABORTING.${RESET}"
+  echo -e "${Lyellow}Ask the reseller to add this VPS IP to the allow-list,${RESET}"
+  echo -e "${Lyellow}or run with VPSSCRIPT_OWNER=1 if this box is yours.${RESET}"
+  exit 1
+fi
 ask_ip_mode
 set_ip_mode "$IP_MODE"
 
