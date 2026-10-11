@@ -94,7 +94,7 @@ back_text=$(cat /etc/back)
 number=$(cat /etc/number)
 # BANNER
 banner=$(cat /usr/bin/bannerku)
-ascii=$(cat /usr/bin/test)
+ascii=$(cat /etc/vps-theme)
 clear
 
 # ==============================

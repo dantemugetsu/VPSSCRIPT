@@ -380,7 +380,7 @@ echo "1;37m" > /etc/text
 echo "1;37m" > /etc/below
 echo "47m" > /etc/back
 echo "1;35m" > /etc/number
-echo Standard > /usr/bin/test
+echo Standard > /etc/vps-theme
 # Version
 ver=$( curl https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/_deps/version/version.conf )
 history -c

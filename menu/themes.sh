@@ -25,7 +25,7 @@ back_text=$(cat /etc/back)
 number=$(cat /etc/number)
 # BANNER
 banner=$(cat /usr/bin/bannerku)
-ascii=$(cat /usr/bin/test)
+ascii=$(cat /etc/vps-theme)
 clear
 # FUCTION
 function menu1 () {
@@ -307,245 +307,245 @@ echo -e "\e[$line"
 read -rp " Please Enter 1-35 or x : " -e b
 if [[ "$b" = "1" ]]; then
 clear
-echo "3D-ASCII" > /usr/bin/test
+echo "3D-ASCII" > /etc/vps-theme
 echo -e "Succesfully Set 3D ASCII Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "2" ]]; then
 clear
-echo "3d" > /usr/bin/test
+echo "3d" > /etc/vps-theme
 echo -e "Succesfully Set 3d Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "3" ]]; then
 clear
-echo "4Max" > /usr/bin/test
+echo "4Max" > /etc/vps-theme
 echo -e "Succesfully Set 4Max Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "4" ]]; then
 clear
-echo "Acrobatic" > /usr/bin/test
+echo "Acrobatic" > /etc/vps-theme
 echo -e "Succesfully Set Acrobatic Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "5" ]]; then
 clear
-echo "amcaaa01" > /usr/bin/test
+echo "amcaaa01" > /etc/vps-theme
 echo -e "Succesfully Set amcaaa01 Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "6" ]]; then
 clear
-echo "Shadow" > /usr/bin/test
+echo "Shadow" > /etc/vps-theme
 echo -e "Succesfully Set Shadow Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "7" ]]; then
 clear
-echo "Arrows" > /usr/bin/test
+echo "Arrows" > /etc/vps-theme
 echo -e "Succesfully Set Arrows Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "8" ]]; then
 clear
-echo "Roman" > /usr/bin/test
+echo "Roman" > /etc/vps-theme
 echo -e "Succesfully Set Roman Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "9" ]]; then
 clear
-echo "Avatar" > /usr/bin/test
+echo "Avatar" > /etc/vps-theme
 echo -e "Succesfully Set Avatar Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "10" ]]; then
 clear
-echo "Banner3" > /usr/bin/test
+echo "Banner3" > /etc/vps-theme
 echo -e "Succesfully Set Banner3 Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "11" ]]; then
 clear
-echo "Banner4" > /usr/bin/test
+echo "Banner4" > /etc/vps-theme
 echo -e "Succesfully Set Banner4 Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "12" ]]; then
 clear
-echo "banner" > /usr/bin/test
+echo "banner" > /etc/vps-theme
 echo -e "Succesfully Set banner Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "13" ]]; then
 clear
-echo "Basic" > /usr/bin/test
+echo "Basic" > /etc/vps-theme
 echo -e "Succesfully Set Basic Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "14" ]]; then
 clear
-echo "Bear" > /usr/bin/test
+echo "Bear" > /etc/vps-theme
 echo -e "Succesfully Set Bear Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "15" ]]; then
 clear
-echo "Big" > /usr/bin/test
+echo "Big" > /etc/vps-theme
 echo -e "Succesfully Set Big Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "16" ]]; then
 clear
-echo "Bloody" > /usr/bin/test
+echo "Bloody" > /etc/vps-theme
 echo -e "Succesfully Set Bloody Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "17" ]]; then
 clear
-echo "Braced" > /usr/bin/test
+echo "Braced" > /etc/vps-theme
 echo -e "Succesfully Set Braced Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "18" ]]; then
 clear
-echo "Bright" > /usr/bin/test
+echo "Bright" > /etc/vps-theme
 echo -e "Succesfully Set Bright Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "19" ]]; then
 clear
-echo "Bubble" > /usr/bin/test
+echo "Bubble" > /etc/vps-theme
 echo -e "Succesfully Set Bubble Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "20" ]]; then
 clear
-echo "Cards" > /usr/bin/test
+echo "Cards" > /etc/vps-theme
 echo -e "Succesfully Set Cards Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "21" ]]; then
 clear
-echo "Colossal" > /usr/bin/test
+echo "Colossal" > /etc/vps-theme
 echo -e "Succesfully Set Colossal Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "22" ]]; then
 clear
-echo "Contrast" > /usr/bin/test
+echo "Contrast" > /etc/vps-theme
 echo -e "Succesfully Set Contrast Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "23" ]]; then
 clear
-echo "Cosmic" > /usr/bin/test
+echo "Cosmic" > /etc/vps-theme
 echo -e "Succesfully Set Cosmic Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "24" ]]; then
 clear
-echo "Digital" > /usr/bin/test
+echo "Digital" > /etc/vps-theme
 echo -e "Succesfully Set Digital Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "25" ]]; then
 clear
-echo "Double" > /usr/bin/test
+echo "Double" > /etc/vps-theme
 echo -e "Succesfully Set Double Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "26" ]]; then
 clear
-echo "Epic" > /usr/bin/test
+echo "Epic" > /etc/vps-theme
 echo -e "Succesfully Set Epic Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "27" ]]; then
 clear
-echo "fire_font-k" > /usr/bin/test
+echo "fire_font-k" > /etc/vps-theme
 echo -e "Succesfully Set fire_font-k Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "28" ]]; then
 clear
-echo "fire_font-s" > /usr/bin/test
+echo "fire_font-s" > /etc/vps-theme
 echo -e "Succesfully Set fire_font-s Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "29" ]]; then
 clear
-echo "Georgi16" > /usr/bin/test
+echo "Georgi16" > /etc/vps-theme
 echo -e "Succesfully Set Georgi16 Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "30" ]]; then
 clear
-echo "Slant" > /usr/bin/test
+echo "Slant" > /etc/vps-theme
 echo -e "Succesfully Set Slant Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "31" ]]; then
 clear
-echo "Banner" > /usr/bin/test
+echo "Banner" > /etc/vps-theme
 echo -e "Succesfully Set Banner Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "32" ]]; then
 clear
-echo "Poison" > /usr/bin/test
+echo "Poison" > /etc/vps-theme
 echo -e "Succesfully Set Poison Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "33" ]]; then
 clear
-echo "Reverse" > /usr/bin/test
+echo "Reverse" > /etc/vps-theme
 echo -e "Succesfully Set Reverse Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "34" ]]; then
 clear
-echo "Standard" > /usr/bin/test
+echo "Standard" > /etc/vps-theme
 echo -e "Succesfully Set Standard Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
 menu
 elif [[ "$b" = "35" ]]; then
 clear
-echo "Univers" > /usr/bin/test
+echo "Univers" > /etc/vps-theme
 echo -e "Succesfully Set Univers Banner."
 echo -e "\e[0;32mDone\e[0m"
 sleep 0.5
@@ -1308,7 +1308,7 @@ echo "47m" > /etc/back
 # Colour number
 echo "1;37m" > /etc/number
 # Font banner
-echo 3d > /usr/bin/test
+echo 3d > /etc/vps-theme
 # Banner Name
 echo YouTube > /usr/bin/bannerku
 echo -e "Succesfully Set Youtube Style."
@@ -1332,7 +1332,7 @@ echo "1;36m" > /etc/back
 # Colour number
 echo "1;37m" > /etc/number
 # Font banner
-echo Standard > /usr/bin/test
+echo Standard > /etc/vps-theme
 # Banner Name
 echo Facebook > /usr/bin/bannerku
 echo -e "Succesfully Set Facebook Style."
@@ -1356,7 +1356,7 @@ echo "42m" > /etc/back
 # Colour number
 echo "1;37m" > /etc/number
 # Font banner
-echo Slant > /usr/bin/test
+echo Slant > /etc/vps-theme
 # Banner Name
 echo WhatsApp > /usr/bin/bannerku
 echo -e "Succesfully Set WhatsApp Style."
@@ -1380,7 +1380,7 @@ echo "47m" > /etc/back
 # Colour number
 echo "1;37m" > /etc/number
 # Font banner
-echo Braced > /usr/bin/test
+echo Braced > /etc/vps-theme
 # Banner Name
 echo Squid Game > /usr/bin/bannerku
 echo -e "Succesfully Set Squid Game Style."
@@ -1404,7 +1404,7 @@ echo "41m" > /etc/back
 # Colour number
 echo "1;31m" > /etc/number
 # Font banner
-echo Bloody > /usr/bin/test
+echo Bloody > /etc/vps-theme
 # Banner Name
 echo SILENCE > /usr/bin/bannerku
 echo -e "Succesfully Set Horror Style."
@@ -1428,7 +1428,7 @@ echo "47m" > /etc/back
 # Colour number
 echo "1;37m" > /etc/number
 # Font banner
-echo 3d > /usr/bin/test
+echo 3d > /etc/vps-theme
 # Banner Name
 echo Premium > /usr/bin/bannerku
 echo -e "Succesfully Set Colour Cyan Style."
@@ -1444,7 +1444,7 @@ echo "1;32m" > /etc/text
 echo "1;33m" > /etc/below
 echo "47m" > /etc/back
 echo "1;35m" > /etc/number
-echo 3d > /usr/bin/test
+echo 3d > /etc/vps-theme
 # Banner Name
 echo Premium > /usr/bin/bannerku
 echo -e "Succesfully Set Default Theme."
