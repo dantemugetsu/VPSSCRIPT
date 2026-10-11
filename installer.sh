@@ -109,7 +109,10 @@ while true; do
         apt install -y screen >/dev/null 2>&1
     fi
 
-    if [ -z "$STY" ] && command -v screen >/dev/null 2>&1; then
+    # screen needs a controlling terminal; without one it errors out and the
+    # install would die. Headless (cloud-init/CI/piped) has no user to detach
+    # from anyway, so just run it directly.
+    if [ -z "$STY" ] && [ -t 0 ] && command -v screen >/dev/null 2>&1; then
         screen -wipe >/dev/null 2>&1
         echo
         echo -e "${GREEN}Starting install (v${VER}) inside screen session 'setup'.${RESET}"
@@ -119,6 +122,9 @@ while true; do
         exec screen -L -Logfile /root/install.log -S setup bash "$0" --run "$VER"
     fi
 
+    if [ ! -t 0 ]; then
+        echo -e "${YELLOW}[no tty] running the install directly (headless mode)${RESET}"
+    fi
     run_install "$VER"
     read -r dummy
 done
