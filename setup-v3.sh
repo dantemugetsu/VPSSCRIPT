@@ -239,7 +239,7 @@ echo "   ██║   ██╔══██║██╔═██╗ ██║   �
 echo "   ██║   ██║  ██║██║  ██╗╚██████╔╝██║ ╚═╝ ██║██║ ██║██████╔╝██████╔╝   ██║  ███████╗";
 echo "   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚═╝ ╚═╝╚═════╝ ╚═════╝    ╚═╝  ╚══════╝";
 echo "                                                              "
-echo -e "${Lyellow}⚡PREMIUM SCRIPT V3.0 (MULTIPORT + LATEST XRAYCORE + SUPPORT MULTIPATH ) ⚡${RESET}"
+echo -e "${Lyellow}⚡TAKUMI1337Z SCRIPT V3.0 (MULTIPORT + LATEST XRAYCORE + SUPPORT MULTIPATH ) ⚡${RESET}"
 echo -e "${Lyellow}           ⚡DEFAULT XRAYCORE MOD V25.3.15 + NEW SERVICES ⚡${RESET}"
 echo -e "${green}.............................................................................${RESET}"
 echo
@@ -390,7 +390,7 @@ clear
 echo " "
 echo "Installation has been completed!!"
 echo " "
-echo -e "\e[1;32m══════════════════ Autoscript PREMIUM ══════════════════\e[0m" | tee -a log-install.txt
+echo -e "\e[1;32m══════════════════ Autoscript TAKUMI1337Z ══════════════════\e[0m" | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "   >>> Service & Port"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
@@ -462,7 +462,7 @@ clear
 echo ""
 echo -e "    \e[1;32m.------------------------------------------.\e[0m"
 echo -e "    \e[1;32m|     SUCCESFULLY INSTALLED THE SCRIPT     |\e[0m"
-echo -e "    \e[1;32m|         PREMIUM BY TAKUMIWASHERE            |\e[0m"
+echo -e "    \e[1;32m|         TAKUMI1337Z BY TAKUMIWASHERE            |\e[0m"
 echo -e "    \e[1;32m'------------------------------------------'\e[0m"
 echo ""
 echo -e "   \e[1;32mYour VPS Will Be Automatical Reboot In 5 seconds\e[0m"

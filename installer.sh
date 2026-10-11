@@ -41,7 +41,7 @@ install_v3() {
 while true; do
     clear
     echo -e "${CYAN}╔════════════════════════════════════════════════════════╗${RESET}"
-    echo -e "${CYAN}║${RESET}             ${BOLD}${MAGENTA}SCRIPT MULTIPORT BY TAKUMIWASHERE${RESET}             ${CYAN}║${RESET}"
+    echo -e "${CYAN}║${RESET}              ${BOLD}${MAGENTA}TAKUMI1337Z MULTIPORT SCRIPT${RESET}              ${CYAN}║${RESET}"
     echo -e "${CYAN}╠════════════════════════════════════════════════════════╣${RESET}"
     echo -e "${CYAN}║${RESET}  ${GREEN}1)${RESET} Install Version 2.0 [OLD XRAYCORE]                 ${CYAN}║${RESET}"
     echo -e "${CYAN}║${RESET}  ${GREEN}2)${RESET} Install Version 3.0 [LATEST XRAYCORE+NEW SERVICES] ${CYAN}║${RESET}"

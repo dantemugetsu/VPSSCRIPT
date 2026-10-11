@@ -22,7 +22,7 @@ figlet " BY TAKUMIWASHERE" | lolcat
 echo -e "\e[32;1m.-----------------------------------------------.\e[0m"
 echo -e "\e[32;1m|               \e[36;1mINFO SCRIPT VPS\e[0m                 \e[32;1m|\e[0m"
 echo -e "\e[32;1m'-----------------------------------------------'\e[0m"
-echo -e "           \e[031;1m> Premium Script By TAKUMIWASHERE <\e[0m" | lolcat
+echo -e "           \e[031;1m> TAKUMI1337Z Script By TAKUMIWASHERE <\e[0m" | lolcat
 echo -e " \e[0;32m_______________________________________________\e[0m"
 echo -e "\e[0;32m|    \e[1;35mFor OS Debian & Ubuntu 64 bit Old/Latest    \e[0;32m|\e[0m"
 echo -e "\e[0;32m|  \e[1;35mFor VPS with KVM and VMWare TAKUMIWASHERE         \e[0;32m|\e[0m"
