@@ -13,11 +13,36 @@ RESET="\e[0m"
 
 REPO="https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main"
 
+# ---------------------------------------------------------------------------
+# Make apt fully non-interactive.
+#   needrestart pops a TUI dialog on EVERY apt transaction that restarts a
+#   service or stages a kernel; the chain below makes ~90 apt calls, so the
+#   user would be prompted endlessly (looks like a hang/loop).
+#   Force list-only mode via the supported conf.d override.
+# ---------------------------------------------------------------------------
+disable_needrestart() {
+    export DEBIAN_FRONTEND=noninteractive
+    export NEEDRESTART_MODE=a
+    mkdir -p /etc/needrestart/conf.d
+    cat > /etc/needrestart/conf.d/99-vpsscript.conf <<'NREOF'
+# VPSSCRIPT: never prompt during install. Applied by installer.sh.
+$nrconf{restart} = 'l';
+$nrconf{kernelhints} = 0;
+NREOF
+    # also patch the main config, for needrestart versions without conf.d support
+    if [ -f /etc/needrestart/needrestart.conf ]; then
+        sed -i "s/^#*\$nrconf{restart} = .*/\$nrconf{restart} = 'l';/"   /etc/needrestart/needrestart.conf 2>/dev/null
+        sed -i "s/^#*\$nrconf{kernelhints} = .*/\$nrconf{kernelhints} = 0;/" /etc/needrestart/needrestart.conf 2>/dev/null
+    fi
+}
+
 run_install() {
     local V="$1"
 
     echo -e "${YELLOW}${BOLD}>> Installing Script Multiport Version ${V}.0${RESET}"
     echo
+
+    disable_needrestart
 
     apt update -y && \
     apt upgrade -y && \

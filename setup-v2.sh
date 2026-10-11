@@ -1,4 +1,12 @@
 #!/bin/bash
+# --- non-interactive apt: needrestart would otherwise prompt on every apt call ---
+export DEBIAN_FRONTEND=noninteractive
+export NEEDRESTART_MODE=a
+if [ -d /etc/needrestart ]; then
+  mkdir -p /etc/needrestart/conf.d
+  printf '%s\n' "\$nrconf{restart} = 'l';" "\$nrconf{kernelhints} = 0;" \
+    > /etc/needrestart/conf.d/99-vpsscript.conf
+fi
 GitUser="dantemugetsu"
 
 # ================== COLOR ==================
