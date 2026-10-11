@@ -420,7 +420,6 @@ Other commands: `check-ssh`, `check-limit`, `list-member`, `quick-backup`, `back
  ├─ [ 23 ] Install UDP Custom       -> (downloads)          [was 77]
  ├─ [ 24 ] Xray-core Changer        -> (downloads)          [was 88]
  ├─ [ 25 ] Change Dropbear Version  -> change-dropbear       [was 99]
- └─ [ 26 ] Allow-list Manager       -> add-ip   (RESELLER)
 ```
 
 > Items **20–25** were previously numbered `44/55/66/77/88/99`. **Both numbers
@@ -456,13 +455,14 @@ Because the VPS's IP hash is *inside* the signed payload:
 | **Works offline** | no GitHub needed at install time |
 
 The **public** key is embedded in `setup-v2.sh` / `setup-v3.sh` (verify-only —
-safe to publish). The **private** key lives only at `/etc/adminip/owner.key`
-(mode 600) on your box.
+safe to publish). The **private** key lives **only on your own machine**, never
+on a server — see "Issuing a license" below.
 
 ### Authorisation order
 
-1. **Owner box** — private key present *and* it derives to the embedded public
-   key → authorised. (No master key exists.)
+1. **Owner box** — the private key is present *and* it derives to the embedded
+   public key → authorised. (No master key exists.) This only triggers on a
+   machine you deliberately put the key on.
 2. **License key** — supplied via `VPSSCRIPT_LICENSE=…`, cached in
    `/etc/vpscript-license`, or typed at the prompt. Verified, then the IP hash
    must match **this** VPS and the validity must not be expired.
@@ -472,24 +472,31 @@ safe to publish). The **private** key lives only at `/etc/adminip/owner.key`
 
 Anything else → install aborts.
 
-### Issuing a license
+### Issuing a license — on YOUR machine
 
-`menu` → `5` (SYSTEM TOOLS) → `[ 26 ] ALLOW-LIST MANAGER`, or run `add-ip`:
+Signing is done **offline, locally**, with `04-tools/vpslicense.py`. The private
+key never touches a server, and the tool is never installed on customer boxes.
 
+```bash
+cd "C:/AI PROJECT/projects/VPSSCRIPT-RE/04-tools"
+
+python3 vpslicense.py init                        # once: make your keypair
+python3 vpslicense.py pubkey                      # paste into OWNER_PUBKEY
+python3 vpslicense.py issue Ali ORD-001 203.0.113.10 LIFETIME
+python3 vpslicense.py list
+python3 vpslicense.py verify <token> <ip>         # self-test
+python3 vpslicense.py registry                    # build + sign registry.txt/.sig
+python3 vpslicense.py publish                     # push registry (needs GITHUB_TOKEN)
+python3 vpslicense.py revoke 203.0.113.10         # drop an IP from the registry
 ```
-[ 01 ] ISSUE LICENSE (per-VPS KEY)      -> prints the customer's key
-[ 02 ] LIST ISSUED LICENSES             -> local record
-[ 03 ] PUBLISH SIGNED REGISTRY          -> so customers need no key at all
-[ 05 ] OWNER KEY (generate / show)      -> run this FIRST
-[ 07 ] SET GITHUB TOKEN                 -> only needed for [ 03 ]
-```
 
-**First run:** `[ 05 ]` generates the owner keypair and prints the **public**
-key. Put that value into `OWNER_PUBKEY=` in both `setup-v2.sh` and
-`setup-v3.sh`. The private key stays on your box.
+Validity is `LIFETIME` (default), a number of days, or `YYYY-MM-DD`.
 
-**Then:** `[ 01 ]`, enter the customer's name / order ID / **their VPS IP** and
-a validity. You get a key to send them:
+`init` prints the **public** key — put it in `OWNER_PUBKEY=` in **both**
+`setup-v2.sh` and `setup-v3.sh` and push. The private key stays in
+`~/.config/vpslicense/owner.key` (mode 600) on your machine.
+
+Give the customer the token it prints:
 
 ```bash
 VPSSCRIPT_LICENSE='<the key>' ./installer.sh
@@ -497,9 +504,22 @@ VPSSCRIPT_LICENSE='<the key>' ./installer.sh
 
 …or they paste it when the installer asks.
 
-**Optional:** `[ 03 ]` publishes a **signed** registry so customers need no key
-at all — their IP just has to be in it. Needs `[ 07 ]` (a GitHub PAT with
-`repo` scope, stored mode 600).
+**Optional:** `registry` + `publish` push a **signed** registry so customers
+need no key at all — their IP just has to be in it. `publish` needs
+`GITHUB_TOKEN` in the environment (a PAT with `repo` scope, or a fine-grained
+token with Contents:write).
+
+### Back up your key — it is the whole trust root
+
+`~/.config/vpslicense/owner.key` is the only thing that can issue licenses.
+
+- **Lose it** → you can never issue a new license (existing ones keep working).
+- **Leak it** → someone can issue licenses for any IP (but nothing else — no
+  access to customer boxes or your data).
+
+Keep it offline and encrypted. **Do not** copy it to a Windows drive — `/mnt/c`
+is mode 777, so any Windows process can read it. The WSL filesystem (`~/`) keeps
+mode 600.
 
 ### A new registry entry takes a few minutes to be seen
 
