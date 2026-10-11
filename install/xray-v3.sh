@@ -721,9 +721,12 @@ systemctl enable xray@config
 systemctl restart xray@config
 
 
-# // RECOVER: restart any xray unit that failed its first start (log-perm race)
-for u in xray xray@none xray@tcp xray@vless xray@vlessnone xray@vlessc xray@config \
-         xray@vmess xray@vmessnone xray@vmessc xray@trojan xray@trojannone; do
+# // RECOVER: restart any xray unit that failed its first start (log-perm race).
+# NOTE: v3 is NOT the same layout as v2 - v3 serves every protocol from
+# config.json/none.json only, so ONLY these three units exist. Restarting
+# xray@vless / xray@vmess / ... here would start units whose config files do
+# not exist and leave them permanently `failed`.
+for u in xray xray@none xray@config; do
   systemctl is-active --quiet "$u" || systemctl restart "$u" 2>/dev/null || true
 done
 

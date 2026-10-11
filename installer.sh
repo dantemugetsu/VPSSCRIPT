@@ -84,7 +84,13 @@ while true; do
     echo -e "${CYAN}╚════════════════════════════════════════════════════════╝${RESET}"
     echo
     echo -ne "${BOLD}${WHITE}Pilih option [0-2]: ${RESET}"
-    read -r choice
+    # read returns non-zero on EOF; without this, a piped/automated install
+    # spins forever on the empty default branch and grows the log unbounded.
+    if ! read -r choice; then
+        echo
+        echo -e "${YELLOW}stdin closed (EOF) - exiting.${RESET}"
+        exit 0
+    fi
 
     case "$choice" in
         1) VER=2 ;;
@@ -98,7 +104,7 @@ while true; do
             echo
             echo -e "${RED}Pilihan tak sah! Sila pilih 0, 1 atau 2.${RESET}"
             echo -ne "${CYAN}Tekan ENTER untuk cuba lagi...${RESET}"
-            read -r dummy
+            read -r dummy || exit 0
             continue
             ;;
     esac
