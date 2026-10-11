@@ -1,9 +1,9 @@
 #!/bin/bash
 GitUser="dantemugetsu"
 # status-column colours (were used but never defined -> blank column)
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-NORMAL='\033[0m'
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+NORMAL=$'\033[0m'
 #IZIN SCRIPT
 MYIP=$(curl -sS ipv4.icanhazip.com)
 MYIP=$(curl -s ipinfo.io/ip )
