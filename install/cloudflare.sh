@@ -40,5 +40,17 @@ RESULT=$(curl -sLX PUT "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_r
      --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","ttl":120,"proxied":false}')
 echo "Host : $SUB_DOMAIN"
 echo "IP=" >> /var/lib/premium-script/ipvps.conf
+
+# --- validate before writing: refuse garbage like "2hq5." ---
+if [[ -z "${DOMAIN}" || "${SUB_DOMAIN}" != *.*.* || "${SUB_DOMAIN}" == *".."* ]]; then
+    echo
+    echo "ERROR: random subdomain generation failed."
+    echo "  CF_DOMAIN is empty -> SUB_DOMAIN would be '${SUB_DOMAIN}'"
+    echo "  Set CF_DOMAIN and CF_APIKEY, or use option 1 to enter your own domain."
+    echo "  NOT writing /root/domain (refusing to install a broken domain)."
+    rm -f /root/cf.sh
+    exit 1
+fi
+
 echo $SUB_DOMAIN > /root/domain
 rm -f /root/cf.sh

@@ -306,6 +306,13 @@ read -p "   Subdomain: " host1
 echo "IP=" >> /var/lib/premium-script/ipvps.conf
 echo $host1 > /root/domain
 echo ""
+elif [[ "$host" == *.* ]]; then
+# user typed an actual domain at this prompt -> use it directly
+echo -e "   \e[1;32mUsing your domain: $host"
+mkdir -p /var/lib/premium-script
+echo "IP=" >> /var/lib/premium-script/ipvps.conf
+echo "$host" > /root/domain
+echo ""
 elif [[ $host == "2" ]]; then
 #install cf
 wget -O cf.sh https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/cloudflare.sh && chmod +x cf.sh && ./cf.sh

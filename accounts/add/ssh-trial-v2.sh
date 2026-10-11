@@ -23,17 +23,17 @@ domain=$(cat /usr/local/etc/xray/domain)
 else
 domain=$IP
 fi
-ssl="$(cat ~/log-install.txt | grep -w "Stunnel4" | cut -d: -f2)"
-sqd="$(cat ~/log-install.txt | grep -w "Squid" | cut -d: -f2)"
+ssl="$(cat /root/log-install.txt | grep -w "Stunnel4" | cut -d: -f2)"
+sqd="$(cat /root/log-install.txt | grep -w "Squid" | cut -d: -f2)"
 ovpn="$(netstat -nlpt | grep -i openvpn | grep -i 0.0.0.0 | awk '{print $4}' | cut -d: -f2)"
 ovpn2="$(netstat -nlpu | grep -i openvpn | grep -i 0.0.0.0 | awk '{print $4}' | cut -d: -f2)"
-ovpn3="$(cat ~/log-install.txt | grep -w "OHP OpenVPN" | cut -d: -f2|sed 's/ //g')"
-ovpn4="$(cat ~/log-install.txt | grep -w "OpenVPN SSL" | cut -d: -f2|sed 's/ //g')"
-ohpssh="$(cat ~/log-install.txt | grep -w "OHP SSH" | cut -d: -f2|sed 's/ //g')"
-ohpdrop="$(cat ~/log-install.txt | grep -w "OHP Dropbear" | cut -d: -f2|sed 's/ //g')"
-wsdropbear="$(cat ~/log-install.txt | grep -w "Websocket SSH(HTTP)" | cut -d: -f2|sed 's/ //g')"
-wsstunnel="$(cat ~/log-install.txt | grep -w "Websocket SSL(HTTPS)" | cut -d: -f2|sed 's/ //g')"
-wsovpn="$(cat ~/log-install.txt | grep -w "Websocket OpenVPN" | cut -d: -f2|sed 's/ //g')"
+ovpn3="$(cat /root/log-install.txt | grep -w "OHP OpenVPN" | cut -d: -f2|sed 's/ //g')"
+ovpn4="$(cat /root/log-install.txt | grep -w "OpenVPN SSL" | cut -d: -f2|sed 's/ //g')"
+ohpssh="$(cat /root/log-install.txt | grep -w "OHP SSH" | cut -d: -f2|sed 's/ //g')"
+ohpdrop="$(cat /root/log-install.txt | grep -w "OHP Dropbear" | cut -d: -f2|sed 's/ //g')"
+wsdropbear="$(cat /root/log-install.txt | grep -w "Websocket SSH(HTTP)" | cut -d: -f2|sed 's/ //g')"
+wsstunnel="$(cat /root/log-install.txt | grep -w "Websocket SSL(HTTPS)" | cut -d: -f2|sed 's/ //g')"
+wsovpn="$(cat /root/log-install.txt | grep -w "Websocket OpenVPN" | cut -d: -f2|sed 's/ //g')"
 sleep 1
 Login=trial`</dev/urandom tr -dc X-Z0-9 | head -c4`
 hari="1"

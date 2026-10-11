@@ -45,17 +45,17 @@ else
 domain=$IP
 fi
 
-export ssl="$(cat ~/log-install.txt | grep -w "Stunnel4" | cut -d: -f2)"
-export sqd="$(cat ~/log-install.txt | grep -w "Squid" | cut -d: -f2)"
+export ssl="$(cat /root/log-install.txt | grep -w "Stunnel4" | cut -d: -f2)"
+export sqd="$(cat /root/log-install.txt | grep -w "Squid" | cut -d: -f2)"
 export ovpn="$(netstat -nlpt | grep -i openvpn | grep -i 0.0.0.0 | awk '{print $4}' | cut -d: -f2)"
 export ovpn2="$(netstat -nlpu | grep -i openvpn | grep -i 0.0.0.0 | awk '{print $4}' | cut -d: -f2)"
-export ovpn3="$(cat ~/log-install.txt | grep -w "OHP OpenVPN" | cut -d: -f2|sed 's/ //g')"
-export ovpn4="$(cat ~/log-install.txt | grep -w "OpenVPN SSL" | cut -d: -f2|sed 's/ //g')"
-export ohpssh="$(cat ~/log-install.txt | grep -w "OHP SSH" | cut -d: -f2|sed 's/ //g')"
-export ohpdrop="$(cat ~/log-install.txt | grep -w "OHP Dropbear" | cut -d: -f2|sed 's/ //g')"
-export wsdropbear="$(cat ~/log-install.txt | grep -w "Websocket SSH(HTTP)" | cut -d: -f2|sed 's/ //g')"
-export wsstunnel="$(cat ~/log-install.txt | grep -w "Websocket SSL(HTTPS)" | cut -d: -f2|sed 's/ //g')"
-export wsovpn="$(cat ~/log-install.txt | grep -w "Websocket OpenVPN" | cut -d: -f2|sed 's/ //g')"
+export ovpn3="$(cat /root/log-install.txt | grep -w "OHP OpenVPN" | cut -d: -f2|sed 's/ //g')"
+export ovpn4="$(cat /root/log-install.txt | grep -w "OpenVPN SSL" | cut -d: -f2|sed 's/ //g')"
+export ohpssh="$(cat /root/log-install.txt | grep -w "OHP SSH" | cut -d: -f2|sed 's/ //g')"
+export ohpdrop="$(cat /root/log-install.txt | grep -w "OHP Dropbear" | cut -d: -f2|sed 's/ //g')"
+export wsdropbear="$(cat /root/log-install.txt | grep -w "Websocket SSH(HTTP)" | cut -d: -f2|sed 's/ //g')"
+export wsstunnel="$(cat /root/log-install.txt | grep -w "Websocket SSL(HTTPS)" | cut -d: -f2|sed 's/ //g')"
+export wsovpn="$(cat /root/log-install.txt | grep -w "Websocket OpenVPN" | cut -d: -f2|sed 's/ //g')"
 #nsdomain1=$(cat /root/nsdomain)
 #pubkey1=$(cat /etc/slowdns/server.pub)
 

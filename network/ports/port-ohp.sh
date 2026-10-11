@@ -6,8 +6,8 @@ MYIP=$(curl -s ipinfo.io/ip )
 MYIP=$(curl -sS ipv4.icanhazip.com)
 MYIP=$(curl -sS ifconfig.me )
 clear
-ohpssh="$(cat ~/log-install.txt | grep -w "OHP SSH" | cut -d: -f2|sed 's/ //g')"
-ohpdrop="$(cat ~/log-install.txt | grep -w "OHP Dropbear" | cut -d: -f2|sed 's/ //g')"
+ohpssh="$(cat /root/log-install.txt | grep -w "OHP SSH" | cut -d: -f2|sed 's/ //g')"
+ohpdrop="$(cat /root/log-install.txt | grep -w "OHP Dropbear" | cut -d: -f2|sed 's/ //g')"
 echo -e "\e[1;33m.-----------------------------------------.\e[0m"
 echo -e "\e[1;33m|         \e[0;36mCHANGE PORT OHP OPENSSH\e[m         \e[1;33m|\e[0m"
 echo -e "\e[1;33m'-----------------------------------------'\e[0m"

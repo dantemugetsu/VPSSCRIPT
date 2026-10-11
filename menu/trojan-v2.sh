@@ -1,7 +1,7 @@
 #!/bin/bash
 # --- root guard: re-exec as root (system files need root) ---
 if [ "${EUID}" -ne 0 ]; then
-  if command -v sudo >/dev/null 2>&1; then exec sudo -E "$0" "$@"; fi
+  if command -v sudo >/dev/null 2>&1; then exec sudo -H "$0" "$@"; fi
   echo "Run as root: sudo $0"; exit 1
 fi
 
@@ -55,7 +55,7 @@ fi
 # // FUCTION CREATE USER TROJAN
 function menu1 () {
 clear
-export xtr="$(cat ~/log-install.txt | grep -w "Trojan Tcp Tls" | cut -d: -f2|sed 's/ //g')"
+export xtr="$(cat /root/log-install.txt | grep -w "Trojan Tcp Tls" | cut -d: -f2|sed 's/ //g')"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
 echo -e   "  \e[$back_text          \e[30m[\e[$box CREATE USER XRAY TROJAN TCP TLS\e[30m ]\e[1m          \e[m"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
@@ -146,7 +146,7 @@ exec trojan-menu
 # // FUCTION TRIAL USER TROJAN
 function menu2 () {
 clear
-export xtr="$(cat ~/log-install.txt | grep -w "Trojan Tcp Tls" | cut -d: -f2|sed 's/ //g')"
+export xtr="$(cat /root/log-install.txt | grep -w "Trojan Tcp Tls" | cut -d: -f2|sed 's/ //g')"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
 echo -e   "  \e[$back_text          \e[30m[\e[$box TRIAL USER XRAY TROJAN TCP TLS\e[30m ]\e[1m           \e[m"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
@@ -307,7 +307,7 @@ exec trojan-menu
 }
 
 function menu5 () {
-xtr="$(cat ~/log-install.txt | grep -w "Trojan Tcp Tls" | cut -d: -f2|sed 's/ //g')"
+xtr="$(cat /root/log-install.txt | grep -w "Trojan Tcp Tls" | cut -d: -f2|sed 's/ //g')"
 clear
 NUMBER_OF_CLIENTS=$(grep -c -E "^### " "/usr/local/etc/xray/akunxtr.conf")
 	if [[ ${NUMBER_OF_CLIENTS} == '0' ]]; then
@@ -458,8 +458,8 @@ exec trojan-menu
 # // FUCTION CREATE USER TROJAN
 function menu7 () {
 clear
-trnone="$(cat ~/log-install.txt | grep -w "Xray Trojan Ws None Tls" | cut -d: -f2|sed 's/ //g')"
-trws="$(cat ~/log-install.txt | grep -w "Trojan Ws Tls" | cut -d: -f2|sed 's/ //g')"
+trnone="$(cat /root/log-install.txt | grep -w "Xray Trojan Ws None Tls" | cut -d: -f2|sed 's/ //g')"
+trws="$(cat /root/log-install.txt | grep -w "Trojan Ws Tls" | cut -d: -f2|sed 's/ //g')"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
 echo -e   "  \e[$back_text          \e[30m[\e[$box CREATE USER XRAY TROJAN WS TLS\e[30m ]\e[1m          \e[m"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
@@ -567,8 +567,8 @@ exec trojan-menu
 # FUCTION TRIAL USER TROJAN
 function menu8 () {
 clear
-trws="$(cat ~/log-install.txt | grep -w "Trojan Ws Tls" | cut -d: -f2|sed 's/ //g')"
-trnone="$(cat ~/log-install.txt | grep -w "Xray Trojan Ws None Tls" | cut -d: -f2|sed 's/ //g')"
+trws="$(cat /root/log-install.txt | grep -w "Trojan Ws Tls" | cut -d: -f2|sed 's/ //g')"
+trnone="$(cat /root/log-install.txt | grep -w "Xray Trojan Ws None Tls" | cut -d: -f2|sed 's/ //g')"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
 echo -e   "  \e[$back_text          \e[30m[\e[$box TRIAL USER XRAY TROJAN WS TLS\e[30m ]\e[1m           \e[m"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
@@ -736,8 +736,8 @@ exec trojan-menu
 
 function menu11 () {
 clear
-trnone="$(cat ~/log-install.txt | grep -w "Xray Trojan Ws None Tls" | cut -d: -f2|sed 's/ //g')"
-trws="$(cat ~/log-install.txt | grep -w "Trojan Ws Tls" | cut -d: -f2|sed 's/ //g')"
+trnone="$(cat /root/log-install.txt | grep -w "Xray Trojan Ws None Tls" | cut -d: -f2|sed 's/ //g')"
+trws="$(cat /root/log-install.txt | grep -w "Trojan Ws Tls" | cut -d: -f2|sed 's/ //g')"
 NUMBER_OF_CLIENTS=$(grep -c -E "^#trws " "/usr/local/etc/xray/trojan.json")
 	if [[ ${NUMBER_OF_CLIENTS} == '0' ]]; then
 		clear

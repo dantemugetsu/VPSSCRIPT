@@ -1,7 +1,7 @@
 #!/bin/bash
 # --- root guard: re-exec as root (system files need root) ---
 if [ "${EUID}" -ne 0 ]; then
-  if command -v sudo >/dev/null 2>&1; then exec sudo -E "$0" "$@"; fi
+  if command -v sudo >/dev/null 2>&1; then exec sudo -H "$0" "$@"; fi
   echo "Run as root: sudo $0"; exit 1
 fi
 
@@ -55,8 +55,8 @@ fi
 # // FUCTION ADD USER
 function menu1 () {
 clear
-tls="$(cat ~/log-install.txt | grep -w "Vmess Ws Tls" | cut -d: -f2|sed 's/ //g')"
-none="$(cat ~/log-install.txt | grep -w "Vmess Ws None Tls" | cut -d: -f2|sed 's/ //g')"
+tls="$(cat /root/log-install.txt | grep -w "Vmess Ws Tls" | cut -d: -f2|sed 's/ //g')"
+none="$(cat /root/log-install.txt | grep -w "Vmess Ws None Tls" | cut -d: -f2|sed 's/ //g')"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
 echo -e   "  \e[$back_text           \e[30m[\e[$box CREATE USER XRAY VMESS WS TLS\e[30m ]\e[1m           \e[m"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
@@ -290,8 +290,8 @@ exec xray-menu
 # // TRIAL USER
 function menu2 () {
 clear
-tls="$(cat ~/log-install.txt | grep -w "Vmess Ws Tls" | cut -d: -f2|sed 's/ //g')"
-none="$(cat ~/log-install.txt | grep -w "Vmess Ws None Tls" | cut -d: -f2|sed 's/ //g')"
+tls="$(cat /root/log-install.txt | grep -w "Vmess Ws Tls" | cut -d: -f2|sed 's/ //g')"
+none="$(cat /root/log-install.txt | grep -w "Vmess Ws None Tls" | cut -d: -f2|sed 's/ //g')"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
 echo -e   "  \e[$back_text           \e[30m[\e[$box TRIAL USER XRAY VMESS WS TLS\e[30m ]\e[1m            \e[m"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
@@ -596,8 +596,8 @@ exec xray-menu
 # show user
 function menu5 () {
 clear
-tls="$(cat ~/log-install.txt | grep -w "Vmess Ws Tls" | cut -d: -f2|sed 's/ //g')"
-none="$(cat ~/log-install.txt | grep -w "Vmess Ws None Tls" | cut -d: -f2|sed 's/ //g')"
+tls="$(cat /root/log-install.txt | grep -w "Vmess Ws Tls" | cut -d: -f2|sed 's/ //g')"
+none="$(cat /root/log-install.txt | grep -w "Vmess Ws None Tls" | cut -d: -f2|sed 's/ //g')"
 NUMBER_OF_CLIENTS=$(grep -c -E "^#vms " "/usr/local/etc/xray/config.json")
 	if [[ ${NUMBER_OF_CLIENTS} == '0' ]]; then
 		clear
@@ -787,12 +787,12 @@ exec xray-menu
 # ADD USER VLESS WS
 function menu6 () {
 clear
-tls="$(cat ~/log-install.txt | grep -w "Vless Ws Tls" | cut -d: -f2|sed 's/ //g')"
-none="$(cat ~/log-install.txt | grep -w "Vless Ws None Tls" | cut -d: -f2|sed 's/ //g')"
-upgradetls="$(cat ~/log-install.txt | grep -w "Xray HttpUpgrade Tls" | cut -d: -f2|sed 's/ //g')"
-upgradenone="$(cat ~/log-install.txt | grep -w "Xray HttpUpgrade None Tls" | cut -d: -f2|sed 's/ //g')"
-xhttptls="$(cat ~/log-install.txt | grep -w "Xray Vless Xhttp Tls" | cut -d: -f2|sed 's/ //g')"
-xhttpnone="$(cat ~/log-install.txt | grep -w "Xray Vless Xhttp None Tls" | cut -d: -f2|sed 's/ //g')"
+tls="$(cat /root/log-install.txt | grep -w "Vless Ws Tls" | cut -d: -f2|sed 's/ //g')"
+none="$(cat /root/log-install.txt | grep -w "Vless Ws None Tls" | cut -d: -f2|sed 's/ //g')"
+upgradetls="$(cat /root/log-install.txt | grep -w "Xray HttpUpgrade Tls" | cut -d: -f2|sed 's/ //g')"
+upgradenone="$(cat /root/log-install.txt | grep -w "Xray HttpUpgrade None Tls" | cut -d: -f2|sed 's/ //g')"
+xhttptls="$(cat /root/log-install.txt | grep -w "Xray Vless Xhttp Tls" | cut -d: -f2|sed 's/ //g')"
+xhttpnone="$(cat /root/log-install.txt | grep -w "Xray Vless Xhttp None Tls" | cut -d: -f2|sed 's/ //g')"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
 echo -e   "  \e[$back_text           \e[30m[\e[$box CREATE USER XRAY VLESS WS TLS\e[30m ]\e[1m           \e[m"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
@@ -969,12 +969,12 @@ exec xray-menu
 # TRIAL USER VLESS WS
 function menu7 () {
 clear
-tls="$(cat ~/log-install.txt | grep -w "Vless Ws Tls" | cut -d: -f2|sed 's/ //g')"
-none="$(cat ~/log-install.txt | grep -w "Vless Ws None Tls" | cut -d: -f2|sed 's/ //g')"
-upgradetls="$(cat ~/log-install.txt | grep -w "Xray HttpUpgrade Tls" | cut -d: -f2|sed 's/ //g')"
-upgradenone="$(cat ~/log-install.txt | grep -w "Xray HttpUpgrade None Tls" | cut -d: -f2|sed 's/ //g')"
-xhttptls="$(cat ~/log-install.txt | grep -w "Xray Vless Xhttp Tls" | cut -d: -f2|sed 's/ //g')"
-xhttpnone="$(cat ~/log-install.txt | grep -w "Xray Vless Xhttp None Tls" | cut -d: -f2|sed 's/ //g')"
+tls="$(cat /root/log-install.txt | grep -w "Vless Ws Tls" | cut -d: -f2|sed 's/ //g')"
+none="$(cat /root/log-install.txt | grep -w "Vless Ws None Tls" | cut -d: -f2|sed 's/ //g')"
+upgradetls="$(cat /root/log-install.txt | grep -w "Xray HttpUpgrade Tls" | cut -d: -f2|sed 's/ //g')"
+upgradenone="$(cat /root/log-install.txt | grep -w "Xray HttpUpgrade None Tls" | cut -d: -f2|sed 's/ //g')"
+xhttptls="$(cat /root/log-install.txt | grep -w "Xray Vless Xhttp Tls" | cut -d: -f2|sed 's/ //g')"
+xhttpnone="$(cat /root/log-install.txt | grep -w "Xray Vless Xhttp None Tls" | cut -d: -f2|sed 's/ //g')"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
 echo -e   "  \e[$back_text           \e[30m[\e[$box TRIAL USER XRAY VLESS WS TLS\e[30m ]\e[1m            \e[m"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
@@ -1180,12 +1180,12 @@ exec xray-menu
 # show user vless ws
 function menu10 () {
 clear
-tls="$(cat ~/log-install.txt | grep -w "Vless Ws Tls" | cut -d: -f2|sed 's/ //g')"
-none="$(cat ~/log-install.txt | grep -w "Vless Ws None Tls" | cut -d: -f2|sed 's/ //g')"
-upgradetls="$(cat ~/log-install.txt | grep -w "Xray HttpUpgrade Tls" | cut -d: -f2|sed 's/ //g')"
-upgradenone="$(cat ~/log-install.txt | grep -w "Xray HttpUpgrade None Tls" | cut -d: -f2|sed 's/ //g')"
-xhttptls="$(cat ~/log-install.txt | grep -w "Xray Vless Xhttp Tls" | cut -d: -f2|sed 's/ //g')"
-xhttpnone="$(cat ~/log-install.txt | grep -w "Xray Vless Xhttp None Tls" | cut -d: -f2|sed 's/ //g')"
+tls="$(cat /root/log-install.txt | grep -w "Vless Ws Tls" | cut -d: -f2|sed 's/ //g')"
+none="$(cat /root/log-install.txt | grep -w "Vless Ws None Tls" | cut -d: -f2|sed 's/ //g')"
+upgradetls="$(cat /root/log-install.txt | grep -w "Xray HttpUpgrade Tls" | cut -d: -f2|sed 's/ //g')"
+upgradenone="$(cat /root/log-install.txt | grep -w "Xray HttpUpgrade None Tls" | cut -d: -f2|sed 's/ //g')"
+xhttptls="$(cat /root/log-install.txt | grep -w "Xray Vless Xhttp Tls" | cut -d: -f2|sed 's/ //g')"
+xhttpnone="$(cat /root/log-install.txt | grep -w "Xray Vless Xhttp None Tls" | cut -d: -f2|sed 's/ //g')"
 NUMBER_OF_CLIENTS=$(grep -c -E "^#vls " "/usr/local/etc/xray/config.json")
 	if [[ ${NUMBER_OF_CLIENTS} == '0' ]]; then
 		clear
@@ -1268,7 +1268,7 @@ exec xray-menu
 # CREATE USER VLESS XTLS
 function menu11 () {
 clear
-xtls="$(cat ~/log-install.txt | grep -w "Xray Vless Xtls Vision" | cut -d: -f2|sed 's/ //g')"
+xtls="$(cat /root/log-install.txt | grep -w "Xray Vless Xtls Vision" | cut -d: -f2|sed 's/ //g')"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
 echo -e   "  \e[$back_text           \e[30m[\e[$box CREATE USER XRAY XTLS VISION\e[30m ]\e[1m            \e[m"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
@@ -1394,7 +1394,7 @@ exec xray-menu
 # TRIAL USER VLESS XTLS
 function menu12 () {
 clear
-xtls="$(cat ~/log-install.txt | grep -w "Xray Vless Xtls Vision" | cut -d: -f2|sed 's/ //g')"
+xtls="$(cat /root/log-install.txt | grep -w "Xray Vless Xtls Vision" | cut -d: -f2|sed 's/ //g')"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
 echo -e   "  \e[$back_text         \e[30m[\e[$box TRIAL USER XRAY VLESS XTLS VISION\e[30m ]\e[1m         \e[m"
 echo -e   "  \e[$line═══════════════════════════════════════════════════════\e[m"
@@ -1556,7 +1556,7 @@ exec xray-menu
 #SHOW VLESS XTLS
 function menu15 () {
 clear
-xtls="$(cat ~/log-install.txt | grep -w "Xray Vless Xtls Vision" | cut -d: -f2|sed 's/ //g')"
+xtls="$(cat /root/log-install.txt | grep -w "Xray Vless Xtls Vision" | cut -d: -f2|sed 's/ //g')"
 NUMBER_OF_CLIENTS=$(grep -c -E "^#vxtls " "/usr/local/etc/xray/config.json")
 	if [[ ${NUMBER_OF_CLIENTS} == '0' ]]; then
 		clear

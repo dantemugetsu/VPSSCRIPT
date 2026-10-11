@@ -10,8 +10,8 @@ MYIP=$(wget -qO- icanhazip.com);
 domain=$(cat /usr/local/etc/xray/domain)
 ovpn="$(netstat -nlpt | grep -i openvpn | grep -i 0.0.0.0 | awk '{print $4}' | cut -d: -f2)"
 ovpn2="$(netstat -nlpu | grep -i openvpn | grep -i 0.0.0.0 | awk '{print $4}' | cut -d: -f2)"
-ovpn3="$(cat ~/log-install.txt | grep -w "OHP OpenVPN" | cut -d: -f2|sed 's/ //g')"
-ovpn4="$(cat ~/log-install.txt | grep -w "OpenVPN SSL" | cut -d: -f2|sed 's/ //g')"
+ovpn3="$(cat /root/log-install.txt | grep -w "OHP OpenVPN" | cut -d: -f2|sed 's/ //g')"
+ovpn4="$(cat /root/log-install.txt | grep -w "OpenVPN SSL" | cut -d: -f2|sed 's/ //g')"
 echo -e "\e[1;36m.-----------------------------------------.\e[0m"
 echo -e "\e[1;36m|            \e[1;33mCHANGE PORT OPENVPN\e[m          \e[1;36m|\e[0m"
 echo -e "\e[1;36m'-----------------------------------------'\e[0m"

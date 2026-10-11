@@ -1,7 +1,7 @@
 #!/bin/bash
 # --- root guard: re-exec as root (system files need root) ---
 if [ "${EUID}" -ne 0 ]; then
-  if command -v sudo >/dev/null 2>&1; then exec sudo -E "$0" "$@"; fi
+  if command -v sudo >/dev/null 2>&1; then exec sudo -H "$0" "$@"; fi
   echo "Run as root: sudo $0"; exit 1
 fi
 
