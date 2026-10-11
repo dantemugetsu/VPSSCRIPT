@@ -382,7 +382,6 @@ wget -O bbr "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/system/
 wget -O port-ohp "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/network/ports/port-ohp.sh"
 wget -O port-xray "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/network/ports/xray-v2.sh"
 wget -O panel-domain "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/panel-domain.sh"
-wget -q -O add-ip "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/add-ip.sh"
 wget -O system "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/system.sh"
 wget -O themes "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/menu/themes.sh"
 wget -O update "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/update/update.sh"
@@ -433,8 +432,6 @@ chmod +x bbr
 chmod +x port-ohp
 chmod +x port-xray
 chmod +x panel-domain
-chmod +x add-ip
-sed -i 's/\r$//' add-ip
 chmod +x system
 chmod +x themes
 chmod +x update

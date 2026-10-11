@@ -37,7 +37,7 @@ RESET='\e[0m'
 # ================== LICENSE / RESELLER CONFIG ==================
 # Owner PUBLIC key (Ed25519, DER base64). Safe to publish: verify-only.
 # The matching PRIVATE key lives only on the reseller box (/etc/adminip/owner.key).
-OWNER_PUBKEY="MCowBQYDK2VwAyEAOiIpQ2V4Jn1/x9dLLJDFlH+NWlJ5qq7YmNQCaiWY1JY="
+OWNER_PUBKEY="MCowBQYDK2VwAyEA6P9rNBtkk10GwqaSW1Kkne910X9l1G318JChKt32wX4="
 
 GITHUB_OWNER="${GitUser}"
 GITHUB_REPO="VPSSCRIPT"

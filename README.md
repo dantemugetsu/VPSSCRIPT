@@ -48,7 +48,7 @@ install/                  one-shot installers
 menu/                     submenus
   xray-v2.sh xray-v3.sh  trojan-v2.sh trojan-v3.sh
   ssh-ovpn.sh  system.sh  themes.sh  change-port.sh
-  noobzvpn.sh  panel-domain.sh  add-ip.sh
+  noobzvpn.sh  panel-domain.sh
 
 accounts/                 user management
   add/    ssh-v2.sh ssh-v3.sh ssh-trial-v2.sh ssh-trial-v3.sh
