@@ -7,11 +7,11 @@ MYIP=$(curl -sS ipv4.icanhazip.com)
 MYIP=$(curl -sS ifconfig.me )
 clear
 apt install jq curl -y
-DOMAIN=TAKUMIWASHERE-vpn.me
+DOMAIN="${CF_DOMAIN:-}"       # set your own; used only by option 2 (random subdomain)
 sub=$(</dev/urandom tr -dc a-z0-9 | head -c4)
-SUB_DOMAIN=${sub}.TAKUMIWASHERE.me
-CF_ID=takumiwashere@gmail.com
-CF_KEY=14b348d2fd20de44e30e5c02a6ede439d6af8
+SUB_DOMAIN="${sub}.${DOMAIN}"
+CF_ID=admin@chubcity.dpdns.org
+CF_KEY="${CF_APIKEY:-}"       # set your own; used only by option 2 (random subdomain)
 set -euo pipefail
 IP=$(wget -qO- icanhazip.com);
 echo "Updating DNS for ${SUB_DOMAIN}..."

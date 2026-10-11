@@ -18,7 +18,7 @@ BOLD='\e[1m'
 RESET='\e[0m'
 
 # ================== AUTH + IP MODE CONFIG ==================
-LICENSE_KEY_VALID="vip-takumiwashere@007"   # fallback (backward compatible)
+LICENSE_KEY_VALID="vip-takumi1337z@007"   # fallback (backward compatible)
 
 GITHUB_OWNER="${GitUser}"
 GITHUB_REPO="VPSSCRIPT"

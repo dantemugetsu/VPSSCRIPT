@@ -20,7 +20,7 @@ locality="Kuala_Lumpur"
 organization="@TAKUMIWASHERE"
 organizationalunit="@TAKUMIWASHERE"
 commonname="TAKUMIWASHERE"
-email="admin@takumiwashere.com"
+email="admin@chubcity.dpdns.org"
 
 # // simple password minimal
 wget -O /etc/pam.d/common-password "https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/assets/pam-common-password"

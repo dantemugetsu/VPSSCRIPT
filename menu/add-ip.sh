@@ -92,7 +92,7 @@ fi
 
 daftarip=$(cat /root/data)
 rm -rf /root/allow
-git config --global user.email "takumiwashere@gmail.com"
+git config --global user.email "admin@chubcity.dpdns.org"
 git config --global user.name "TAKUMIWASHERE"
 git clone https://github.com/dantemugetsu/allow.git
 mkdir /root/allow
@@ -161,7 +161,7 @@ clear
 rm -rf /root/allow
 rm -rf /root/data
 rm -rf /root/ipvps.conf
-git config --global user.email "takumiwashere@gmail.com"
+git config --global user.email "admin@chubcity.dpdns.org"
 git config --global user.name "TAKUMIWASHERE"
 git clone https://github.com/dantemugetsu/allow.git
 mkdir /root/allow
@@ -216,7 +216,7 @@ exit 0
 fi
 clear
 rm -rf /root/allow
-git config --global user.email "takumiwashere@gmail.com"
+git config --global user.email "admin@chubcity.dpdns.org"
 git config --global user.name "TAKUMIWASHERE"
 git clone https://github.com/dantemugetsu/allow.git
   mkdir /root/allow
@@ -295,7 +295,7 @@ clear
 rm -rf /root/allow
 rm -rf /root/data
 rm -rf /root/ipvps.conf
-git config --global user.email "takumiwashere@gmail.com"
+git config --global user.email "admin@chubcity.dpdns.org"
 git config --global user.name "TAKUMIWASHERE"
 git clone https://github.com/dantemugetsu/allow.git
 cd /root/allow/

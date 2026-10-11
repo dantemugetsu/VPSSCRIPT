@@ -1147,7 +1147,7 @@ cat> /usr/local/etc/xray/vlessc.json << END
                     {
                         "id": "${uuid3}",
                         "level": 0,
-                        "email": "admin@takumiwashere.com"
+                        "email": "admin@chubcity.dpdns.org"
 #xray-vless-nontls2
            }
         ],
@@ -1240,7 +1240,7 @@ cat> /usr/local/etc/xray/vmessc.json << END
                     {
                         "id": "${uuid5}",
                         "alterId": 0,
-                        "email": "admin@takumiwashere.com"
+                        "email": "admin@chubcity.dpdns.org"
 #xray-vmess-nontls2
           }
         ],
