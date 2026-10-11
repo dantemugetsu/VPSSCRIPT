@@ -34,191 +34,166 @@ WHITE='\e[97m'
 BOLD='\e[1m'
 RESET='\e[0m'
 
-# ================== RESELLER / LICENSE CONFIG ==================
-# Owner master key - ALWAYS accepted, works offline, so the script owner can
-# never be locked out of their own installs.
-LICENSE_KEY_VALID="vip-takumi1337z@007"
+# ================== LICENSE / RESELLER CONFIG ==================
+# Owner PUBLIC key (Ed25519, DER base64). Safe to publish: verify-only.
+# The matching PRIVATE key lives only on the reseller box (/etc/adminip/owner.key).
+OWNER_PUBKEY="MCowBQYDK2VwAyEAOiIpQ2V4Jn1/x9dLLJDFlH+NWlJ5qq7YmNQCaiWY1JY="
 
 GITHUB_OWNER="${GitUser}"
 GITHUB_REPO="VPSSCRIPT"
-# The reseller allow-list. This is the SAME file `add-ip` writes and
-# `check-running` reads, so there is one source of truth.
-ALLOW_FILE="_deps/allow/ipvps.conf"
-# license keys file (optional alternative to IP registration)
-GITHUB_LICENSE_FILE="licenses.txt"
-
-# Owner bypass: env var or marker file
-OWNER_MARKER="/etc/vpscript-owner"
+REGISTRY_FILE="_deps/allow/registry.txt"
+REGISTRY_SIG="_deps/allow/registry.sig"
+OWNER_KEY="/etc/adminip/owner.key"
+LICENSE_CACHE="/etc/vpscript-license"
 
 AUTHORIZED=0
 IP_MODE="ipv4"   # default
-# ===========================================================
+# ===============================================================
 
-# ================== FUNCTIONS ==================
+# ================== LICENSE FUNCTIONS ==================
 
 get_public_ip() {
-  curl -s4 https://ipinfo.io/ip || \
-  curl -s4 https://ifconfig.co || \
-  curl -s4 https://api.ipify.org || \
-  curl -s4 https://ipv4.icanhazip.com || \
-  echo ""
+  curl -s4 --max-time 6 https://api.ipify.org 2>/dev/null || \
+  curl -s4 --max-time 6 https://ipv4.icanhazip.com 2>/dev/null || \
+  curl -s4 --max-time 6 https://ifconfig.me 2>/dev/null || echo ""
 }
 
-check_license() {
-  echo
-  echo -ne "${Lyellow}Masukkan License Key: ${RESET}"
-  read -r LICENSE_INPUT
-  if [ -z "$LICENSE_INPUT" ]; then
-    echo -e "${Lred}Tiada input.${RESET}"
-    return 1
-  fi
-
-  TS=$(date +%s)
-  LICENSE_URL="https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${GITHUB_LICENSE_FILE}?t=${TS}"
-  LICENSE_DATA="$(curl -fsSL --connect-timeout 6 "${LICENSE_URL}" 2>/dev/null || true)"
-  LICENSE_DATA="$(printf '%s' "$LICENSE_DATA" | tr -d '\r')"
-
-  if [ -n "$LICENSE_DATA" ]; then
-    while IFS='|' read -r LKEY LEXP; do
-      [ -z "$LKEY" ] && continue
-      case "$LKEY" in \#*) continue ;; esac
-
-      # trim
-      LKEY="$(echo -n "$LKEY" | awk '{$1=$1;print}')"
-      LEXP="$(echo -n "$LEXP" | awk '{$1=$1;print}')"
-
-      if [ "$LKEY" = "$LICENSE_INPUT" ]; then
-        echo
-        echo -e "${Lgreen}Ditemui License Key:${RESET}"
-        echo -e "${Lgreen}Key    : ${BOLD}${LKEY}${RESET}"
-        echo -e "${Lgreen}Expired: ${BOLD}${LEXP}${RESET}"
-
-        if [ "$LEXP" = "LIFETIME" ]; then
-          echo -e "${Lgreen}Status : LIFETIME ACCESS${RESET}"
-          AUTHORIZED=1
-          return 0
-        fi
-
-        if ! echo "$LEXP" | grep -Eq '^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}$'; then
-          echo -e "${Lred}Format tarikh tidak sah. Gunakan DD/MM/YYYY atau LIFETIME.${RESET}"
-          return 1
-        fi
-
-        DAY=$(echo "$LEXP" | awk -F/ '{print $1}')
-        MONTH=$(echo "$LEXP" | awk -F/ '{print $2}')
-        YEAR=$(echo "$LEXP" | awk -F/ '{print $3}')
-        printf -v DAY_PAD "%02d" "$DAY"
-        printf -v MONTH_PAD "%02d" "$MONTH"
-        EXP_FMT="${YEAR}-${MONTH_PAD}-${DAY_PAD}"
-
-        EXP_EPOCH=$(date -d "$EXP_FMT" +%s 2>/dev/null)
-        if [ -z "$EXP_EPOCH" ]; then
-          echo -e "${Lred}Gagal parse tarikh expired.${RESET}"
-          return 1
-        fi
-
-        TODAY_EPOCH=$(date +%s)
-        if [ "$TODAY_EPOCH" -le "$EXP_EPOCH" ]; then
-          echo -e "${Lgreen}Status : AKTIF${RESET}"
-          AUTHORIZED=1
-          return 0
-        else
-          echo -e "${Lred}Status : EXPIRED ❌${RESET}"
-          return 1
-        fi
-      fi
-    done <<< "$LICENSE_DATA"
-  fi
-
-  # backward compatibility
-  if [ "$LICENSE_INPUT" = "$LICENSE_KEY_VALID" ]; then
-    echo -e "${Lyellow}Lifetime License Key Was Accepted!!! You Are Vip User. Thank You For Using My Simple Script :)...${RESET}"
-    AUTHORIZED=1
-    return 0
-  fi
-
-  echo -e "${Lred}License Key tidak sah atau tidak didaftarkan.${RESET}"
-  return 1
+b64url_decode() {
+  local s="${1//-/+}"; s="${s//_//}"
+  local pad=$(( (4 - ${#s} % 4) % 4 ))
+  case "$pad" in 1) s="${s}=" ;; 2) s="${s}==" ;; 3) s="${s}===" ;; esac
+  printf '%s' "$s" | base64 -d 2>/dev/null
 }
 
-check_ip_registered() {
-  echo
-  echo -e "${Lyellow}Checking this VPS against the allow-list...${RESET}"
+ip_hash() { printf '%s' "$1" | sha256sum | awk '{print $1}'; }
 
+verify_sig() {
+  local msg="$1" sig="$2" tmp
+  tmp="$(mktemp -d)"
+  printf '%s' "$OWNER_PUBKEY" | base64 -d > "$tmp/pub.der" 2>/dev/null
+  if [ -s "$tmp/pub.der" ] && \
+     openssl pkeyutl -verify -pubin -inkey "$tmp/pub.der" -keyform DER \
+       -rawin -in "$msg" -sigfile "$sig" >/dev/null 2>&1; then
+    rm -rf "$tmp"; return 0
+  fi
+  rm -rf "$tmp"; return 1
+}
+
+expiry_ok() {
+  local v="$1" e
+  [ "$v" = "LIFETIME" ] && return 0
+  e="$(date -d "$v" +%s 2>/dev/null)" || \
+    e="$(date -d "$(awk -F/ '{print $3"-"$2"-"$1}' <<< "$v")" +%s 2>/dev/null)"
+  [ -n "$e" ] || return 1
+  [ "$(date +%s)" -le "$e" ]
+}
+
+verify_token() {
+  local token="$1"
+  case "$token" in *.*) ;; *) return 1 ;; esac
+  local p="${token%%.*}" s="${token#*.}"
+  [ -n "$p" ] && [ -n "$s" ] || return 1
+  local tmp; tmp="$(mktemp -d)"
+  b64url_decode "$p" > "$tmp/msg" || { rm -rf "$tmp"; return 1; }
+  b64url_decode "$s" > "$tmp/sig" || { rm -rf "$tmp"; return 1; }
+  [ -s "$tmp/msg" ] && [ -s "$tmp/sig" ] || { rm -rf "$tmp"; return 1; }
+  if verify_sig "$tmp/msg" "$tmp/sig"; then
+    cat "$tmp/msg"; rm -rf "$tmp"; return 0
+  fi
+  rm -rf "$tmp"; return 1
+}
+
+is_owner_box() {
+  [ -f "$OWNER_KEY" ] || return 1
+  command -v openssl >/dev/null 2>&1 || return 1
+  local d
+  d="$(openssl pkey -in "$OWNER_KEY" -pubout -outform DER 2>/dev/null | base64 -w0)"
+  [ -n "$d" ] && [ "$d" = "$OWNER_PUBKEY" ]
+}
+
+check_registry() {
+  local TS; TS="$(date +%s)"
+  local RURL="https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${REGISTRY_FILE}?t=${TS}"
+  local SURL="https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${REGISTRY_SIG}?t=${TS}"
+  local tmp; tmp="$(mktemp -d)"
+  curl -fsSL --connect-timeout 8 "$RURL" -o "$tmp/reg" 2>/dev/null || { rm -rf "$tmp"; return 1; }
+  curl -fsSL --connect-timeout 8 "$SURL" -o "$tmp/sig" 2>/dev/null || { rm -rf "$tmp"; return 1; }
+  [ -s "$tmp/reg" ] && [ -s "$tmp/sig" ] || { rm -rf "$tmp"; return 1; }
+  if ! verify_sig "$tmp/reg" "$tmp/sig"; then
+    echo -e "${Lred}Registry signature INVALID - refusing it.${RESET}"
+    rm -rf "$tmp"; return 1
+  fi
+  local MYIP MYH
   MYIP="$(get_public_ip)"
-  if [ -z "$MYIP" ]; then
-    echo -e "${Lred}Could not detect this VPS public IP.${RESET}"
-    return 1
-  fi
-
-  TS=$(date +%s)
-  IP_URL="https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${ALLOW_FILE}?t=${TS}"
-  DATA="$(curl -fsSL --connect-timeout 8 "${IP_URL}" 2>/dev/null || true)"
-  DATA="$(printf '%s' "$DATA" | tr -d '')"
-
-  if [ -z "$DATA" ]; then
-    echo -e "${Lred}Could not read the allow-list from GitHub.${RESET}"
-    return 1
-  fi
-
-  # format: ### Name OrderID VALIDITY IPVPS
-  while read -r tag name oid validity ip rest; do
-    [ "$tag" = "###" ] || continue
-    [ "$ip" = "$MYIP" ] || continue
-
+  [ -n "$MYIP" ] || { rm -rf "$tmp"; return 1; }
+  MYH="$(ip_hash "$MYIP")"
+  local name oid validity iph
+  while IFS='|' read -r name oid validity iph; do
+    [ -z "$name" ] && continue
+    case "$name" in \#*) continue ;; esac
+    [ "$iph" = "$MYH" ] || continue
     echo
     echo -e "${Lgreen}Name    : ${BOLD}$name${RESET}"
     echo -e "${Lgreen}Order   : ${BOLD}$oid${RESET}"
-    echo -e "${Lgreen}IP VPS  : ${BOLD}$ip${RESET}"
     echo -e "${Lgreen}Expired : ${BOLD}$validity${RESET}"
-
-    if [ "$validity" = "LIFETIME" ]; then
-      echo -e "${Lgreen}Status  : LIFETIME ACCESS${RESET}"
-      AUTHORIZED=1
-      return 0
-    fi
-
-    # accept YYYY-MM-DD and legacy DD/MM/YYYY
-    EXP_EPOCH=$(date -d "$validity" +%s 2>/dev/null)
-    if [ -z "$EXP_EPOCH" ]; then
-      EXP_EPOCH=$(date -d "$(awk -F/ '{print $3"-"$2"-"$1}' <<< "$validity")" +%s 2>/dev/null)
-    fi
-    if [ -z "$EXP_EPOCH" ]; then
-      echo -e "${Lred}Invalid expiry date format.${RESET}"
-      return 1
-    fi
-
-    if [ "$(date +%s)" -le "$EXP_EPOCH" ]; then
-      echo -e "${Lgreen}Status  : ACTIVE${RESET}"
-      AUTHORIZED=1
-      return 0
+    if expiry_ok "$validity"; then
+      echo -e "${Lgreen}Status  : ACTIVE${RESET}"; rm -rf "$tmp"; return 0
     else
-      echo -e "${Lred}Status  : EXPIRED${RESET}"
-      return 1
+      echo -e "${Lred}Status  : EXPIRED${RESET}"; rm -rf "$tmp"; return 1
     fi
-  done <<< "$DATA"
+  done < "$tmp/reg"
+  rm -rf "$tmp"; return 1
+}
 
-  echo -e "${Lred}This VPS IP is not registered.${RESET}"
+check_authorized() {
+  echo
+  echo -e "${Lyellow}Checking license...${RESET}"
+  if is_owner_box; then
+    echo -e "${Lgreen}OWNER BOX - authorized.${RESET}"
+    printf '%s|%s|%s\n' "OWNER" "LOCAL" "LIFETIME" > /etc/vpscript-license-info 2>/dev/null
+    AUTHORIZED=1; return 0
+  fi
+  local TOKEN=""
+  if [ -n "${VPSSCRIPT_LICENSE:-}" ]; then
+    TOKEN="$VPSSCRIPT_LICENSE"
+  elif [ -f "$LICENSE_CACHE" ]; then
+    TOKEN="$(head -n1 "$LICENSE_CACHE" | tr -d '
+ ')"
+  elif [ -t 0 ]; then
+    echo
+    echo -e "${Lyellow}Enter your LICENSE KEY (ENTER to skip):${RESET}"
+    read -r TOKEN
+  fi
+  if [ -n "$TOKEN" ]; then
+    local PAYLOAD
+    if PAYLOAD="$(verify_token "$TOKEN")"; then
+      local tname toid tval tiph
+      IFS='|' read -r tname toid tval tiph <<< "$PAYLOAD"
+      local MYH; MYH="$(ip_hash "$(get_public_ip)")"
+      if [ "$tiph" != "$MYH" ]; then
+        echo -e "${Lred}This license is for a different VPS IP.${RESET}"
+      elif ! expiry_ok "$tval"; then
+        echo -e "${Lred}License EXPIRED ($tval).${RESET}"
+      else
+        echo -e "${Lgreen}License OK - ${BOLD}$tname${RESET} (${tval})"
+        printf '%s|%s|%s\n' "$tname" "$toid" "$tval" > /etc/vpscript-license-info
+        chmod 600 /etc/vpscript-license-info 2>/dev/null
+        printf '%s
+' "$TOKEN" > "$LICENSE_CACHE"
+        chmod 600 "$LICENSE_CACHE" 2>/dev/null
+        AUTHORIZED=1; return 0
+      fi
+    else
+      echo -e "${Lred}License key is invalid.${RESET}"
+    fi
+  fi
+  if check_registry; then
+    printf '%s|%s|%s\n' "REGISTRY" "-" "ACTIVE" > /etc/vpscript-license-info 2>/dev/null
+    AUTHORIZED=1; return 0
+  fi
   return 1
 }
-
-auth_menu() {
-  while true; do
-    echo
-    echo -e "${CYAN}Pilih kaedah authentication:${RESET}"
-    echo -e " ${Lgreen}1)${RESET} License Key"
-    echo -e " ${Lgreen}2)${RESET} IP VPS (GitHub)"
-    echo -e " ${Lred}0)${RESET} Batal"
-    read -rp "Pilih: " opt
-
-    case "$opt" in
-      1) check_license && return 0 ;;
-      2) check_ip_registered && return 0 ;;
-      0) return 1 ;;
-      *) echo -e "${Lyellow}Pilihan tidak sah.${RESET}" ;;
-    esac
-  done
-}
+# ======================================================
 
 ask_ip_mode() {
   echo
@@ -283,25 +258,10 @@ if [ "$(systemd-detect-virt)" == "openvz" ]; then
 fi
 
 # =================== AUTH GATE ===================
-AUTHORIZED=0
-if [ "${VPSSCRIPT_OWNER:-0}" = "1" ] || [ -f "$OWNER_MARKER" ]; then
-  AUTHORIZED=1
-  echo -e "${Lgreen}OWNER MODE - authorization skipped.${RESET}"
-elif check_ip_registered; then
-  echo -e "${Lgreen}IP REGISTERED - AUTHORIZED.${RESET}"
-else
-  # not registered -> offer a license key (interactive only)
-  if [ -t 0 ]; then
-    if ! auth_menu; then
-      echo -e "${Lred}NOT AUTHORIZED - ABORTING.${RESET}"
-      exit 1
-    fi
-  fi
-fi
-if [ "$AUTHORIZED" != "1" ]; then
-  echo -e "${Lred}NOT AUTHORIZED - ABORTING.${RESET}"
-  echo -e "${Lyellow}Ask the reseller to add this VPS IP to the allow-list,${RESET}"
-  echo -e "${Lyellow}or run with VPSSCRIPT_OWNER=1 if this box is yours.${RESET}"
+if ! check_authorized; then
+  echo
+  echo -e "${Lred}NOT AUTHORIZED - INSTALL ABORTED.${RESET}"
+  echo -e "${Lyellow}Ask your reseller for a license key for THIS VPS IP.${RESET}"
   exit 1
 fi
 ask_ip_mode
