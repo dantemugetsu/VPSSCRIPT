@@ -112,7 +112,7 @@ echo -e "IPVPS Registration Completed"
 sleep 1
 links1="apt-get update && apt-get upgrade -y && update-grub && sleep 2 && reboot"
 links2="apt-get update && apt-get upgrade -y && apt dist-upgrade -y && update-grub && sleep 2 && reboot"
-links3="sysctl -w net.ipv6.conf.all.disable_ipv6=1 && sysctl -w net.ipv6.conf.default.disable_ipv6=1 && apt update && apt install -y bzip2 gzip coreutils screen curl && wget -O setup-v2.sh https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/setup-v2.sh && chmod +x setup-v2.sh && sed -i -e 's/\r$//' setup-v2.sh && screen -S setup ./setup-v2.sh"
+links3="sysctl -w net.ipv6.conf.all.disable_ipv6=1 && sysctl -w net.ipv6.conf.default.disable_ipv6=1 && apt update && apt install -y bzip2 gzip coreutils screen curl && wget -O setup-v2.sh https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/setup-v2.sh && chmod +x setup-v2.sh && sed -i -e 's/\r$//' setup-v2.sh && if [ -t 0 ]; then screen -S setup ./setup-v2.sh; else ./setup-v2.sh; fi"
 
 echo -e "\033[0;34m----------------------------------------\033[0m"
 echo "  Client IP VPS Add Successfully"

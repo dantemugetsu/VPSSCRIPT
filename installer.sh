@@ -21,7 +21,7 @@ install_v2() {
     wget -O setup-v2.sh https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/setup-v2.sh && \
     chmod +x setup-v2.sh && \
     sed -i -e 's/\r$//' setup-v2.sh && \
-    screen -S setup ./setup-v2.sh
+    if [ -t 0 ]; then screen -S setup ./setup-v2.sh; else echo "[no tty] running ./setup-v2.sh directly"; ./setup-v2.sh; fi
 }
 
 install_v3() {
@@ -35,7 +35,7 @@ install_v3() {
     wget -O setup-v3.sh https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/setup-v3.sh && \
     chmod +x setup-v3.sh && \
     sed -i -e 's/\r$//' setup-v3.sh && \
-    screen -S setup ./setup-v3.sh
+    if [ -t 0 ]; then screen -S setup ./setup-v3.sh; else echo "[no tty] running ./setup-v3.sh directly"; ./setup-v3.sh; fi
 }
 
 while true; do

@@ -323,13 +323,13 @@ sleep 2
 #install ssh ovpn
 echo -e "\e[0;32mINSTALLING SSH & OVPN...\e[0m"
 sleep 1
-wget -O ssh-vpn.sh https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/ssh-ovpn-v2.sh && chmod +x ssh-vpn.sh && screen -S ssh-vpn ./ssh-vpn.sh
+wget -O ssh-vpn.sh https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/ssh-ovpn-v2.sh && chmod +x ssh-vpn.sh && if [ -t 0 ]; then screen -S ssh-vpn ./ssh-vpn.sh; else echo "[no tty] running ./ssh-vpn.sh directly"; ./ssh-vpn.sh; fi
 echo -e "\e[0;32mDONE INSTALLING SSH & OVPN\e[0m"
 clear
 #install Xray
 echo -e "\e[0;32mINSTALLING XRAY CORE...\e[0m"
 sleep 1
-wget -O ins-xray.sh https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/xray-v2.sh && chmod +x ins-xray.sh && screen -S ins-xray ./ins-xray.sh
+wget -O ins-xray.sh https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/install/xray-v2.sh && chmod +x ins-xray.sh && if [ -t 0 ]; then screen -S ins-xray ./ins-xray.sh; else echo "[no tty] running ./ins-xray.sh directly"; ./ins-xray.sh; fi
 echo -e "\e[0;32mDONE INSTALLING XRAY CORE\e[0m"
 clear
 #install ohp-server
@@ -342,7 +342,7 @@ echo -e "\e[0;32mDONE INSTALLING OHP PORT\e[0m"
 clear
 #install websocket
 echo -e "\e[0;32mINSTALLING WEBSOCKET PORT...\e[0m"
-wget -O websocket.sh https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/websocket/websocket-v2.sh && chmod +x websocket.sh && screen -S websocket.sh ./websocket.sh
+wget -O websocket.sh https://raw.githubusercontent.com/${GitUser}/VPSSCRIPT/main/websocket/websocket-v2.sh && chmod +x websocket.sh && if [ -t 0 ]; then screen -S websocket.sh ./websocket.sh; else echo "[no tty] running ./websocket.sh directly"; ./websocket.sh; fi
 echo -e "\e[0;32mDONE INSTALLING WEBSOCKET PORT\e[0m"
 clear
 #install SET-BR
@@ -463,6 +463,6 @@ echo -e "    \e[1;32m|         PREMIUM BY TAKUMIWASHERE            |\e[0m"
 echo -e "    \e[1;32m'------------------------------------------'\e[0m"
 echo ""
 echo -e "   \e[1;32mYour VPS Will Be Automatical Reboot In 5 seconds\e[0m"
-rm -r setup.sh
+rm -f /root/setup-v2.sh
 sleep 5
-reboot
+[ -n "$SKIP_REBOOT" ] && { echo "[SKIP_REBOOT set] not rebooting"; exit 0; } || reboot
