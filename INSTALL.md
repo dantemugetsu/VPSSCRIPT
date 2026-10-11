@@ -337,44 +337,53 @@ tccli lighthouse CreateFirewallRules --region <region> --InstanceId <instance-id
 
 ```
 menu
- ├─ 1) XRAY  - VMess / VLESS / XTLS  -> xray-menu
- ├─ 2) TROJAN - TCP-TLS / WS-TLS     -> trojan-menu
- ├─ 3) SSH / OPENVPN - user accounts -> ssh-menu
- ├─ 4) NOOBZVPN - menu               -> noobzvpn-menu
- ├─ 5) SYSTEM TOOLS                  -> system
- ├─ 6) THEMES & BANNER               -> themes
- ├─ 7) CHANGE PORTS                  -> change-port
- ├─ 8) CHECK RUNNING                 -> check-running
- ├─ 9) SERVICE / PORT INFO           -> cat /root/log-install.txt
- ├─10) DELETE EXPIRED USERS          -> delete-expired
- ├─11) CLEAR LOGS                    -> clear-log
- └─12) REBOOT VPS
+ ├─ [ 1 ]  XRAY   - VMess / VLESS / XTLS   -> xray-menu
+ ├─ [ 2 ]  TROJAN - TCP-TLS / WS-TLS       -> trojan-menu
+ ├─ [ 3 ]  SSH / OPENVPN - user accounts   -> ssh-menu
+ ├─ [ 4 ]  NOOBZVPN - menu                 -> noobzvpn-menu
+ ├─ [ 5 ]  SYSTEM TOOLS                    -> system
+ ├─ [ 6 ]  THEMES & BANNER                 -> themes
+ ├─ [ 7 ]  CHANGE PORTS                    -> change-port
+ ├─ [ 8 ]  CHECK RUNNING                   -> check-running
+ ├─ [ 9 ]  SERVICE / PORT INFO             -> cat /root/log-install.txt
+ ├─ [ 10 ] DELETE EXPIRED USERS            -> delete-expired
+ ├─ [ 11 ] CLEAR LOGS                      -> clear-log
+ ├─ [ 12 ] REBOOT VPS
+ └─ [ x ]  EXIT
 ```
 
 **v3 menu** (adds WARP + Xray-login check, so numbers shift)
 
 ```
 menu
- ├─ 1) XRAY  - VMess / VLESS / XTLS  -> xray-menu
- ├─ 2) TROJAN - TCP-TLS / WS-TLS     -> trojan-menu
- ├─ 3) SSH / OPENVPN - user accounts -> ssh-menu
- ├─ 4) NOOBZVPN - menu               -> noobzvpn-menu
- ├─ 5) CLOUDFLARE WARP - menu        -> proxy-warp
- ├─ 6) CHECK XRAY USER LOGINS        -> check-xray
- ├─ 7) SYSTEM TOOLS                  -> system
- ├─ 8) THEMES & BANNER               -> themes
- ├─ 9) CHANGE PORTS                  -> change-port
- ├─10) CHECK RUNNING                 -> check-running
- ├─11) SERVICE / PORT INFO           -> cat /root/log-install.txt
- ├─12) DELETE EXPIRED USERS          -> delete-expired
- ├─13) CLEAR LOGS                    -> clear-log
- └─14) REBOOT VPS
+ ├─ [ 1 ]  XRAY   - VMess / VLESS / XTLS   -> xray-menu
+ ├─ [ 2 ]  TROJAN - TCP-TLS / WS-TLS       -> trojan-menu
+ ├─ [ 3 ]  SSH / OPENVPN - user accounts   -> ssh-menu
+ ├─ [ 4 ]  NOOBZVPN - menu                 -> noobzvpn-menu
+ ├─ [ 5 ]  CLOUDFLARE WARP - menu          -> proxy-warp
+ ├─ [ 6 ]  CHECK XRAY USER LOGINS          -> check-xray
+ ├─ [ 7 ]  SYSTEM TOOLS                    -> system
+ ├─ [ 8 ]  THEMES & BANNER                 -> themes
+ ├─ [ 9 ]  CHANGE PORTS                    -> change-port
+ ├─ [ 10 ] CHECK RUNNING                   -> check-running
+ ├─ [ 11 ] SERVICE / PORT INFO             -> cat /root/log-install.txt
+ ├─ [ 12 ] DELETE EXPIRED USERS            -> delete-expired
+ ├─ [ 13 ] CLEAR LOGS                      -> clear-log
+ ├─ [ 14 ] REBOOT VPS
+ └─ [ x ]  EXIT
 ```
 
+> **Menu presentation was unified** (2026-10-12): every item now uses the same
+> `[ N ]` format (was a mix of `(1)`, `(•1)`), the `system` menu's optional tools
+> were renumbered from `44/55/66/77/88/99` to `20–25` (**old numbers still work**),
+> and all prompts are English. No command name or menu action changed.
+
 > Every menu entry script now **re-execs itself as root** if you run it as a
-> normal user (`sudo -E "$0"`). If you were seeing
+> normal user (`sudo -H "$0"`). If you were seeing
 > `sed: couldn't open temporary file /usr/local/etc/xray/...: Permission denied`
-> and a polkit password prompt, that was the cause — it's fixed.
+> and a polkit password prompt, that was the cause — it's fixed. `-H` (not `-E`)
+> is required so `HOME` becomes `/root`; otherwise the menus read
+> `~/log-install.txt` from your home dir and print **blank ports**.
 
 Other commands: `check-ssh`, `check-limit`, `list-member`, `quick-backup`, `backup`,
 `restore`, `webmin`, `ipv6-menu`, `kernel-update`, `renew-cert`, `cf-account`,
@@ -382,6 +391,42 @@ Other commands: `check-ssh`, `check-limit`, `list-member`, `quick-backup`, `back
 `info`, `about`, `ram`, `swap`, `bbr`, `bbr-manager`, `dns`, `netf`, `restart`,
 `update`, `run-update`, `message-ssh`, `panel-domain`, `antitorrent`,
 `user-list`, `user-lock`, `user-unlock`, `user-password`.
+
+**system menu** (`system`):
+
+```
+ ├─ [ 1 ]  Add New Subdomain        -> add-host
+ ├─ [ 2 ]  Renew Cert Xray Core     -> renew-cert
+ ├─ [ 3 ]  DNS Changer              -> dns
+ ├─ [ 4 ]  Netflix Checker          -> netf
+ ├─ [ 5 ]  Panel Domain             -> panel-domain
+ ├─ [ 6 ]  Backup Vps               -> backup
+ ├─ [ 7 ]  Restore Vps              -> restore
+ ├─ [ 8 ]  Install Webmin           -> webmin
+ ├─ [ 9 ]  Setup Speed VPS          -> limit-speed
+ ├─ [ 10 ] Restart VPN              -> restart
+ ├─ [ 11 ] Speedtest VPS            -> speedtest
+ ├─ [ 12 ] Xray Version             -> xray version
+ ├─ [ 13 ] BBR Manager              -> bbr-manager
+ ├─ [ 14 ] ON/OF Auto Reboot        -> autoreboot
+ ├─ [ 15 ] Change Password VPS      -> passwd
+ ├─ [ 16 ] Check CPU & RAM          -> htop
+ ├─ [ 17 ] Change Banner SSH        -> message-ssh
+ ├─ [ 18 ] SwapRAM Menu             -> (downloads swapram)
+ ├─ [ 19 ] ipv4/v6 Menu             -> ipv6-menu
+ ├─ [ 20 ] Warp Installer Menu      -> (downloads cfwarp)   [was 44]
+ ├─ [ 21 ] Install Noobzvpns        -> (downloads)          [was 55]
+ ├─ [ 22 ] Uninstall Noobzvpns      ->                        [was 66]
+ ├─ [ 23 ] Install UDP Custom       -> (downloads)          [was 77]
+ ├─ [ 24 ] Xray-core Changer        -> (downloads)          [was 88]
+ └─ [ 25 ] Change Dropbear Version  -> change-dropbear       [was 99]
+```
+
+> Items **20–25** were previously numbered `44/55/66/77/88/99`. **Both numbers
+> still work** — type either one.
+
+> Items 20–24 download their tool from the bundled `_deps/tools/` on first use
+> (that's why they aren't pre-installed), then run it.
 
 ---
 
