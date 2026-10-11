@@ -1,4 +1,6 @@
 #!/bin/bash
+# owner of the GitHub repo that holds the IP allow-list
+GitUser="dantemugetsu"
 # --- root guard: re-exec as root (system files need root) ---
 if [ "${EUID}" -ne 0 ]; then
   if command -v sudo >/dev/null 2>&1; then exec sudo -H "$0" "$@"; fi
@@ -45,7 +47,8 @@ clear
 sed -i "/^# IPREGBEGIN_EXP/,/^# IPREGEND_EXPIP/d" /etc/crontab
 cat << EOF >> /etc/crontab
 # IPREGBEGIN_EXP
-1 0 * * * root /usr/bin/delete-expired-ip # delete expired IP VPS License
+# (forked build: /usr/bin/delete-expired-ip does not exist here,
+#  so no auto-expiry cron is installed)
 # IPREGEND_EXPIP
 EOF
 rm -f /root/.bash_history
@@ -54,7 +57,7 @@ echo " Setelah Selesai type addip untuk access"
 }
 
 add-ip() {
-if [ -z $tokengit]; then
+if [ -z "$tokengit" ]; then
 echo -e "[ ${green}INFO${NC} ] Please Set IP ADMIN FIRST!!!"
 sleep 3
 clear
@@ -153,11 +156,11 @@ rm -rf /root/data
 rm -rf /root/ipvps.conf
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu-addip"
-addip
+exec "$0"
 }
 
 del-ip() {
-if [ -z $tokengit]; then
+if [ -z "$tokengit" ]; then
 echo -e "[ ${green}INFO${NC} ] Please Set IP ADMIN FIRST!!!"
 sleep 3
 clear
@@ -210,11 +213,11 @@ rm -rf /root/data
 rm -rf /root/ipvps.conf
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu-addip"
-addip
+exec "$0"
 }
 
 renew-ip() {
-if [ -z $tokengit]; then
+if [ -z "$tokengit" ]; then
 echo -e "[ ${green}INFO${NC} ] Please Set IP ADMIN FIRST!!!"
 sleep 3
 clear
@@ -287,11 +290,11 @@ rm -rf /root/data
 rm -rf /root/ipvps.conf
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu-addip"
-addip
+exec "$0"
 }
 
 cek-ip() {
-if [ -z $tokengit]; then
+if [ -z "$tokengit" ]; then
 echo -e "[ ${green}INFO${NC} ] Please Set IP ADMIN FIRST!!!"
 sleep 3
 clear
@@ -323,7 +326,7 @@ rm -rf /root/data
 rm -rf /root/ipvps.conf
 echo ""
 read -n 1 -s -r -p "Press any key to back on menu-addip"
-addip
+exec "$0"
 }
 
 clear
