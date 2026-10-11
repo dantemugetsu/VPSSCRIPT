@@ -4,6 +4,102 @@ Repo: **https://github.com/dantemugetsu/VPSSCRIPT** · Brand: **TAKUMI1337Z / TA
 
 ---
 
+## 0. Try it locally first (no VPS needed) — for TESTING only
+
+You can run the whole installer inside a throwaway Docker container on your own
+PC. Nothing touches your real machine, and you can poke every menu. This is the
+recommended way to explore before renting a VPS.
+
+**Verified working** — full run in `jrei/systemd-debian:12`: 14 services up,
+35 ports listening, menus render.
+
+### Prereqs
+- Docker Desktop running (Windows/macOS) or Docker Engine (Linux)
+- ~3 GB free disk
+- Internet
+
+### Steps
+
+**1. Start a throwaway systemd Debian container**
+
+```bash
+docker run -d --name vps-test --privileged --cgroupns=host \
+  -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
+  jrei/systemd-debian:12
+```
+
+Wait ~10s, then confirm systemd is up:
+
+```bash
+docker exec vps-test systemctl is-system-running
+# -> running   (or "initializing" — wait a few more seconds)
+```
+
+**2. Install the few tools the installer needs**
+
+```bash
+docker exec vps-test bash -c "apt-get update -qq && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y -qq wget curl screen unzip procps iproute2 net-tools"
+```
+
+**3. Drop into a shell inside the container**
+
+```bash
+docker exec -it vps-test bash
+```
+
+**4. Run the installer — exactly as on a real VPS**
+
+```bash
+export SKIP_REBOOT=1          # IMPORTANT: don't reboot the container
+cd /root
+wget -O installer.sh https://raw.githubusercontent.com/dantemugetsu/VPSSCRIPT/main/installer.sh
+chmod +x installer.sh
+./installer.sh
+```
+
+Answer the prompts (see §3). It takes **~10–25 minutes** (it installs ~250 apt
+packages). When it finishes you'll see `SUCCESFULLY INSTALLED THE SCRIPT` and,
+because of `SKIP_REBOOT=1`, `[SKIP_REBOOT set] not rebooting`.
+
+**5. Check it worked**
+
+```bash
+menu                                   # the main panel
+systemctl list-units --type=service --state=running | grep -Ei 'xray|nginx|squid|openvpn|dropbear|ohp|stunnel'
+ss -tlnp | head -40
+cat /root/log-install.txt
+```
+
+Expected: **14 services**, ~35 listening ports.
+
+**6. Stop / wipe when done**
+
+```bash
+exit                      # leave the container shell
+docker rm -f vps-test     # delete the container (everything is inside it)
+```
+
+### What will NOT work locally (expected)
+
+| Thing | Why |
+|---|---|
+| Let's Encrypt cert for your domain | the fake subdomain has no public DNS — the cert step fails but the install continues |
+| Clients connecting from outside | ports are inside the container, not on your LAN |
+| `reboot` at the end | suppressed by `SKIP_REBOOT=1` |
+| Ports 22/80/443/8080 etc. on the host | they stay inside the container |
+
+> ⚠️ The container needs `--privileged`, and it will use the same port numbers
+> your host already uses — but **inside the container**, so your host is
+> unaffected. Do **not** publish those ports with `-p` unless you know what
+> you're doing.
+
+> **Docker not available?** You can use **WSL2** instead: `wsl --install -d Ubuntu`,
+> then run the installer inside WSL as root. But WSL isn't systemd-by-default on
+> all setups, so Docker is the cleaner path.
+
+---
+
 ## 1. Requirements
 
 | Item | Need |
